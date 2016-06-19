@@ -1,0 +1,16 @@
+/* Login Box */
+#loginBox {
+    position: absolute;
+    right: 100px;
+    display:none;
+}
+
+/* Login Form */
+#loginForm {
+    width: 120%;
+    padding: 0px 10px 0px 10px;
+    border:1px solid #ffffff;
+    border-radius:5px 5px 5px 5px;
+    -moz-border-radius:5px 5px 5px 5px;
+    background: #e89980;
+}
