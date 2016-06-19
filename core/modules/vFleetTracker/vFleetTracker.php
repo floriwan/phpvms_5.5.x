@@ -18,30 +18,36 @@ class vFleetTracker extends CodonModule
 		$this->set('allaircrafts', vFleetTrackData::getAllAircraft());
 		$this->render('vFleetTrack/index.tpl');
 	}
-	
+
+  /*public function planesByAirline($airlineid)
+  {
+    $this->set('allaircrafts', vFleetTrackData::getAircraftsByAirline($airlineid));
+    $this->render('vFleetTrack/index.tpl');
+  }*/
+
 	public function view($registration)
 	{
 		$this->set('aircraft', vFleetTrackData::getAircraftInfo($registration));
 		$this->render('vFleetTrack/view.tpl');
 	}
-	
+
 	public function viewallmap()
 	{
 		$this->set('data', vFleetTrackData::getAllLastLocation());
 		$this->render('vFleetTrack/map.tpl');
 	}
-	
+
 	public function buildLastFlightTable($id, $count)
 	{
 		$this->set('flights', vFleetTrackData::getLastNumFlightsAircraft($id, $count));
 		$this->render('vFleetTrack/flights.tpl');
 	}
-	
+
 	public function buildFlightsAvbTable($id)
 	{
 		$this->set('flightsav', vFleetTrackData::buildFlightsAvbTable($id));
 		$this->render('vFleetTrack/schedules.tpl');
 	}
-	
-	
+
+
 }

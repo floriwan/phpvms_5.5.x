@@ -23,7 +23,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::HTMLHead()
-     * 
+     *
      * @return
      */
     public function HTMLHead() {
@@ -53,7 +53,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::index()
-     * 
+     *
      * @return
      */
     public function index() {
@@ -63,11 +63,11 @@ class Operations extends CodonModule {
 
     /**
      * Operations::viewmap()
-     * 
+     *
      * @return
      */
     public function viewmap() {
-        
+
         if ($this->get->type === 'pirep') {
             $data = PIREPData::getReportDetails($this->get->id);
         } elseif ($this->get->type === 'schedule') {
@@ -78,7 +78,7 @@ class Operations extends CodonModule {
 
             $depicao = OperationsData::getAirportInfo($this->get->depicao);
             $arricao = OperationsData::getAirportInfo($this->get->arricao);
-            
+
             $data->deplat = $depicao->lat;
             $data->deplng = $depicao->lng;
             $data->depname = $depicao->name;
@@ -101,12 +101,12 @@ class Operations extends CodonModule {
 
     /**
      * Operations::addaircraft()
-     * 
+     *
      * @return
      */
     public function addaircraft() {
         $this->checkPermission(EDIT_FLEET);
-        
+
         $this->set('title', 'Add Aircraft');
         $this->set('action', 'addaircraft');
         $this->set('allranks', RanksData::getAllRanks());
@@ -115,7 +115,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::editaircraft()
-     * 
+     *
      * @return
      */
     public function editaircraft() {
@@ -131,7 +131,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::addairline()
-     * 
+     *
      * @return
      */
     public function addairline() {
@@ -143,7 +143,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::editairline()
-     * 
+     *
      * @return
      */
     public function editairline() {
@@ -157,13 +157,13 @@ class Operations extends CodonModule {
 
     /**
      * Operations::calculatedistance()
-     * 
+     *
      * @param string $depicao
      * @param string $arricao
      * @return
      */
     public function calculatedistance($depicao = '', $arricao = '') {
-        
+
         if ($depicao == '') $depicao = $this->get->depicao;
         if ($arricao == '') $arricao = $this->get->arricao;
 
@@ -172,11 +172,11 @@ class Operations extends CodonModule {
 
     /**
      * Operations::findairport()
-     * 
+     *
      * @return
      */
     public function findairport() {
-        
+
         $results = OperationsData::searchAirport($this->get->term);
 
         if (count($results) > 0) {
@@ -184,9 +184,9 @@ class Operations extends CodonModule {
 
             foreach ($results as $row) {
                $return[] = array(
-                    'label' => "{$row->icao} ({$row->name})", 
+                    'label' => "{$row->icao} ({$row->name})",
                     'value' => $row->icao,
-                    'id' => $row->id, 
+                    'id' => $row->id,
                 );
             }
 
@@ -196,7 +196,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::airlines()
-     * 
+     *
      * @return
      */
     public function airlines() {
@@ -215,7 +215,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::aircraft()
-     * 
+     *
      * @return
      */
     public function aircraft() {
@@ -239,7 +239,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::addairport()
-     * 
+     *
      * @return
      */
     public function addairport() {
@@ -252,7 +252,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::editairport()
-     * 
+     *
      * @return
      */
     public function editairport() {
@@ -265,11 +265,11 @@ class Operations extends CodonModule {
 
     /**
      * Operations::airports()
-     * 
+     *
      * @return
      */
     public function airports() {
-        
+
         /* If they're adding an airport, go through this pain
         */
         if (isset($this->post->action)) {
@@ -291,11 +291,11 @@ class Operations extends CodonModule {
 
     /**
      * Operations::airportgrid()
-     * 
+     *
      * @return
      */
     public function airportgrid() {
-        
+
         $page = $this->get->page; // get the requested page
         $limit = $this->get->rows; // get how many rows we want to have into the grid
         $sidx = $this->get->sidx; // get index row - i.e. user click to sort
@@ -343,15 +343,15 @@ class Operations extends CodonModule {
 
         # Form the json header
         $json = array(
-            'page' => $page, 
-            'total' => $total_pages, 
+            'page' => $page,
+            'total' => $total_pages,
             'records' => $count,
             'rows' => array()
         );
 
         # Add each row to the above array
         foreach ($airports as $row) {
-            
+
             if ($row->fuelprice == 0) {
                 $row->fuelprice = 'Live';
             }
@@ -376,7 +376,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::addschedule()
-     * 
+     *
      * @return
      */
     public function addschedule() {
@@ -386,16 +386,16 @@ class Operations extends CodonModule {
 
         if ($this->get->reverse == '1') {
             $schedule = SchedulesData::GetSchedule($this->get->id);
-            
-            # Reverse stuffs            
+
+            # Reverse stuffs
             unset($schedule->id);
-            
+
             $schedule->flightnum = '';
-            
+
             $tmp = $schedule->depicao;
             $schedule->depicao = $schedule->arricao;
             $schedule->arricao = $tmp;
-            
+
             if($schedule->route != '') {
                 $route = @explode(' ', $schedule->route);
                 if(is_array($route)) {
@@ -403,9 +403,9 @@ class Operations extends CodonModule {
                     $schedule->route = $route;
                 }
             }
-            
+
             $schedule->distance = OperationsData::getAirportDistance($schedule->depicao, $schedule->arricao);
-            
+
             $this->set('schedule', $schedule);
         }
 
@@ -420,7 +420,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::editschedule()
-     * 
+     *
      * @return
      */
     public function editschedule() {
@@ -442,7 +442,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::activeschedules()
-     * 
+     *
      * @return
      */
     public function activeschedules() {
@@ -452,7 +452,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::inactiveschedules()
-     * 
+     *
      * @return
      */
     public function inactiveschedules() {
@@ -462,7 +462,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::schedulegrid()
-     * 
+     *
      * @return
      */
     public function schedulegrid() {
@@ -531,7 +531,7 @@ class Operations extends CodonModule {
             $delete = '<a href="#" onclick="deleteschedule(' . $row->id .
                 '); return false;">Delete</a>';
 
-            $tmp = array('id' => $row->id, 
+            $tmp = array('id' => $row->id,
                 'cell' => array( # Each column, in order
                     $row->code, $row->flightnum, $row->depicao, $row->arricao, $row->aircraft, $row->registration,
                     $route, Util::GetDaysCompact($row->daysofweek), $row->distance, $row->timesflown,
@@ -546,7 +546,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::schedules()
-     * 
+     *
      * @param string $type
      * @return
      */
@@ -637,7 +637,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::add_airline_post()
-     * 
+     *
      * @return
      */
     protected function add_airline_post() {
@@ -660,7 +660,7 @@ class Operations extends CodonModule {
 
         if (DB::errno() != 0) {
             if (DB::errno() == 1062) // Duplicate entry
- 
+
                 $this->set('message', 'This airline has already been added');
             else  $this->set('message', 'There was an error adding the airline');
 
@@ -678,7 +678,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::edit_airline_post()
-     * 
+     *
      * @return
      */
     protected function edit_airline_post() {
@@ -719,12 +719,12 @@ class Operations extends CodonModule {
 
     /**
      * Operations::add_aircraft_post()
-     * 
+     *
      * @return
      */
     protected function add_aircraft_post() {
         $this->checkPermission(EDIT_FLEET);
-        
+
         if ($this->post->icao == '' || $this->post->name == '' || $this->post->fullname ==
             '' || $this->post->registration == '') {
             $this->set('message',
@@ -746,26 +746,27 @@ class Operations extends CodonModule {
         }
 
         $data = array(
-            'icao' => $this->post->icao, 
+            'icao' => $this->post->icao,
             'name' => $this->post->name,
-            'fullname' => $this->post->fullname, 
+            'fullname' => $this->post->fullname,
             'registration' => $this->post->registration,
-            'downloadlink' => $this->post->downloadlink, 
+            'downloadlink' => $this->post->downloadlink,
             'imagelink' => $this->post->imagelink,
-            'range' => $this->post->range, 
-            'weight' => $this->post->weight, 
+            'range' => $this->post->range,
+            'weight' => $this->post->weight,
             'cruise' => $this->post->cruise,
-            'maxpax' => $this->post->maxpax, 
-            'maxcargo' => $this->post->maxcargo, 
-            'minrank' => $this->post->minrank, 
-            'enabled' => $this->post->enabled
+            'maxpax' => $this->post->maxpax,
+            'maxcargo' => $this->post->maxcargo,
+            'minrank' => $this->post->minrank,
+            'enabled' => $this->post->enabled,
+            'airlineid' => $this->port->airlineid
             );
 
         OperationsData::AddAircraft($data);
 
         if (DB::errno() != 0) {
             if (DB::$errno == 1062) // Duplicate entry
- 
+
                 $this->set('message', 'This aircraft already exists');
             else  $this->set('message', 'There was an error adding the aircraft');
 
@@ -782,7 +783,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::edit_aircraft_post()
-     * 
+     *
      * @return
      */
     protected function edit_aircraft_post() {
@@ -817,7 +818,7 @@ class Operations extends CodonModule {
             'downloadlink' => $this->post->downloadlink, 'imagelink' => $this->post->imagelink,
             'range' => $this->post->range, 'weight' => $this->post->weight, 'cruise' => $this->post->cruise,
             'maxpax' => $this->post->maxpax, 'maxcargo' => $this->post->maxcargo, 'minrank' =>
-            $this->post->minrank, 'enabled' => $this->post->enabled);
+            $this->post->minrank, 'enabled' => $this->post->enabled, 'airlineid' => $this->post->airlineid);
 
         OperationsData::EditAircraft($data);
 
@@ -837,7 +838,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::add_airport_post()
-     * 
+     *
      * @return
      */
     protected function add_airport_post() {
@@ -861,7 +862,7 @@ class Operations extends CodonModule {
 
         if (DB::errno() != 0) {
             if (DB::$errno == 1062) // Duplicate entry
- 
+
                 $this->set('message', 'This airport has already been added');
             else  $this->set('message', 'There was an error adding the airport');
 
@@ -878,7 +879,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::edit_airport_post()
-     * 
+     *
      * @return
      */
     protected function edit_airport_post() {
@@ -916,12 +917,12 @@ class Operations extends CodonModule {
 
     /**
      * Operations::add_schedule_post()
-     * 
+     *
      * @return
      */
     protected function add_schedule_post() {
         $this->checkPermission(EDIT_SCHEDULES);
-        
+
         if ($this->post->code == '' || $this->post->flightnum == '' || $this->post->deptime ==
             '' || $this->post->arrtime == '' || $this->post->depicao == '' || $this->post->arricao ==
             '') {
@@ -963,7 +964,7 @@ class Operations extends CodonModule {
         } else {
             $daysofweek = '0123456'; # default activate for all days
         }
-        
+
         if (is_array($_POST['week1'])) {
             $week1 = implode('', $_POST['week1']);
         } else {
@@ -987,24 +988,24 @@ class Operations extends CodonModule {
         } else {
             $week4 = '';
         }
-        
+
         $data = array(
-            'code' => $this->post->code, 
+            'code' => $this->post->code,
             'flightnum' => $this->post->flightnum,
-            'depicao' => $this->post->depicao, 
-            'arricao' => $this->post->arricao, 
-            'route' => $this->post->route, 
-            'aircraft' => $this->post->aircraft, 
+            'depicao' => $this->post->depicao,
+            'arricao' => $this->post->arricao,
+            'route' => $this->post->route,
+            'aircraft' => $this->post->aircraft,
             'flightlevel' => $this->post->flightlevel,
-            'distance' => $this->post->distance, 
+            'distance' => $this->post->distance,
             'deptime' => $this->post->deptime,
-            'arrtime' => $this->post->arrtime, 
+            'arrtime' => $this->post->arrtime,
             'flighttime' => $this->post->flighttime,
-            'daysofweek' => $daysofweek, 
-            'week1' => $week1, 'week2' => $week2, 'week3' => $week3, 'week4' => $week4, 
-            'price' => $this->post->price, 
+            'daysofweek' => $daysofweek,
+            'week1' => $week1, 'week2' => $week2, 'week3' => $week3, 'week4' => $week4,
+            'price' => $this->post->price,
             'payforflight' => $this->post->payforflight,
-            'flighttype' => $this->post->flighttype, 
+            'flighttype' => $this->post->flighttype,
             'notes' => $this->post->notes,
             'enabled' => $enabled
         );
@@ -1030,7 +1031,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::edit_schedule_post()
-     * 
+     *
      * @return
      */
     protected function edit_schedule_post() {
@@ -1089,19 +1090,19 @@ class Operations extends CodonModule {
         }
 
         $data = array(
-            'code' => $this->post->code, 
+            'code' => $this->post->code,
             'flightnum' => $this->post->flightnum,
-            'depicao' => $this->post->depicao, 
-            'arricao' => $this->post->arricao, 
-            'route' => $this->post->route, 
-            'aircraft' => $this->post->aircraft, 
+            'depicao' => $this->post->depicao,
+            'arricao' => $this->post->arricao,
+            'route' => $this->post->route,
+            'aircraft' => $this->post->aircraft,
             'flightlevel' => $this->post->flightlevel,
-            'distance' => $this->post->distance, 
+            'distance' => $this->post->distance,
             'deptime' => $this->post->deptime,
-            'arrtime' => $this->post->arrtime, 
+            'arrtime' => $this->post->arrtime,
             'flighttime' => $this->post->flighttime,
-            'daysofweek' => $daysofweek, 
-            'week1' => $week1, 'week2' => $week2, 'week3' => $week3, 'week4' => $week4, 
+            'daysofweek' => $daysofweek,
+            'week1' => $week1, 'week2' => $week2, 'week3' => $week3, 'week4' => $week4,
             'price' => $this->post->price, 'payforflight' => $this->post->payforflight,
             'flighttype' => $this->post->flighttype, 'notes' => $this->post->notes,
             'enabled' => $enabled
@@ -1127,7 +1128,7 @@ class Operations extends CodonModule {
 
     /**
      * Operations::delete_schedule_post()
-     * 
+     *
      * @return
      */
     protected function delete_schedule_post() {

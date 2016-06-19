@@ -55,8 +55,24 @@
 				$sel = 'selected="selected"';
 			else
 				$sel = '';
-				
+
 			echo "<option value=\"{$rank->rankid}\" {$sel} >{$rank->rank}</option>";
+		}
+		?>
+	</select>
+
+</dd>
+
+<dt>Airline</dt>
+<dd>
+
+	<select name="airlineid">
+		<option value="0" <?php if($aircraft->airlineid == 0){ echo 'selected'; } ?>>None</option>
+		<?php
+    $all_airlines = OperationsData::getAllAirlines();
+		foreach($all_airlines as $airline)
+		{
+			echo "<option value=\"{$airline->id}\" {$sel} >{$airline->name}</option>";
 		}
 		?>
 	</select>
@@ -66,7 +82,7 @@
 <dt>Enabled?</dt>
 <?php $checked = ($aircraft->enabled==1 || !$aircraft)?'CHECKED':''; ?>
 <dd><input type="checkbox" id="enabled" name="enabled" value="1" <?php echo $checked ?> /></dd>
-	
+
 <dt></dt>
 <dd><input type="hidden" name="id" value="<?php echo $aircraft->id;?>" />
 	<input type="hidden" name="action" value="<?php echo $action;?>" />

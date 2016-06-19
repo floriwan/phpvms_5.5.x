@@ -17,10 +17,19 @@
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 
+/**
+ * select all planes and airline names
+ * SELECT c . * , a . *  FROM phpvms_5_5airline_plane ap, phpvms_5_5aircraft c, phpvms_5_5airlines a WHERE ap.planeid = c.id
+
+ * get all planes for one airline
+ * SELECT c . * , a . *  FROM phpvms_5_5airline_plane ap, phpvms_5_5aircraft c, phpvms_5_5airlines a WHERE ap.planeid = c.id and a.id = 1
+ *
+ */
+
 class OperationsData extends CodonData {
 
     public static function findAirport($params, $count = '', $start = '', $order_by = '') {
-        
+
         $sql = 'SELECT * FROM ' . TABLE_PREFIX . 'airports ';
 
         /* Build the select "WHERE" based on the columns passed, this is a generic function */
@@ -42,12 +51,12 @@ class OperationsData extends CodonData {
         $ret = DB::get_results($sql);
         return $ret;
     }
+
     /**
      * Get all aircraft from database
      */
-
     public static function getAllAirlines($onlyenabled = false) {
-        
+
         if ($onlyenabled == true) {
             $key = 'all_airlines_active';
             $where = 'WHERE `enabled`=1';
@@ -59,15 +68,13 @@ class OperationsData extends CodonData {
         $all_airlines = CodonCache::read($key);
 
         if ($all_airlines === false) {
-            $sql = 'SELECT * FROM ' . TABLE_PREFIX . "airlines 
-					{$where}
-					ORDER BY `code` ASC";
+            $sql = 'SELECT * FROM ' . TABLE_PREFIX . 'airlines ' . $where . ' ORDER BY `code` ASC';
 
             $all_airlines = DB::get_results($sql);
             if(!$all_airlines) {
                 $all_airlines = array();
             }
-            
+
             CodonCache::write($key, $all_airlines, 'long');
         }
 
@@ -78,7 +85,7 @@ class OperationsData extends CodonData {
      * Get all of the hubs
      */
     public static function getAllHubs() {
-        $sql = 'SELECT * FROM ' . TABLE_PREFIX . 'airports 
+        $sql = 'SELECT * FROM ' . TABLE_PREFIX . 'airports
 				WHERE `hub`=1
 				ORDER BY `icao` ASC';
 
@@ -94,7 +101,7 @@ class OperationsData extends CodonData {
         {
         $key .= '_enabled';
         }
-        
+
         $all_aircraft = CodonCache::read($key);
         if($all_aircraft === false)
         {*/
@@ -137,7 +144,7 @@ class OperationsData extends CodonData {
      * Get all of the aircraft
      */
     public static function getAllAircraftSearchList($onlyenabled = false) {
-        
+
         $key = 'all_aircraft_search';
         if ($onlyenabled == true) {
             $key .= '_enabled';
@@ -145,7 +152,7 @@ class OperationsData extends CodonData {
 
         $all_aircraft = CodonCache::read($key);
         if ($all_aircraft === false) {
-            $sql = 'SELECT * 
+            $sql = 'SELECT *
 					FROM ' . TABLE_PREFIX . 'aircraft';
 
             if ($onlyenabled == true) {
@@ -168,8 +175,8 @@ class OperationsData extends CodonData {
     public static function getAircraftByReg($registration) {
         $registration = DB::escape(strtoupper($registration));
 
-        $sql = 'SELECT * 
-				FROM ' . TABLE_PREFIX . 'aircraft 
+        $sql = 'SELECT *
+				FROM ' . TABLE_PREFIX . 'aircraft
 				WHERE `registration`=\'' . $registration . '\'';
 
         return DB::get_row($sql);
@@ -181,16 +188,16 @@ class OperationsData extends CodonData {
     public static function getAircraftByName($name) {
         $name = DB::escape(strtoupper($name));
 
-        $sql = 'SELECT * 
-				FROM ' . TABLE_PREFIX . 'aircraft 
+        $sql = 'SELECT *
+				FROM ' . TABLE_PREFIX . 'aircraft
 				WHERE UPPER(`name`)=\'' . $name . '\'';
 
         return DB::get_row($sql);
     }
 
     /**
-     * Check an aircraft registration, against an ID and a 
-     *  registration. For instance, editing an aircraft with a 
+     * Check an aircraft registration, against an ID and a
+     *  registration. For instance, editing an aircraft with a
      *  registration change. This checks to see if that reg is
      *  being already used
      */
@@ -212,7 +219,7 @@ class OperationsData extends CodonData {
         $all_airports = CodonCache::read($key);
 
         if ($all_airports === false) {
-            $sql = 'SELECT * FROM ' . TABLE_PREFIX . 'airports 
+            $sql = 'SELECT * FROM ' . TABLE_PREFIX . 'airports
 					ORDER BY `icao` ASC';
 
             $all_airports = DB::get_results($sql);
@@ -262,20 +269,20 @@ class OperationsData extends CodonData {
     public static function getAircraftInfo($id) {
         $id = DB::escape($id);
 
-        return DB::get_row('SELECT * FROM ' . TABLE_PREFIX . 'aircraft 
+        return DB::get_row('SELECT * FROM ' . TABLE_PREFIX . 'aircraft
 							WHERE `id`=' . $id);
     }
 
     public static function getAirlineByCode($code) {
-        
+
         $code = strtoupper($code);
-        $airline = DB::get_row('SELECT * FROM ' . TABLE_PREFIX . 'airlines 
+        $airline = DB::get_row('SELECT * FROM ' . TABLE_PREFIX . 'airlines
 							     WHERE `code`=\'' . $code . '\'');
         return $airline;
     }
 
     public static function getAirlineByID($id) {
-        return DB::get_row('SELECT * FROM ' . TABLE_PREFIX . 'airlines 
+        return DB::get_row('SELECT * FROM ' . TABLE_PREFIX . 'airlines
 							WHERE `id`=\'' . $id . '\'');
     }
 
@@ -287,7 +294,7 @@ class OperationsData extends CodonData {
         $name = DB::escape($name);
 
         $sql = "INSERT INTO " . TABLE_PREFIX . "airlines (
-					`code`, `name`) 
+					`code`, `name`)
 				VALUES ('$code', '$name')";
 
         $res = DB::query($sql);
@@ -302,7 +309,7 @@ class OperationsData extends CodonData {
 
     /**
      * OperationsData::editAirline()
-     * 
+     *
      * @param mixed $id
      * @param mixed $code
      * @param mixed $name
@@ -310,30 +317,30 @@ class OperationsData extends CodonData {
      * @return
      */
     public static function editAirline($id, $code, $name, $enabled = true) {
-        
+
         $old_airline = self::getAirlineByID($id);
-        
+
         $code = DB::escape($code);
         $name = DB::escape($name);
 
         if ($enabled) $enabled = 1;
         else  $enabled = 0;
 
-        $sql = "UPDATE " . TABLE_PREFIX . "airlines 
-				SET `code`='$code', `name`='$name', `enabled`=$enabled 
+        $sql = "UPDATE " . TABLE_PREFIX . "airlines
+				SET `code`='$code', `name`='$name', `enabled`=$enabled
 				WHERE id=$id";
 
         $res = DB::query($sql);
         if (DB::errno() != 0) return false;
-        
+
         // Update tables to reflect new values
         $tables = array('pilots', 'pireps', 'schedules');
         foreach($tables as $t) {
-            
-            $sql = 'UPDATE '.TABLE_PREFIX.$t.' 
-                    SET `code`=\''.$code.'\' 
+
+            $sql = 'UPDATE '.TABLE_PREFIX.$t.'
+                    SET `code`=\''.$code.'\'
                     WHERE `code`='.$old_airline->code;
-        
+
             DB::query($sql);
         }
 
@@ -346,7 +353,7 @@ class OperationsData extends CodonData {
 
     /**
      * Add an aircraft
-     * 
+     *
      * $data = array(	'icao'=>$this->post->icao,
      * 'name'=>$this->post->name,
      * 'fullname'=>$this->post->fullname,
@@ -361,7 +368,7 @@ class OperationsData extends CodonData {
      * 'enabled'=>$this->post->enabled);
      */
     public static function addAircraft($data) {
-        
+
         /*$data = array('icao'=>$this->post->icao,
         'name'=>$this->post->name,
         'fullname'=>$this->post->fullname,
@@ -411,7 +418,7 @@ class OperationsData extends CodonData {
         $cols = implode(', ', $cols);
         $col_values = implode(', ', $col_values);
 
-        $sql = "INSERT INTO " . TABLE_PREFIX . "aircraft 
+        $sql = "INSERT INTO " . TABLE_PREFIX . "aircraft
 				({$cols}) VALUES ({$col_values})";
 
         $res = DB::query($sql);
@@ -430,7 +437,7 @@ class OperationsData extends CodonData {
      * Edit an aircraft
      */
     public static function editAircraft($data) {
-        
+
         $data['icao'] = DB::escape(strtoupper($data['icao']));
         $data['name'] = DB::escape(strtoupper($data['name']));
         $data['registration'] = DB::escape(strtoupper($data['registration']));
@@ -464,7 +471,7 @@ class OperationsData extends CodonData {
 
         /*$sql = "UPDATE " . TABLE_PREFIX."aircraft
         SET `icao`='{$data['icao']}', `name`='{$data['name']}', `fullname`='{$data['fullname']}',
-        `registration`='{$data['registration']}', `downloadlink`='{$data['downloadlink']}', 
+        `registration`='{$data['registration']}', `downloadlink`='{$data['downloadlink']}',
         `imagelink`='{$data['imagelink']}', `range`='{$data['range']}', `weight`='{$data['weight']}',
         `cruise`='{$data['cruise']}', `maxpax`='{$data['maxpax']}', `maxcargo`='{$data['maxcargo']}',
         `minrank`={$data['minrank']}, `ranklevel`={$rank_level}, `enabled`={$data['enabled']}
@@ -490,7 +497,7 @@ class OperationsData extends CodonData {
      *
      */
     public static function deleteAircraft($aircraft_id) {
-        $sql = 'DELETE FROM ' . TABLE_PREFIX . 'aircraft 
+        $sql = 'DELETE FROM ' . TABLE_PREFIX . 'aircraft
 				WHERE `id`=' . $aircraft_id;
 
         DB::query($sql);
@@ -522,7 +529,7 @@ class OperationsData extends CodonData {
 
     /**
      * Add an airport
-     * 
+     *
      * $data = array(
      * 'icao' => 'KJFK',
      * 'name' => 'Kennedy International',
@@ -532,7 +539,7 @@ class OperationsData extends CodonData {
      * 'hub' => 0,
      * 'fuelprice' => 0
      * );
-     * 
+     *
      */
     public static function addAirport($data) {
 
@@ -561,10 +568,10 @@ class OperationsData extends CodonData {
             $data['chartlink'] = '';
         }
 
-        $sql = "INSERT INTO " . TABLE_PREFIX . "airports 
+        $sql = "INSERT INTO " . TABLE_PREFIX . "airports
 					(	`icao`, `name`, `country`, `lat`, `lng`, `hub`, `chartlink`, `fuelprice`)
 					VALUES (
-						'{$data['icao']}', '{$data['name']}', '{$data['country']}', 
+						'{$data['icao']}', '{$data['name']}', '{$data['country']}',
 						{$data['lat']}, {$data['lng']}, {$data['hub']}, '{$data['chartlink']}', {$data['fuelprice']})";
 
         $res = DB::query($sql);
@@ -599,8 +606,8 @@ class OperationsData extends CodonData {
         if ($data['fuelprice'] == '') $data['fuelprice'] = 0;
 
         $sql = "UPDATE " . TABLE_PREFIX . "airports
-					SET `icao`='{$data['icao']}', `name`='{$data['name']}', `country`='{$data['country']}', 
-						`lat`={$data['lat']}, `lng`={$data['lng']}, `hub`={$data['hub']}, 
+					SET `icao`='{$data['icao']}', `name`='{$data['name']}', `country`='{$data['country']}',
+						`lat`={$data['lat']}, `lng`={$data['lng']}, `hub`={$data['hub']},
 						`chartlink`='{$data['chartlink']}', `fuelprice`={$data['fuelprice']}
 					WHERE `icao`='{$data['icao']}'";
 
@@ -628,14 +635,14 @@ class OperationsData extends CodonData {
         CodonCache::delete('all_airports');
         return true;
     }
-    
+
     public static function deleteAllAirports() {
         $sql = 'DELETE FROM ' . TABLE_PREFIX . 'airports';
         $res = DB::query($sql);
         if (DB::errno() != 0) return false;
         return true;
     }
-    
+
     /**
      * Get information about an airport
      */
@@ -643,11 +650,11 @@ class OperationsData extends CodonData {
         $icao = strtoupper(DB::escape($icao));
 
         /*$key = 'get_airport_'.$icao;
-        
+
         $airport_info = CodonCache::read($key);
         if($airport_info === false)
         {*/
-        $sql = 'SELECT * FROM ' . TABLE_PREFIX . 'airports 
+        $sql = 'SELECT * FROM ' . TABLE_PREFIX . 'airports
 				WHERE `icao`=\'' . $icao . '\'';
 
         $airport_info = DB::get_row($sql);

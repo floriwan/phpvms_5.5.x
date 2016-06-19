@@ -13,6 +13,19 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
 **/
 class vFleetTrackData extends CodonData
 {
+
+  /**
+   * get all aircraft for one airlines
+   */
+  public static function getAircraftsByAirline($airlineid) {
+
+    $sql = 'SELECT * FROM '.TABLE_PREFIX.'aircraft where airlineid = "'. $airlineid . '"';
+
+    $all_aircrafts = DB::get_results($sql);
+    return $all_aircrafts;
+
+  }
+
 	public static function getAllAircraft()
 	{
 		return DB::get_results("SELECT * FROM ".TABLE_PREFIX."aircraft");

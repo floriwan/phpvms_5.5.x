@@ -12,11 +12,12 @@ if(!$allaircraft)
 <thead>
 <tr>
 	<th>ICAO</th>
-	<th>Name/Type</th>	
+	<th>Name/Type</th>
 	<th>Full Name</th>
 	<th>Registration</th>
 	<th align="center">Max Pax</th>
 	<th align="center">Max Cargo</th>
+  <th align="center">Airline</th>
 	<th>Options</th>
 </tr>
 </thead>
@@ -32,8 +33,18 @@ foreach($allaircraft as $aircraft)
 	<td align="center"><?php echo $aircraft->registration; ?></td>
 	<td align="center"><?php echo $aircraft->maxpax; ?></td>
 	<td align="center"><?php echo $aircraft->maxcargo; ?></td>
+
+  <?php
+  if ($aircraft->airlineid != 0) {
+    $airlinename = OperationsData::getAirlineByID($aircraft->airlineid)->name;
+  } else {
+    $airlinename = "N/A";
+  }
+  ?>
+  
+  <td align="center"><?php echo $airlinename; ?></td>
 	<td align="center" width="1%" nowrap>
-		<button class="{button:{icons:{primary:'ui-icon-wrench'}}}" 
+		<button class="{button:{icons:{primary:'ui-icon-wrench'}}}"
 			onclick="window.location='<?php echo adminurl('/operations/editaircraft?id='.$aircraft->id);?>';">Edit</button>
 	</td>
 </tr>
