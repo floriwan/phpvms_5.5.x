@@ -1,4 +1,4 @@
-<h3><?php echo $title?></h3>
+<h3><?php echo SITE_NAME; ?>'s Pilots</h3>
 
 <?php
 	if(!$allpilots)
@@ -21,7 +21,7 @@
 <?php
 foreach($allpilots as $pilot)
 {
-	/* 
+	/*
 		To include a custom field, use the following example:
 
 		<td>
@@ -30,9 +30,9 @@ foreach($allpilots as $pilot)
 
 		For instance, if you added a field called "IVAO Callsign":
 
-			echo PilotData::GetFieldValue($pilot->pilotid, 'IVAO Callsign');		
+			echo PilotData::GetFieldValue($pilot->pilotid, 'IVAO Callsign');
 	 */
-	 
+
 	 // To skip a retired pilot, uncomment the next line:
 	 //if($pilot->retired == 1) { continue; }
 ?>
@@ -41,9 +41,9 @@ foreach($allpilots as $pilot)
 			<?php echo PilotData::GetPilotCode($pilot->code, $pilot->pilotid)?></a>
 	</td>
 	<td>
-		<img src="<?php echo Countries::getCountryImage($pilot->location);?>" 
+		<img src="<?php echo Countries::getCountryImage($pilot->location);?>"
 			alt="<?php echo Countries::getCountryName($pilot->location);?>" />
-			
+
 		<?php echo $pilot->firstname.' '.$pilot->lastname?>
 	</td>
 	<td><img src="<?php echo $pilot->rankimage?>" alt="<?php echo $pilot->rank;?>" /></td>

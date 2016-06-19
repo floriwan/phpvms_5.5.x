@@ -31,7 +31,7 @@ class RanksData extends CodonData {
     }
 
     public static function getRankByName($name) {
-        $sql = 'SELECT * 
+        $sql = 'SELECT *
 				FROM `' . TABLE_PREFIX . "ranks`
 				WHERE `rank`='{$name}'";
 
@@ -43,11 +43,11 @@ class RanksData extends CodonData {
      * on each rank
      */
     public static function getAllRanks() {
-        
+
         $allranks = CodonCache::read('all_ranks');
 
         if ($allranks === false) {
-            $sql = 'SELECT r.*, 
+            $sql = 'SELECT r.*,
                         (SELECT COUNT(*) FROM ' . TABLE_PREFIX .'pilots WHERE rank=r.rank) as totalpilots
 					FROM ' . TABLE_PREFIX . 'ranks r
 					ORDER BY r.minhours ASC';
@@ -69,16 +69,16 @@ class RanksData extends CodonData {
      * Get the level the passed rank is in the list
      */
     public static function getRankLevel($rankid) {
-        
+
         if ($rankid == 0) {
             return 0;
         }
-        
+
         $all_ranks = self::getAllRanks();
 
         $i = 0;
         foreach ($all_ranks as $rank) {
-            
+
             $i++;
 
             if ($rank->rankid == $rankid) {
@@ -94,7 +94,7 @@ class RanksData extends CodonData {
      */
     public static function getNextRank($hours) {
         $sql = "SELECT * FROM " . TABLE_PREFIX . "ranks
-				WHERE minhours>$hours ORDER BY minhours ASC LIMIT 1";        
+				WHERE minhours>$hours ORDER BY minhours ASC LIMIT 1";
         return DB::get_row($sql);
     }
 
@@ -103,7 +103,7 @@ class RanksData extends CodonData {
      * CalculatePilotRanks() at the end
      */
     public static function addRank($title, $minhours, $imageurl, $payrate) {
-        
+
         $minhours = intval($minhours);
         $payrate = floatval($payrate);
 
@@ -128,7 +128,7 @@ class RanksData extends CodonData {
      * Update a certain rank
      */
     public static function updateRank($rankid, $title, $minhours, $imageurl, $payrate) {
-        
+
         $minhours = intval($minhours);
         $payrate = floatval($payrate);
 
@@ -151,7 +151,7 @@ class RanksData extends CodonData {
      */
 
     public static function deleteRank($rankid) {
-        
+
         $sql = 'DELETE FROM ' . TABLE_PREFIX . 'ranks WHERE rankid=' . $rankid;
 
         DB::query($sql);
@@ -170,7 +170,7 @@ class RanksData extends CodonData {
      *  end, update that
      */
     public static function calculatePilotRanks() {
-        
+
         /* Don't calculate a pilot's rank if this is set */
         if (Config::Get('RANKS_AUTOCALCULATE') === false) {
             return;
@@ -188,7 +188,7 @@ class RanksData extends CodonData {
     }
 
     public static function calculateUpdatePilotRank($pilotid, $ranks_list = null) {
-        
+
         /* Don't calculate a pilot's rank if this is set */
         if (Config::Get('RANKS_AUTOCALCULATE') == false) {
             return;
@@ -197,19 +197,19 @@ class RanksData extends CodonData {
         if($ranks_list === null) {
             $ranks_list = self::getAllRanks();
         }
-        
+
         $pilotid = intval($pilotid);
-        
+
         $pilot = PilotData::getPilotData($pilotid);
         $pilothours = $pilot->totalhours;
-        
+
         if (Config::Get('TRANSFER_HOURS_IN_RANKS') == true) {
             $pilothours += $pilot->transferhours;
         }
 
         $i = 0;
         foreach ($ranks_list as $rank) {
-            
+
             $i++;
 
             if ($pilothours >= intval($rank->minhours)) {
@@ -220,26 +220,26 @@ class RanksData extends CodonData {
         }
 
         $update = array(
-            'rankid' => $last_rankid, 
-            'rank' => $last_rank, 
-            'ranklevel' => $rank_level, 
+            'rankid' => $last_rankid,
+            'rank' => $last_rank,
+            'ranklevel' => $rank_level,
             );
 
         PilotData::updateProfile($pilot->pilotid, $update);
-        
+
         if($pilot->rank != $last_rank) {
-        
+
             $message = Lang::get('activity.pilot.promotion');
             $message = str_replace('$rank', $last_rank, $message);
-            
+
             # Add it to the activity feed
             ActivityData::addActivity(array(
                 'pilotid' => $pilotid,
                 'type' => ACTIVITY_PROMOTION,
                 'refid' => $pilotid,
                 'message' => htmlentities($message),
-            ));   
-            
+            ));
+
         }
     }
 }

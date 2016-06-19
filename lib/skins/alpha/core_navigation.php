@@ -20,6 +20,14 @@ else
 }
 ?>
 
+  <li><a href="#" class="icon fa-angle-down">Company</a>
+    <ul>
+      <li><a href="<?php echo url('/vStaff');?>">Our Staff</a></li>
+      <li><a href="<?php echo url('/vFleetTracker');?>">Our Fleet</a></li>
+      <li><a href="<?php echo url('/Pilots/getAllPilots');?>">Our Pilots</a></li>
+      <li><a href="<?php echo url('/Ranks');?>">Pilot Ratings</a></li>
+    </ul>
+  </li>
 <?php
 if(Auth::LoggedIn())
 { ?>
@@ -31,10 +39,9 @@ if(Auth::LoggedIn())
 		<li><a href="<?php echo url('/pireps/filepirep');?>">File a Pilot Report</a></li>
 		<li><a href="<?php echo url('/schedules/view');?>">View Flight Schedules</a></li>
 		<li><a href="<?php echo url('/schedules/bids');?>">View my flight bids</a></li>
-    <li><a href="<?php echo url('/vFleetTracker');?>">View Fleet</a></li>
 		<li><a href="<?php echo url('/finances');?>">View VA Finances</a></li>
 	</ul>
-
+  </li>
 
 <li><a href="#" class="icon fa-angle-down">Profile</a>
 <ul>
@@ -44,6 +51,8 @@ if(Auth::LoggedIn())
 	<li><a href="<?php echo url('/profile/stats'); ?>">My Stats</a></li>
 	<li><a href="<?php echo url('/downloads'); ?>">View Downloads</a></li>
 </ul>
+</li>
+
 <?php
 }
 ?>

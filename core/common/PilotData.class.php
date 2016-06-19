@@ -30,7 +30,7 @@ class PilotData extends CodonData {
      *
      */
     public static function findPilots($params, $limit = '', $start = '') {
-        
+
         $sql = "SELECT p.*, r.`rankimage`, r.`payrate`
 				FROM " . TABLE_PREFIX . "pilots p
 				LEFT JOIN " . TABLE_PREFIX . "ranks r ON r.rank=p.rank ";
@@ -96,27 +96,27 @@ class PilotData extends CodonData {
 
     /**
      * Get all the pilots on a certain hub
-     * 
+     *
      * @param string $hub
      * @return
      */
     public static function getAllPilotsByHub($hub = '') {
-        
+
         if(empty($hub)) { return false; }
-        
+
         return self::findPilots(array('p.hub' => $hub));
     }
 
     /**
      * Return the pilot's code (ie DVA1031), using
      * the code and their DB ID
-     * 
+     *
      * @param mixed $code
      * @param mixed $pilotid
      * @return
      */
     public static function getPilotCode($code, $pilotid) {
-        
+
         # Make sure values are entered
         if (Config::Get('PILOTID_LENGTH') == '') {
             Config::Set('PILOTID_LENGTH', 4);
@@ -128,7 +128,7 @@ class PilotData extends CodonData {
 
         $pilotid = $pilotid + Config::Get('PILOTID_OFFSET');
         $pilotid = str_pad($pilotid, Config::Get('PILOTID_LENGTH'), '0', STR_PAD_LEFT);
-        
+
         return $code . $pilotid;
     }
 
@@ -136,7 +136,7 @@ class PilotData extends CodonData {
      * The the basic pilot information
      * Quasi 'cached' in case it's called multiple times
      * for the same pilot in one script
-     * 
+     *
      * @param mixed $pilotid
      * @return
      */
@@ -182,7 +182,7 @@ class PilotData extends CodonData {
      *
      */
     public static function parsePilotID($pilotid) {
-        
+
         if (!is_numeric($pilotid)) {
             $airlines = OperationsData::getAllAirlines();
             foreach ($airlines as $a) {
@@ -203,7 +203,7 @@ class PilotData extends CodonData {
 
     /**
      * Get the list of all the pending pilots
-     * 
+     *
      * @param string $count
      * @return
      */
@@ -215,7 +215,7 @@ class PilotData extends CodonData {
 
     /**
      * PilotData::getLatestPilots()
-     * 
+     *
      * @param integer $count
      * @return
      */
@@ -235,38 +235,38 @@ class PilotData extends CodonData {
      */
 
     public static function changeName($pilotid, $firstname, $lastname) {
-        
+
         # Non-blank
         if (empty($pilotid) || empty($firstname) || empty($lastname)) {
             return false;
         }
 
         return self::updateProfile($pilotid, array(
-            'firstname' => $firstname, 
+            'firstname' => $firstname,
             'lastname' => $lastname
         ));
     }
 
     /**
      * PilotData::changePilotID()
-     * 
+     *
      * @param mixed $old_pilotid
      * @param mixed $new_pilotid
      * @return
      */
     public static function changePilotID($old_pilotid, $new_pilotid) {
-        
+
         $pilot_exists = self::getPilotData($new_pilotid);
         if (is_object($pilot_exists)) {
             return false;
         }
 
         DB::query('SET foreign_key_checks = 0;');
-        
+
         // List of all the tables which need to update
         $table_list = array(
             'groupmembers', 'pilots', 'adminlog', 'awardsgranted',
-            'acarsdata', 'sessions', 'pireps', 'pirepcomments', 
+            'acarsdata', 'sessions', 'pireps', 'pirepcomments',
             'fieldvalues', 'bids');
 
         foreach ($table_list as $table) {
@@ -282,21 +282,21 @@ class PilotData extends CodonData {
 
     /**
      * PilotData::changePilotRank()
-     * 
+     *
      * @param mixed $pilotid
      * @param mixed $rankid
      * @return
      */
     public static function changePilotRank($pilotid, $rankid) {
-        
+
         $rank = RanksData::getRankInfo($rankid);
         if (!($rank_level = RanksData::getRankLevel($rankid))) {
             return false;
         }
 
         return self::updateProfile($pilotid, array(
-            'rankid' => $rank->rankid, 
-            'rank' => $rank->rank, 
+            'rankid' => $rank->rankid,
+            'rank' => $rank->rank,
             'ranklevel' => $rank_level
         ));
     }
@@ -310,7 +310,7 @@ class PilotData extends CodonData {
      *
      */
     public static function updateProfile($pilotid, $params) {
-    
+
         /*$params = array(
             'pilotid' => '',
             'code' => '',
@@ -325,7 +325,7 @@ class PilotData extends CodonData {
         if(empty($pilotid)) {
             return false;
         }
-        
+
         if (!is_array($params)) {
             return false;
         }
@@ -334,7 +334,7 @@ class PilotData extends CodonData {
         if (isset($params['location'])) {
             $params['location'] = strtoupper($params['location']);
         }
-                
+
         if (isset($params['pilotid'])) {
             unset($params['pilotid']);
         }
@@ -344,37 +344,37 @@ class PilotData extends CodonData {
         $sql .= " WHERE `pilotid`={$pilotid}";
 
         $res = DB::query($sql);
-        
+
         if (DB::errno() != 0) {
             return false;
         }
-        
+
         # Auto groups?
         $groups = Config::get('PILOT_STATUS_TYPES');
         if(isset($params['retired'])) {
-            
+
             $info = $groups[$params['retired']];
-            
+
             # Automatically add into these groups
             if(is_array($info['group_add']) && count($info['group_add']) > 0) {
                 foreach($info['group_add'] as $group) {
                     PilotGroups::addUsertoGroup($pilotid, $group);
                 }
             }
-            
+
             if(is_array($info['group_remove']) && count($info['group_remove']) > 0) {
                 foreach($info['group_remove'] as $group) {
                     PilotGroups::removeUserFromGroup($pilotid, $group);
                 }
             }
         }
-        
+
         return true;
     }
 
     /**
      * PilotData::updatePilotRankLevels()
-     * 
+     *
      * @return void
      */
     public static function updatePilotRankLevels() {
@@ -388,13 +388,13 @@ class PilotData extends CodonData {
 
     /**
      * PilotData::setPilotRetired()
-     * 
+     *
      * @param mixed $pilotid
      * @param mixed $retired
      * @return
      */
     public static function setPilotRetired($pilotid, $retired) {
-        
+
         return self::updateProfile($pilotid, array('retired' => $retired));
     }
 
@@ -406,7 +406,7 @@ class PilotData extends CodonData {
      *
      */
     public static function getBackgroundImages() {
-        
+
         $list = array();
         $files = scandir(SITE_ROOT . '/lib/signatures/background');
 
@@ -419,17 +419,17 @@ class PilotData extends CodonData {
         return $list;
     }
 
-    
+
     /**
      * Save avatars
-     * 
+     *
      * @param mixed $code
      * @param mixed $pilotid
      * @param mixed $_FILES
      * @return
      */
     public static function saveAvatar($code, $pilotid) {
-        
+
         # Check the proper file size
         #  Ignored for now since there is a resize
         /*if ($_FILES['avatar']['size'] > Config::Get('AVATAR_FILE_SIZE')) {
@@ -456,7 +456,7 @@ class PilotData extends CodonData {
         $new_height = floor($height * (Config::Get('AVATAR_MAX_HEIGHT') / $width));
 
         $avatarimg = imagecreatetruecolor($new_width, $new_height);
-        imagecopyresized($avatarimg, $img, 0, 0, 0, 0, $new_width, $new_height, 
+        imagecopyresized($avatarimg, $img, 0, 0, 0, 0, $new_width, $new_height,
                             $width, $height /* original */
             );
 
@@ -485,19 +485,19 @@ class PilotData extends CodonData {
 
 
     /**
-     * Completely delete a pilot	
+     * Completely delete a pilot
      *
      * @param int $pilotid Pilot ID
      * @return mixed This is the return value description
      *
      */
     public static function deletePilot($pilotid) {
-        
+
         $sql = array();
         unset(self::$pilot_data[$pilotid]);
-        
+
         $tables = array(
-            'acarsdata', 'bids', 'pirepcomments', 'pireps', 
+            'acarsdata', 'bids', 'pirepcomments', 'pireps',
             'fieldvalues', 'groupmembers', 'pilots'
         );
 
@@ -511,39 +511,39 @@ class PilotData extends CodonData {
 
     /**
      * Update the last login time for this pilot
-     * 
+     *
      * @param int $pilotid
      * @return
      */
     public static function updateLogin($pilotid) {
-        
+
         return self::updateProfile($pilotid, array(
-            'lastlogin' => 'NOW()', 
+            'lastlogin' => 'NOW()',
             'lastip' => $_SERVER['REMOTE_ADDR']
         ));
-        
+
     }
 
     /**
      * Get the total number of hours for the pilot
-     * 
+     *
      * @param int $pilotid
      * @return
      */
     public static function getPilotHours($pilotid) {
-        
+
         $totaltime = DB::get_row(
             'SELECT SUM(TIME_TO_SEC(`flighttime_stamp`)) AS `total`
              FROM `'.TABLE_PREFIX.'pireps`
              WHERE `accepted`=' . PIREP_ACCEPTED.' AND `pilotid`='.$pilotid);
-            
+
         if(!$totaltime) {
             $totaltime = '0';
         } else {
             $totaltime = explode(':', Util::secondsToTime($totaltime->total));
             $totaltime = $totaltime[0].'.'.$totaltime[1];
         }
-        
+
         return $totaltime;
     }
 
@@ -573,30 +573,30 @@ class PilotData extends CodonData {
 
     /**
      * Update stats for a pilot, reset it based on current data
-     * 
+     *
      * @param int $pilotid
      * @return
      */
     public static function updatePilotStats($pilotid) {
 
         $total = DB::get_row(
-            'SELECT 
+            'SELECT
               COUNT(*) as `totalpireps`,
               SUM(TIME_TO_SEC(`flighttime_stamp`)) as `totaltime`
             FROM `'.TABLE_PREFIX.'pireps`
             WHERE `pilotid`='.$pilotid.' AND `accepted`='.PIREP_ACCEPTED
         );
-                
+
         if($total->totalpireps == 0) {
             $totaltime = 0;
         } else {
             $totaltime = explode(':', Util::secondsToTime($total->totaltime));
             $totaltime = $totaltime[0].'.'.$totaltime[1];
         }
-        
+
         return self::updateProfile($pilotid, array(
-            'totalhours' => $totaltime, 
-            'totalflights' => $total->totalpireps, 
+            'totalhours' => $totaltime,
+            'totalflights' => $total->totalpireps,
         ));
     }
 
@@ -610,81 +610,81 @@ class PilotData extends CodonData {
      */
     public static function updateLastPIREPDate($pilotid) {
         return self::updateProfile($pilotid, array('lastpirep' => 'NOW()'));
-    }  
+    }
 
 
     /**
      * Go through the ledger and update the totalpay for a pilot
-     * 
+     *
      * @param mixed $pilotid
      * @return void
      */
     public static function resetPilotPay($pilotid) {
-        
+
         $total = DB::get_row(
             'SELECT SUM(`amount`) AS `total`
-             FROM `'.TABLE_PREFIX.'ledger` 
+             FROM `'.TABLE_PREFIX.'ledger`
              WHERE `pilotid`='.$pilotid
         );
-                
+
         self::updateProfile($pilotid, array('totalpay' => $total->total));
         return $total->total;
     }
-    
-    
+
+
     /**
      * Fill in the ledger any PIREPs which might be missing
-     * 
+     *
      * @param mixed $pilotid
      * @return void
      */
     public static function fillMissingLedgerForPIREPS($pilotid) {
-        
+
         $sql = 'SELECT `pirepid` FROM `'.TABLE_PREFIX.'pireps`
                     WHERE `pilotid`='.$pilotid.' AND `accepted`='.PIREP_ACCEPTED;
-        
+
         $res = DB::get_results($sql);
-        
+
         foreach($res as $pirep) {
-            
+
             $exists = LedgerData::getPaymentByPIREP($pirep->pirepid);
             if(!$exists) {
                 PIREPData::calculatePIREPPayment($pirep->pirepid);
             }
-            
+
         }
     }
-    
+
     /**
      * Reset the pilot pay from all of the PIREPs, do it from
      * scratch
-     * 
+     *
      * @param mixed $pilotid
      * @return
      */
     public static function resetLedgerforPilot($pilotid) {
-        
+
         DB::query(
             "DELETE FROM `".TABLE_PREFIX."ledger` WHERE `pirepid` > 0 AND `pilotid`=".$pilotid
         );
-              
+
         $sql = 'SELECT `pirepid` FROM `'.TABLE_PREFIX.'pireps`
                 WHERE `pilotid`='.$pilotid.' AND `accepted`='.PIREP_ACCEPTED;
-        
+
         $results = DB::get_results($sql);
         if(! $results) {
-            return false;    
+            return false;
         }
-        
+
         foreach($results as $pirep) {
-            PIREPData::calculatePIREPPayment($pirep->pirepid);   
+            PIREPData::calculatePIREPPayment($pirep->pirepid);
         }
 
         return self::resetPilotPay($pilotid);
     }
 
     /**
-     * Get the total pay for a flight at a certain rate, 
+     * Get the total pay for a flight at a certain rate,
      *	for a certain number of hours
      *
      * @param float $hours Number of hours in Hours.Minutes format
@@ -710,21 +710,21 @@ class PilotData extends CodonData {
      *
      */
     public static function findRetiredPilots() {
-        
+
         $days = Config::Get('PILOT_INACTIVE_TIME');
         if ($days == '') {
             $days = 90;
         }
 
         $sql = "SELECT * FROM " . TABLE_PREFIX . "pilots
-				WHERE DATE_SUB(CURDATE(), INTERVAL  {$days} DAY) > `lastlogin`  
+				WHERE DATE_SUB(CURDATE(), INTERVAL  {$days} DAY) > `lastlogin`
 					AND `totalflights` = 0 AND `lastlogin` != 0
 					AND `retired` = 0";
 
         $results = DB::get_results($sql);
 
         $sql = "SELECT * FROM " . TABLE_PREFIX . "pilots
-				WHERE DATE_SUB(CURDATE(), INTERVAL  {$days} DAY) > `lastpirep` 
+				WHERE DATE_SUB(CURDATE(), INTERVAL  {$days} DAY) > `lastpirep`
 					AND `totalflights` > 0 AND `lastpirep` != 0
 					AND `retired` = 0";
 
@@ -754,9 +754,9 @@ class PilotData extends CodonData {
                 break;
             }
         }
-        
+
         foreach ($results as $row) {
-            
+
             // Set them retired
             self::updateProfile($row->pilotid, array('retired' => $retired_id));
 
@@ -778,15 +778,15 @@ class PilotData extends CodonData {
      *
      */
     public static function saveFields($pilotid, $list) {
-        
+
         $allfields = RegistrationData::getCustomFields(true);
 
         if (!$allfields) return true;
 
         foreach ($allfields as $field) {
-            
-            $sql = 'SELECT id FROM ' . TABLE_PREFIX . 'fieldvalues 
-					WHERE fieldid=' . $field->fieldid . ' 
+
+            $sql = 'SELECT id FROM ' . TABLE_PREFIX . 'fieldvalues
+					WHERE fieldid=' . $field->fieldid . '
 						AND pilotid=' . $pilotid;
 
             $res = DB::get_row($sql);
@@ -800,7 +800,7 @@ class PilotData extends CodonData {
             // if it exists
             if ($res) {
                 $sql = 'UPDATE '.TABLE_PREFIX.'fieldvalues
-						SET value="' . $value . '" 
+						SET value="' . $value . '"
 						WHERE fieldid=' . $field->fieldid . ' AND pilotid=' . $pilotid;
             } else {
                 $sql = "INSERT INTO " . TABLE_PREFIX . "fieldvalues
@@ -822,8 +822,8 @@ class PilotData extends CodonData {
      *
      */
     public static function getFieldData($pilotid, $inclprivate = false) {
-        
-        $sql = 'SELECT f.fieldid, f.title, f.type, 
+
+        $sql = 'SELECT f.fieldid, f.title, f.type,
                     f.fieldname, f.value as fieldvalues, v.value, f.public
 				FROM ' . TABLE_PREFIX . 'customfields f
 				LEFT JOIN ' . TABLE_PREFIX . 'fieldvalues v
@@ -845,11 +845,11 @@ class PilotData extends CodonData {
      *
      */
     public static function getFieldValue($pilotid, $title) {
-        
-        $sql = "SELECT f.fieldid, v.value 
-				FROM " . TABLE_PREFIX . "customfields f, " . TABLE_PREFIX . "fieldvalues v 
-				WHERE f.fieldid=v.fieldid 
-					AND f.title='$title' 
+
+        $sql = "SELECT f.fieldid, v.value
+				FROM " . TABLE_PREFIX . "customfields f, " . TABLE_PREFIX . "fieldvalues v
+				WHERE f.fieldid=v.fieldid
+					AND f.title='$title'
 					AND v.pilotid=$pilotid";
 
         $res = DB::get_row($sql);
@@ -880,15 +880,15 @@ class PilotData extends CodonData {
      * This generates the forum signature of a pilot which
      *  can be used wherever. It's dynamic, and adjusts it's
      *  size, etc based on the background image.
-     * 
+     *
      * Each image is output into the /lib/signatures directory,
      *  and is named by the pilot code+number (ie, VMA0001.png)
-     * 
+     *
      * This is called whenever a PIREP is accepted by an admin,
      *  as not to burden a server with image generation
-     * 
+     *
      * Also requires GD to be installed on the server
-     * 
+     *
      * @param int The pilot ID for which to generate a signature for
      * @return bool Success
      */
@@ -920,7 +920,7 @@ class PilotData extends CodonData {
             $bgimage = SITE_ROOT.'/lib/signatures/background/background.png';
         } else {
             $bgimage = SITE_ROOT.'/lib/signatures/background/'.$pilot->bgimage;
-        }  
+        }
 
         if (!file_exists($bgimage)) {
             # Doesn't exist so use the default
@@ -1010,7 +1010,7 @@ class PilotData extends CodonData {
         # Add the Rank image
 
         if (Config::Get('SIGNATURE_SHOW_RANK_IMAGE') == true && $pilot->rankimage != '') {
-                
+
             $cws = new CodonWebService();
             $rankimg = @$cws->get($pilot->rankimage);
             $rankimg = imagecreatefromstring($rankimg);

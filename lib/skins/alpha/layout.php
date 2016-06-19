@@ -64,10 +64,11 @@
       {
 
         $server_url = $_SERVER['PHP_SELF'];
-        $regex = "/(^.+registration$|^.+\/acars$|^.+\/viewreport\/.+|^.+profile\/view\/.+)/";
+        $regex = "/^.+index.php\/$/";
+        //$regex = "/(^.+registration$|^.+\/acars$|^.+\/viewreport\/.+|^.+profile\/view\/.+)/";
         $result = preg_match($regex, $server_url);
 
-        if ($result == 0) { ?>
+        if ($result != 0) { ?>
           <section class="box special">
             <header class="major">
               <h2>Introducing the caribbean airline</h2>
