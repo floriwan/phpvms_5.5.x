@@ -19,3 +19,16 @@ INSERT INTO `phpvms_settings` VALUES(NULL, 'Date Format', 'DATE_FORMAT', 'm/d/Y'
 INSERT INTO `phpvms_settings` VALUES(NULL, 'Current Skin', 'CURRENT_SKIN', 'crystal', 'Available skins', 1);
 INSERT INTO `phpvms_settings` VALUES(NULL, 'Default User Group', 'DEFAULT_GROUP', 'Active Pilots', 'This is the default group if they are not explicitly denied', 1);
 INSERT INTO `phpvms_settings` VALUES(NULL , 'Total VA Hours', 'TOTAL_HOURS', '0', 'Your total hours', 1);
+
+-- add the airlineid to the aircraft table
+ALTER TABLE `phpvms_aircraft` ADD COLUMN `airlineid` int(11) NOT NULL DEFAULT '0';
+
+-- add pilots ranks
+
+INSERT INTO `phpvms_ranks`(`rank`, `rankimage`, `minhours`, `payrate`) VALUES ('Student Pilot','lib/images/ranks/private_pilot.png','50','14');
+INSERT INTO `phpvms_ranks`(`rank`, `rankimage`, `minhours`, `payrate`) VALUES ('Student Pilot','lib/images/ranks/student_pilot.png','100','18');
+INSERT INTO `phpvms_ranks`(`rank`, `rankimage`, `minhours`, `payrate`) VALUES ('Student Pilot','lib/images/ranks/student_first_officer.png','150','22');
+INSERT INTO `phpvms_ranks`(`rank`, `rankimage`, `minhours`, `payrate`) VALUES ('Student Pilot','lib/images/ranks/first_officer.png','250','26');
+INSERT INTO `phpvms_ranks`(`rank`, `rankimage`, `minhours`, `payrate`) VALUES ('Student Pilot','lib/images/ranks/captain.png','350','32');
+INSERT INTO `phpvms_ranks`(`rank`, `rankimage`, `minhours`, `payrate`) VALUES ('Student Pilot','lib/images/ranks/commercial_captain.png','450','35');
+INSERT INTO `phpvms_ranks`(`rank`, `rankimage`, `minhours`, `payrate`) VALUES ('Student Pilot','lib/images/ranks/senior_commercial_captain.png','600','40');
