@@ -1,11 +1,11 @@
-CREATE TABLE IF NOT EXISTS `staff_levels` (
+CREATE TABLE IF NOT EXISTS `phpvms_staff_levels` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `name` varchar(50) NOT NULL DEFAULT '',
 `order` int(3) NOT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
                     
-CREATE TABLE IF NOT EXISTS `staff_members` (
+CREATE TABLE IF NOT EXISTS `php_vms_staff_members` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `level_id` int(3) NOT NULL,
   `pilotid` int(5) NOT NULL,
