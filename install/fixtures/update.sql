@@ -14,3 +14,6 @@ UPDATE `phpvms_groups` SET `core`=1 WHERE `name` = 'Inactive Pilots';
 -- Remove deprecated settings;
 DELETE FROM `phpvms_settings` WHERE `name`='NOTIFY_UPDATE';
 DELETE FROM `phpvms_settings` WHERE `name`='GOOGLE_KEY';
+
+-- Add the airlineid to the aircraft table
+ALTER TABLE `phpvms_aircraft` ADD COLUMN `airlineid` varchar(11) NOT NULL DEFAULT '0';
