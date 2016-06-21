@@ -29,7 +29,7 @@ class Registration extends CodonModule
 
 	public function index()
 	{
-                //updated to Google noCaptcha 1/15
+    //updated to Google noCaptcha 1/15
 		require_once CORE_LIB_PATH.'/recaptcha/recaptchalib.php';
 
 		if(Auth::LoggedIn()) { // Make sure they don't over-ride it
@@ -47,6 +47,7 @@ class Registration extends CodonModule
 
 	protected function ShowForm()
 	{
+
                 //Google reCaptcha
                 //updated to Google noCaptcha 1/15
                 $this->set('sitekey', RECAPTCHA_PUBLIC_KEY);
@@ -198,7 +199,6 @@ class Registration extends CodonModule
 			$this->set('firstname_error', true);
 		} else {
 		  $this->set('firstname_error', '');
-
 		}
 
 		/* Check the last name
@@ -233,11 +233,12 @@ class Registration extends CodonModule
 		// Check password length
 		if(strlen($this->post->password1) <= 5) {
 			$error = true;
+      $this->set('pswd_to_short', true);
 			$this->set('password_error', 'The password is too short!');
 		} else {
             $this->set('password_error', '');
 		}
-
+$this->set('password_error', 'The password is too short!');
 		// Check is passwords are the same
 		if($this->post->password1 != $this->post->password2) {
 			$error = true;

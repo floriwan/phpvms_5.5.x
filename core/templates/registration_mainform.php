@@ -78,6 +78,8 @@
 		<?php
 			if($password_error != '')
 				echo '<p class="error">'.$password_error.'</p>';
+      if($pswd_to_short == true)
+        echo '<p class="error">Password is too short (must be more than 5 characters)</p>';
 		?>
 	</dd>
 

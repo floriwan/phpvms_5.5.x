@@ -52,7 +52,8 @@ class CodonWebService
 		CURLOPT_AUTOREFERER => true,
 		CURLOPT_CONNECTTIMEOUT => 30,
 		CURLOPT_HEADER => false,
-		CURLOPT_FOLLOWLOCATION => true
+		CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_PORT => 80
 	);
 
 	public function __construct()
@@ -75,6 +76,7 @@ class CodonWebService
 			}
 
 			$this->setType('curl');
+      //curl_setopt_array($this->curl, $this->options);
 			@curl_setopt_array($this->curl, $this->options);
 		}
 		else

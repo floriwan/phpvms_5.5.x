@@ -64,7 +64,7 @@
       {
 
         $server_url = $_SERVER['PHP_SELF'];
-        $regex = "/^.+index.php\/$/";
+        $regex = "/^.+index.php(\/|)$/";
         //$regex = "/(^.+registration$|^.+\/acars$|^.+\/viewreport\/.+|^.+profile\/view\/.+)/";
         $result = preg_match($regex, $server_url);
 
@@ -107,7 +107,7 @@
 
         /* display page content if logged in */
 
-        /* check the url and add the special fueature box for
+        /* check the url and add the special feature box for
            pilot profile and homepage */
         $regex = "/(.+index\.php\/*$|.+\/profile$)/";
         $server_url = $_SERVER['PHP_SELF'];

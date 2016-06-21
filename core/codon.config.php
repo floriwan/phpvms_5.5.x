@@ -1,3 +1,20 @@
+Skip to content
+This repository
+Search
+Pull requests
+Issues
+Gist
+ @floriwan
+ Unwatch 1
+  Star 0
+  Fork 8 floriwan/phpvms_5.5.x
+forked from DavidJClark/phpvms_5.5.x
+ Code  Pull requests 0  Wiki  Pulse  Graphs  Settings
+Branch: flycaribbean Find file Copy pathphpvms_5.5.x/core/codon.config.php
+94377be  on Jun 10, 2014
+@DavidJClark DavidJClark Initial Commit
+1 contributor
+RawBlameHistory    148 lines (117 sloc)  4.65 KB
 <?php
 /**
  * Codon PHP Framework
@@ -38,10 +55,8 @@
  */
  
 session_start();
-
 error_reporting(E_ALL ^ E_NOTICE);
 @ini_set('display_errors', 'on');
-
 define('DS', DIRECTORY_SEPARATOR);
 define('SITE_ROOT', str_replace('core', '', dirname(__FILE__)));
 define('CORE_PATH', dirname(__FILE__) );
@@ -55,38 +70,28 @@ define('COMMON_PATH', CORE_PATH.DS.'common');
 define('PAGES_PATH', CORE_PATH.DS.'pages');
 define('LIB_PATH', SITE_ROOT.DS.'lib');
 define('VENDORS_PATH', CORE_PATH.DS.'vendors');
-
 $version = phpversion();
 if(intval($version[0]) < 5) {
 	die('You are not running PHP 5+');
 }
-
 require CLASS_PATH.DS.'autoload.php';
 spl_autoload_register('codon_autoload');
-
 Config::Set('MODULES_PATH', CORE_PATH.DS.'modules');
 Config::Set('MODULES_AUTOLOAD', true);
-
 Template::init();
-
 require CORE_PATH.DS.'app.config.php';
 @include CORE_PATH.DS.'local.config.php';
-
 /* Set the language */
 Lang::set_language(Config::Get('SITE_LANGUAGE'));
-
 error_reporting(Config::Get('ERROR_LEVEL'));
 Debug::$debug_enabled = Config::Get('DEBUG_MODE');
-
 if(Debug::$debug_enabled == true) {
     ini_set('log_errors','On');
     ini_set('display_errors', 'Off');
     ini_set('error_log', LOGS_PATH.'/errors.txt');
 }
-
 /* Init caching engine */
 CodonCache::init($cache_settings);
-
 if(DBASE_NAME != '' && DBASE_SERVER != '' && DBASE_NAME != 'DBASE_NAME') {
     
 	require CLASS_PATH.DS.'ezdb/ezdb.class.php';
@@ -128,20 +133,17 @@ if(DBASE_NAME != '' && DBASE_SERVER != '' && DBASE_NAME != 'DBASE_NAME') {
     #ORM::configure('username', DBASE_USER);
     #ORM::configure('password', DBASE_PASS);
 }
-
 include CORE_PATH.DS.'bootstrap.inc.php';
-
 if(function_exists('pre_module_load')) {
 	pre_module_load();
 }
-
 MainController::loadEngineTasks();
-
 define('ACTIVE_SKIN_PATH', LIB_PATH.DS.'skins'.DS.CURRENT_SKIN);
-
 Template::setTemplatePath(TEMPLATES_PATH);
 Template::setSkinPath(ACTIVE_SKIN_PATH);
-
 if(function_exists('post_module_load'))
 	post_module_load();
 	
+Status API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Contact Help
+
