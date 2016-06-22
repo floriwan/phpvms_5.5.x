@@ -745,6 +745,7 @@ class Operations extends CodonModule {
             return;
         }
 
+        echo "<p> airline id " . $this->port->airlineid . "</p>";
         $data = array(
             'icao' => $this->post->icao,
             'name' => $this->post->name,
@@ -759,7 +760,7 @@ class Operations extends CodonModule {
             'maxcargo' => $this->post->maxcargo,
             'minrank' => $this->post->minrank,
             'enabled' => $this->post->enabled,
-            'airlineid' => $this->port->airlineid
+            'airlineid' => $this->post->airlineid
             );
 
         OperationsData::AddAircraft($data);

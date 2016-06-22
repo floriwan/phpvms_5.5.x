@@ -26,7 +26,7 @@ class vStaffListAdmin extends CodonModule
 	{
 		$this->set('sidebar', 'vstaff/sidebar.php');
 	}
-	
+
 	public function navbar()
 	{
 		if(PilotGroups::group_has_perm(Auth::$usergroups, FULL_ADMIN))
@@ -34,40 +34,40 @@ class vStaffListAdmin extends CodonModule
 		echo '<li><a href="'.SITE_URL.'/admin/index.php/vStaffListAdmin/">vStaffList Admin</a></li>';
 		}
 	}
-	
+
 	public function index()
 	{
 		if(isset($this->post->action))
 		{
-			switch ($this->post->action) 
+			switch ($this->post->action)
 			{
 				case 'addstaff':
 				$this->add_staff_post();
 				break;
-				
+
 				case 'editstaff':
 				$this->edit_staff_post();
 				break;
-				
+
 				case 'deletestaff':
 				$this->delete_staff_post();
 				break;
-				
+
 				case 'addstaffcat':
 				$this->add_staff_cat_post();
 				break;
-				
+
 				case 'editcategory':
 				$this->edit_staff_cat_post();
 				break;
-				
+
 				case 'deletecategory':
 				$this->delete_staff_cat_post();
 				break;
-				
+
 			}
 		}
-		
+
 		$this->set('pilots', PilotData::findPilots(array()));
 		$this->set('allcategories', vStaffListData::GetAllStaffLevels());
 		$this->render('vstaff/add_staff_bar.php');
@@ -75,7 +75,7 @@ class vStaffListAdmin extends CodonModule
 		$this->set('stafflevels', vStaffListData::GetAllStaffLevels());
 		$this->render('vstaff/all_staff.php');
 	}
-	
+
 	public function editstaff($id)
 	{
 		$this->set('pilots', PilotData::findPilots(array()));
@@ -83,7 +83,7 @@ class vStaffListAdmin extends CodonModule
 		$this->set('staff', vStaffListData::getStaff($id));
 		$this->render('vstaff/edit_staff.php');
 	}
-	
+
 	public function deletestaff($id)
 	{
 		if($id == '')
@@ -93,10 +93,10 @@ class vStaffListAdmin extends CodonModule
 			return false;
 		}
 		$this->delete_staff_post($id);
-		
+
 		$this->index();
 	}
-	
+
 	/*
 	*
 	*	Protected Functions
@@ -108,7 +108,7 @@ class vStaffListAdmin extends CodonModule
 	*	Protected Functions
 	*
 	*/
-	
+
 	protected function add_staff_post()
 	{
 		if($this->post->pilotid == "" || $this->post->level_id == "" || $this->post->title == "" || $this->post->titleabr == "" || $this->post->email == "")
@@ -117,10 +117,10 @@ class vStaffListAdmin extends CodonModule
 			$this->render('core_error.php');
 			return false;
 		}
-		
+
 		$ret = vStaffListData::AddStaff($this->post->pilotid, $this->post->level_id, $this->post->title, $this->post->titleabr, $this->post->email, $this->post->order);
 	}
-	
+
 	protected function edit_staff_post()
 	{
 		if($this->post->id == "" || $this->post->pilotid == "" || $this->post->level_id == "" || $this->post->title == "" || $this->post->titleabr == "" || $this->post->email == "")
@@ -129,25 +129,25 @@ class vStaffListAdmin extends CodonModule
 			$this->render('core_error.php');
 			return false;
 		}
-		
+
 		$ret = vStaffListData::UpdateStaff($this->post->id, $this->post->pilotid, $this->post->level_id, $this->post->title, $this->post->titleabr, $this->post->email, $this->post->order, $this->post->bio);
-		
+
 		if(isset($_FILES['uploadedfile']['type']))
 		{
 			$this->upload_image_post($this->post->id, $_FILES);
 		}
-		
+
 		if($this->post->remove_photo == 'true' && !$_FILES['uploadedfile']['type'])
 		{
 			$this->remove_image_post($this->post->id);
 		}
 	}
-	
+
 	protected function upload_image_post($id, $file)
 	{
 		if($id == '')
 		{
-			return false;	
+			return false;
 		}
 
 		if ((($file["uploadedfile"]["type"] == "image/x-png")
@@ -157,7 +157,7 @@ class vStaffListAdmin extends CodonModule
             || ($file["uploadedfile"]["type"] == "image/gif"))
             && ($file["uploadedfile"]["size"] < 1048576))
         {
-			
+
 			 if ($file["file"]["error"] > 0) {
                 echo "Error: " . $file["file"]["error"] . "<br />";
             }
@@ -180,34 +180,34 @@ class vStaffListAdmin extends CodonModule
 		else {return false;}
 
 	}
-	
+
 	protected function remove_image_post($id)
 	{
 		if($id == '')
 		{
-			return false;	
+			return false;
 		}
 		$staff = vStaffListData::getStaff($id);
 		$ret = vStaffListData::RemovePhoto($id);
 		unlink(SITE_ROOT.'staff_photos/'.$staff->picturelink);
 	}
-	
+
 	protected function delete_staff_post($id)
 	{
 		if($id == '')
 		{
 			$this->set('message', 'Can not delete staff! - No Staff ID Passed!');
 			$this->render('core_error.php');
-			return false;	
+			return false;
 		}
-		
+
 		$staff = vStaffListData::getStaff($id);
 		$ret = vStaffListData::RemovePhoto($id);
 		if(file_exists(SITE_ROOT.'staff_photos/'.$staff->picturelink))
 		{
 			unlink(SITE_ROOT.'staff_photos/'.$staff->picturelink);
 		}
-		
+
 		vStaffListData::DeleteStaff($id);
 	}
 
@@ -219,10 +219,10 @@ class vStaffListAdmin extends CodonModule
 			$this->render('core_error.php');
 			return false;
 		}
-		
+
 		$ret = vStaffListData::AddCategory($this->post->name, $this->post->order);
 	}
-	
+
 	protected function edit_staff_cat_post()
 	{
 		if($this->post->name == "")
@@ -231,7 +231,7 @@ class vStaffListAdmin extends CodonModule
 			$this->render('core_error.php');
 			return false;
 		}
-		
+
 		$ret = vStaffListData::UpdateCategory($this->post->id, $this->post->name, $this->post->order);
 	}
 
@@ -244,7 +244,7 @@ class vStaffListAdmin extends CodonModule
 			$this->render('core_error.php');
 			return false;
 		}
-		
+
 		$ret = vStaffListData::DeleteCategory($this->post->id);
 	}
 }
