@@ -1,20 +1,4 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @floriwan
- Unwatch 1
-  Star 0
-  Fork 8 floriwan/phpvms_5.5.x
-forked from DavidJClark/phpvms_5.5.x
- Code  Pull requests 0  Wiki  Pulse  Graphs  Settings
-Branch: flycaribbean Find file Copy pathphpvms_5.5.x/core/codon.config.php
-94377be  on Jun 10, 2014
-@DavidJClark DavidJClark Initial Commit
-1 contributor
-RawBlameHistory    148 lines (117 sloc)  4.65 KB
+
 <?php
 /**
  * Codon PHP Framework
@@ -144,6 +128,3 @@ Template::setSkinPath(ACTIVE_SKIN_PATH);
 if(function_exists('post_module_load'))
 	post_module_load();
 	
-Status API Training Shop Blog About
-© 2016 GitHub, Inc. Terms Privacy Security Contact Help
-
