@@ -23,12 +23,31 @@
   <!--[if lte IE 8]><script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/ie/html5shiv.js"></script><![endif]-->
   <link rel="stylesheet" href="<?php echo SITE_URL?>/lib/skins/alpha/assets/css/main.css" />
   <!--[if lte IE 8]><link rel="stylesheet" href="<?php echo SITE_URL?>/lib/skins/alpha/assets/css/ie8.css" /><![endif]-->
+  <link rel="stylesheet" href="<?php echo SITE_URL?>/lib/skins/alpha/assets/css/animation.css" />
 
   <!-- for the login pop up window -->
   <script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/login.js"></script>
   <link href="<?php echo SITE_URL?>/lib/skins/alpha/assets/css/login.css" rel="stylesheet" media="all" />
 
   <!--<link rel="icon" href="<?php echo SITE_URL?>/lib/skins/alpha/images/flycaribbean_icon.ico" type="image/x-icon"/>-->
+
+  <script>
+    $(window).scroll(function() {
+      $('#img_slide_up').each(function(){
+          var imagePos = $(this).offset().top;
+
+          var topOfWindow = $(window).scrollTop();
+              if (imagePos < topOfWindow+700) {
+                  $(this).addClass("fadeIn");
+              }
+      });
+    });
+
+      $('#img_slide_up').click(function() {
+		      $(this).addClass("fadeIn");
+	    });
+
+  </script>
 
 </head>
 
@@ -74,8 +93,10 @@
               <h2>Introducing the caribbean airline</h2>
               <p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc ornare<br />
                 adipiscing nunc adipiscing. Condimentum turpis massa.</p>
+                <p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc ornare<br />
+                  adipiscing nunc adipiscing. Condimentum turpis massa.</p>
             </header>
-            <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_plane.jpg" alt="" /></span>
+            <span class="image featured"><div id="img_slide_up" class="img_slide_up"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_plane.jpg" alt="" /></div></span>
           </section>
 
           <section class="box special">

@@ -2,7 +2,7 @@
 
   <div class="features-row">
     <section>
-      <span class="icon major fa-map-o accent1"></span>
+      <div id="img_slide_up" class="img_slide_up"><span class="icon major fa-map-o accent1"></span></div>
       <h3>Recent Reports</h3>
       <p><?php MainController::Run('PIREPS', 'RecentFrontPage', 5); ?></p>
     </section>

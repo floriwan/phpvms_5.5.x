@@ -5,8 +5,14 @@
 if(!Auth::LoggedIn())
 {
 	// Show these if they haven't logged in yet
-?>
-<!--	<li><a href="<?php echo url('/login'); ?>">Login</a></li> -->
+  $mobile_dev = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up.browser|up.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+
+  // login popup is not working on mobile devices
+  // show the default login page
+  if ($mobile_dev) { ?>
+    <li><a href="<?php echo url('/login'); ?>">Login</a></li>
+  <?php } ?>
+
 	<li><a href="<?php echo url('/registration'); ?>">Register</a></li>
 <?php
 }
@@ -71,8 +77,10 @@ if(Auth::LoggedIn())
 ?>
 
 <!-- show log in or log out button -->
-<?php if(Auth::LoggedIn() == false)
+<?php if(Auth::LoggedIn() == false && !$mobile_dev)
 { ?>
+
+
 <li> <a href="#" id="loginButton"><span><i class="icon fa-sign-in"></i>
 Login</span><em></em></a>
 
@@ -105,7 +113,6 @@ Login</span><em></em></a>
 } else { ?>
    <li><a href="<?php echo url('/logout'); ?>"><i class="icon fa-sign-out"> </i>Logout</a></li>
 <?php } ?>
-
 
 <!--
 <?php
