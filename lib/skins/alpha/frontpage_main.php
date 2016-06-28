@@ -2,7 +2,7 @@
 
   <div class="features-row">
     <section>
-      <div id="img_slide_up" class="img_slide_up"><span class="icon major fa-map-o accent1"></span></div>
+      <span class="icon major fa-map-o accent1"></span>
       <h3>Recent Reports</h3>
       <p><?php MainController::Run('PIREPS', 'RecentFrontPage', 5); ?></p>
     </section>
@@ -25,12 +25,14 @@
       <span class="icon major fa-bar-chart-o accent4"></span>
       <h3>Statistics</h3>
       <p>
-        <?php echo StatsData::PilotCount(); ?></span> Pilots<br />
-        <?php echo StatsData::TotalFlights(); ?></span> Total Flights<br />
-        <?php echo StatsData::TotalHours(); ?></span> Total Hours<br />
-        <?php echo StatsData::TotalFlights(); ?></span> Total Flights<br />
-        <!--<?php echo StatsData::TotalHours(); ?></span>Total hr</li>-->
-        <?php echo StatsData::TotalFlightsToday(); ?></span> Flights Today<br />
+        <table>
+          <tr><td><?php echo StatsData::PilotCount(); ?></td><td>Pilots</td></tr>
+          <tr><td><?php echo StatsData::TotalFlights(); ?></td><td>Total Flights</td></tr>
+          <tr><td><?php echo StatsData::TotalHours(); ?></td><td>Total Hours</td></tr>
+          <tr><td><?php echo StatsData::TotalFlights(); ?></td><td>Total Flights</td></tr>
+          <!--<?php echo StatsData::TotalHours(); ?></span>Total hr</li>-->
+          <tr><td><?php echo StatsData::TotalFlightsToday(); ?></td><td>Flights Today</td></tr>
+        </table>
       </p>
     </section>
   </div>

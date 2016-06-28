@@ -43,10 +43,6 @@
       });
     });
 
-      $('#img_slide_up').click(function() {
-		      $(this).addClass("fadeIn");
-	    });
-
   </script>
 
 </head>
@@ -70,10 +66,13 @@
     </header>
 
     <!-- banner -->
+    <div id="fade_in_test">
     <section id="banner">
-      <h2 style="font-family: 'Courgette', cursive;"><?php echo SITE_NAME; ?></h2>
-      <p>The finest airline in the caribbean sea.</p>
+      <!--<h2 style="font-family: 'Courgette', cursive;"><?php echo SITE_NAME; ?></h2>-->
+      <img src="<?php echo SITE_URL?>/lib/images/flycaribbean.png" alt="flycaribbean logo" />
+      <p>Caribbeans finest airline</p>
     </section>
+    </div>
 
     <!-- main -->
     <section id="main" class="container">
@@ -88,6 +87,7 @@
         $result = preg_match($regex, $server_url);
 
         if ($result != 0) { ?>
+          <div id="fade_in_test">
           <section class="box special">
             <header class="major">
               <h2>Introducing the caribbean airline</h2>
@@ -98,6 +98,7 @@
             </header>
             <span class="image featured"><div id="img_slide_up" class="img_slide_up"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_plane.jpg" alt="" /></div></span>
           </section>
+          </div>
 
           <section class="box special">
             <header class="major">
