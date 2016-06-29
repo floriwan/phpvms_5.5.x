@@ -28,6 +28,7 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
 
 <?php
   $all_airlines = OperationsData::getAllAirlines();
+  array_push($all_airlines, 0);
 
   if (!all_airlines) {
     echo "<p>no airlines found</p>";
@@ -38,11 +39,16 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
 
     $airline_aircrafts = vFleetTrackData::getAircraftsByAirline($airline->id);
     if (!$airline_aircrafts) {
-      echo "<h4>".$airline->name."</h4>";
-      echo "<p>no aircrafts found for airline " . $airline->name . "</p>";
+      if (strlen($airline->name) != 0) {
+        echo "<h4>".$airline->name."</h4>";
+        echo "<p>no aircrafts found for airline " . $airline->name . "</p>";
+      }
     } else {
 
-      echo "<h4>".$airline->name."</h4>";
+      if (strlen($airline->name) != 0)
+        echo "<h4>".$airline->name."</h4>";
+      else
+        echo "<h4>No Airline</h4>";
 
       echo "<table>";
       echo "<tr><th>ICAO</th><th>Name</th><th>Full Name</th><th>Registration</th><th>Last Flight</th><th>Location</th><th>Total Flights</th><th>Total Hours</th><th>Total Miles</th></tr>";

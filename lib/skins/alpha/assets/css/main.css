@@ -2614,13 +2614,16 @@ dd {
 		table th {
 			color: #646464;
 			font-size: 0.9em;
-			font-weight: 300;
+			#font-weight: 300;
+      font-weight: 400;
 			padding: 0 0em 0em 0em;
 			text-align: left;
+      color: #646464;
 		}
 
 		table thead {
 			border-bottom: solid 2px #e5e5e5;
+      font-weight: 400;
 		}
 
 		table tfoot {

@@ -14,57 +14,89 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
 ?>
 <h3><?php echo SITE_NAME?>'s Fleet Tracker For <?php echo $aircraft->fullname;?> (<?php echo $aircraft->registration;?>)</h3>
 <br />
-<h3>Aircraft General Info</h3>
-<strong>Aircraft Image:</strong>
-<?php if(!empty($aircraft->imagelink))
-{
-	echo '<img src="'.$aircraft->imagelink.'" /><br /><br />';
-}
-else
-{
-	echo 'No Aircraft Image Yet!';
-}
-?><br />
-<strong>ICAO: </strong><?php echo $aircraft->icao;?>
-<br />
-<strong>Name: </strong><?php echo $aircraft->name;?>
-<br />
-<strong>Fullname: </strong><?php echo $aircraft->fullname;?>
-<br />
-<strong>Registration: </strong><?php echo $aircraft->registration;?>
-<br />
-<strong>Range: </strong><?php echo $aircraft->range;?>
-<br />
-<strong>Weight: </strong><?php echo $aircraft->weight;?>
-<br />
-<strong>Cruise: </strong><?php echo $aircraft->cruise;?>
-<br />
-<strong>Passengers: </strong><?php echo $aircraft->maxpax;?>
-<br />
-<strong>Cargo: </strong><?php echo $aircraft->maxcargo;?>
-<br />
-<h3>Aircraft Stats</h3>
-<strong>Total Miles: </strong><?php echo round(vFleetTrackData::countMiles($aircraft->id));?>
-<br />
-<strong>Total Hours: </strong><?php echo round(vFleetTrackData::countHours($aircraft->id));?>
-<br />
-<strong>Total Flights: </strong><?php echo vFleetTrackData::countFlights($aircraft->id);?>
-<br />
-<?php if(count(vFleetTrackData::CargoAircraft($aircraft->id)) > 0)
-{
-?>
-<strong>Total Passengers Carried: </strong><?php echo vFleetTrackData::countPassengers($aircraft->id);?>
-<br />
-<?php
-}
-else
-{
-?>
-<strong>Total Cargo Carried: </strong><?php echo round(vFleetTrackData::countPassengers($aircraft->id));?>
-<br />
-<?php
-}
-?>
+<p><center>
+  <?php if(!empty($aircraft->imagelink)) echo '<img style="max-width:700px;" src="'.$aircraft->imagelink.'" />'; ?>
+</center></p>
+
+<table>
+  <thead><tr>
+    <th>Aircraft General Info</th>
+  </tr></thead>
+  <tr>
+    <td>ICAO</td>
+    <td><?php echo $aircraft->icao;?></td>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td><?php echo $aircraft->name;?></td>
+  </tr>
+  <tr>
+    <td>Fullname</td>
+    <td><?php echo $aircraft->fullname;?></td>
+  </tr>
+  <tr>
+    <td>Registration</td>
+    <td><?php echo $aircraft->registration;?></td>
+  </tr>
+  <tr>
+    <td>Range</td>
+    <td><?php echo $aircraft->range;?></td>
+  </tr>
+  <tr>
+    <td>Weight</td>
+    <td><?php echo $aircraft->weight;?></td>
+  </tr>
+  <tr>
+    <td>Cruise</td>
+    <td><?php echo $aircraft->cruise;?></td>
+  </tr>
+  <tr>
+    <td>Passanger</td>
+    <td><?php echo $aircraft->maxpax;?></td>
+  </tr>
+  <tr>
+    <td>Cargo</td>
+    <td><?php echo $aircraft->maxcargo;?></td>
+  </tr>
+
+  <thead><tr>
+    <th>Aircraft Stats</th>
+  </tr></thead>
+  <tr>
+    <td>Total Miles</td>
+    <td><?php echo round(vFleetTrackData::countMiles($aircraft->id));?></td>
+  </tr>
+  <tr>
+    <td>Total Hours</td>
+    <td><?php echo round(vFleetTrackData::countHours($aircraft->id));?></td>
+  </tr>
+  <tr>
+    <td>Total Flights</td>
+    <td><?php echo vFleetTrackData::countFlights($aircraft->id);?></td>
+  </tr>
+  <tr>
+
+    <?php if(count(vFleetTrackData::CargoAircraft($aircraft->id)) > 0)
+    {
+    ?>
+    <td>Total Passengers Carried </td><td><?php echo vFleetTrackData::countPassengers($aircraft->id);?></td>
+    <?php
+    }
+    else
+    {
+    ?>
+    <td>Total Cargo Carried </td><td><?php echo round(vFleetTrackData::countPassengers($aircraft->id));?></td>
+    <?php
+    }
+    ?>
+
+  </tr>
+
+</table>
+
+
+
+
 <h3>Current Aircraft Location</h3>
 <?php
 $location = vFleetTrackData::getLastFlightAircraft($aircraft->id);

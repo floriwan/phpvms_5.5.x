@@ -72,6 +72,11 @@
     $all_airlines = OperationsData::getAllAirlines();
 		foreach($all_airlines as $airline)
 		{
+      if ($aircraft->airlineid == $airline->id) {
+        $sel = 'selected="selected"';
+      } else {
+        $sel = '';
+      }
 			echo "<option value=\"{$airline->id}\" {$sel} >{$airline->name}</option>";
 		}
 		?>
