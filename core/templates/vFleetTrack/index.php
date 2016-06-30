@@ -34,24 +34,30 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
     echo "<p>no airlines found</p>";
   }
 
+  /* start one table for all airlines */
+  echo "<table>";
+  echo "<thead><tr><th>ICAO</th><th>Name</th><th>Full Name</th><th>Registration</th><th>Last Flight</th><th>Location</th><th>Total Flights</th><th>Total Hours</th><th>Total Miles</th></tr></thead>";
+  echo "<tbody>";
+
   foreach ($all_airlines as $airline) {
     /*echo "<p> airlineid " . $airline->id . "</p>";*/
 
     $airline_aircrafts = vFleetTrackData::getAircraftsByAirline($airline->id);
     if (!$airline_aircrafts) {
       if (strlen($airline->name) != 0) {
-        echo "<h4>".$airline->name."</h4>";
-        echo "<p>no aircrafts found for airline " . $airline->name . "</p>";
+        echo "<tr><th>".$airline->name."</th></tr>";
+        echo "<tr><td>no aircrafts found for airline " . $airline->name . "</td></tr>";
       }
     } else {
 
+      /* if the is no airline set, write fixed text */
       if (strlen($airline->name) != 0)
-        echo "<h4>".$airline->name."</h4>";
+        echo "<tr><th colspan=\"9\">".$airline->name."</th></tr>";
       else
-        echo "<h4>No Airline</h4>";
+        echo "<tr><th colspan=\"9\">No Airline</th></tr>";
 
-      echo "<table>";
-      echo "<tr><th>ICAO</th><th>Name</th><th>Full Name</th><th>Registration</th><th>Last Flight</th><th>Location</th><th>Total Flights</th><th>Total Hours</th><th>Total Miles</th></tr>";
+      //echo "<table>";
+      //echo "<tr><th>ICAO</th><th>Name</th><th>Full Name</th><th>Registration</th><th>Last Flight</th><th>Location</th><th>Total Flights</th><th>Total Hours</th><th>Total Miles</th></tr>";
 
       foreach ($airline_aircrafts as $aircraft) {
 
@@ -87,9 +93,12 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
         echo "<td>".round(vFleetTrackData::countHours($aircraft->id))."</td>";
         echo "<td>".round(vFleetTrackData::countMiles($aircraft->id))."</td></tr>";
       }
-      echo "</table>";
+      //echo "</table>";
     }
   }
+
+  echo "</tbody>";
+  echo "</table>";
 
  ?>
 

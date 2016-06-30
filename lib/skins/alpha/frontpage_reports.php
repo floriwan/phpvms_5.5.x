@@ -16,6 +16,7 @@
       <td><a href="<?php echo url('/profile/view/'.$report->pilotid);?>"><?php echo $report->firstname . ' ' . $report->lastname?></a></td>
     </tr>
 
-
-  <?php echo "</table>";
-  } ?>
+  <?php
+  }
+  echo "</table>";
+  ?>
