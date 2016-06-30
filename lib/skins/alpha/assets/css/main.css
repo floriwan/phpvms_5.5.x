@@ -2100,16 +2100,16 @@ dd {
 
 	input[type="checkbox"],
 	input[type="radio"] {
-		-moz-appearance: none;
-		-webkit-appearance: none;
-		-ms-appearance: none;
-		appearance: none;
-		display: block;
-		float: left;
-		margin-right: -2em;
-		opacity: 0;
-		width: 1em;
-		z-index: -1;
+//		-moz-appearance: none;
+//		-webkit-appearance: none;
+//		-ms-appearance: none;
+//		appearance: none;
+//		display: block;
+//		float: left;
+//		margin-right: -2em;
+//		opacity: 0;
+//		width: 1em;
+//		z-index: -1;
 	}
 
 		input[type="checkbox"] + label,
@@ -2623,7 +2623,6 @@ dd {
 
 		table thead {
 			border-bottom: solid 2px #e5e5e5;
-      font-weight: 400;
 		}
 
 		table tfoot {

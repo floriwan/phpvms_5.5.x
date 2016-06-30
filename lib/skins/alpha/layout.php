@@ -162,7 +162,7 @@
     <section id="cta">
       <h2>start flying with <?php echo SITE_NAME; ?></h2>
       <ul class="actions">
-        <li><a href="<?php echo url('/registration'); ?>" class="button">APPLY NOW &nbsp;<i class="icon fa-sign-in"></i></a></li>
+        <li><a href="<?php echo url('/ruleregs'); ?>" class="button">APPLY NOW &nbsp;<i class="icon fa-sign-in"></i></a></li>
       </ul>
 
     </section>

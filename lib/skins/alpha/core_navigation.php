@@ -13,7 +13,7 @@ if(!Auth::LoggedIn())
     <li><a href="<?php echo url('/login'); ?>">Login</a></li>
   <?php } ?>
 
-	<li><a href="<?php echo url('/registration'); ?>">Register</a></li>
+	<li><a href="<?php echo url('/ruleregs'); ?>">Register</a></li>
 <?php
 }
 else
@@ -32,6 +32,7 @@ else
       <li><a href="<?php echo url('/vFleetTracker');?>">Our Fleet</a></li>
       <li><a href="<?php echo url('/Pilots/getAllPilots');?>">Our Pilots</a></li>
       <li><a href="<?php echo url('/Ranks');?>">Pilot Ratings</a></li>
+      <li><a href="<?php echo url('/ruleregs');?>">Rules & Regulations</a></li>
     </ul>
   </li>
 <?php
