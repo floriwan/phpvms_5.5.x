@@ -58,9 +58,11 @@ if(Auth::LoggedIn())
             <p align="center">If you agree with our Rules and Regulations, you may continue to fill out the Application by clicking below.</p>
             <p><form name="theForm" action="<?php echo SITE_URL ?>/index.php/Registration" method="post">
             <p align="center">
-<input type="checkbox" name="theCheck" onClick="theChecker()" value="">I agree to the terms of use.<br />
-<input type="submit" name="theButton" value="Continue">
-</p></form></p>
+
+              <input type="checkbox" id="human" name="theCheck" onClick="theChecker()" value=""><label for="human">I agree to the terms of use.</label><br />
+              <input type="submit" name="theButton" value="Continue">
+
+            </p></form></p>
        <?php } ?>
        </div>
 </div>
