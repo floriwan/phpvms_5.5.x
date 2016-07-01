@@ -12,7 +12,13 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
 // Version 1.0 (September 7.12) - Module Created
 **/
 ?>
-<h3><?php echo SITE_NAME?>'s Fleet Tracker</h3>
+
+
+
+<center>
+  <img width="100%" src="<?php echo SITE_URL?>/lib/images/fleet.jpg" alt="FlyCaribbean Fleet">
+  <h3><?php echo SITE_NAME?>'s Fleet Tracker</h3>
+</center>
 
 <?php
 	if(!$allaircrafts)

@@ -110,7 +110,7 @@ if($location)
 
 <script type="text/javascript">
 var options = {
-	zoom: 5,
+	zoom: 10,
 	mapTypeId: google.maps.MapTypeId.ROADMAP
 }
 
@@ -123,6 +123,7 @@ flightMarkers[flightMarkers.length] = new google.maps.Marker({
 		title: "<?php echo "$airport->name ($airport->icao)";?>"
 	});
 
+/*
 if(flightMarkers.length > 0)
 {
 	var bounds = new google.maps.LatLngBounds();
@@ -131,7 +132,11 @@ if(flightMarkers.length > 0)
 	}
 }
 
-map.fitBounds(bounds);
+map.fitBounds(bounds);*/
+
+map.setCenter(new google.maps.LatLng(<?php echo $airport->lat?>, <?php echo $airport->lng?>));
+map.setZoom(14);
+
 </script>
 <?php
 }
