@@ -31,20 +31,6 @@
 
   <!--<link rel="icon" href="<?php echo SITE_URL?>/lib/skins/alpha/images/flycaribbean_icon.ico" type="image/x-icon"/>-->
 
-  <script>
-    $(window).scroll(function() {
-      $('#img_slide_up').each(function(){
-          var imagePos = $(this).offset().top;
-
-          var topOfWindow = $(window).scrollTop();
-              if (imagePos < topOfWindow+700) {
-                  $(this).addClass("fadeIn");
-              }
-      });
-    });
-
-  </script>
-
 </head>
 
 <body class="landing">
@@ -56,7 +42,12 @@
     <!-- header -->
 
     <header id="header" class="alt">
-      <h1><a href="<?php echo url('/'); ?>"><i class="icon fa-home"></i> <?php echo SITE_NAME; ?></a></h1>
+      <?php if(Auth::LoggedIn() == false) { ?>
+        <h1><a href="<?php echo url('/'); ?>"><i class="icon fa-home"></i> <?php echo SITE_NAME; ?></a></h1>
+      <?php } else { ?>
+        <h1><a href="<?php echo url('/'); ?>"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_logo_small.png" alt="flycaribbean logo" /></a></h1>
+      <?php } ?>
+
       <!-- <h1><a href="<?php echo url('/'); ?>"><img src="<?php echo SITE_URL?>/lib/skins/alpha/images/flycaribbean_icon.png"> FlyCaribbean</a></h1> -->
       <nav id="nav">
         <ul>
@@ -66,13 +57,14 @@
     </header>
 
     <!-- banner -->
-    <div id="fade_in_test">
+
     <section id="banner">
-      <!--<h2 style="font-family: 'Courgette', cursive;"><?php echo SITE_NAME; ?></h2>-->
-      <img src="<?php echo SITE_URL?>/lib/images/flycaribbean.png" alt="flycaribbean logo" />
-      <p>Caribbeans finest airline</p>
+      <?php if(Auth::LoggedIn() == false) { ?>
+        <img src="<?php echo SITE_URL?>/lib/images/flycaribbean.png" alt="flycaribbean logo" />
+        <p>Caribbeans finest airline</p>
+      <?php } ?>
     </section>
-    </div>
+
 
     <!-- main -->
     <section id="main" class="container">
@@ -87,7 +79,6 @@
         $result = preg_match($regex, $server_url);
 
         if ($result != 0) { ?>
-          <div id="fade_in_test">
           <section class="box special">
             <header class="major">
               <h2>Introducing the caribbean airline</h2>
@@ -96,9 +87,8 @@
                 <p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc ornare<br />
                   adipiscing nunc adipiscing. Condimentum turpis massa.</p>
             </header>
-            <span class="image featured"><div id="img_slide_up" class="img_slide_up"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_plane.jpg" alt="" /></div></span>
+            <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_plane.jpg" alt="" /></span>
           </section>
-          </div>
 
           <section class="box special">
             <header class="major">

@@ -20,13 +20,21 @@ else
 {
 	// Show these items only if they are logged in
 ?>
+
+<?php
+if(Auth::LoggedIn())
+{
+	echo '<li><a href="'.fileurl('/admin').'">Admin Center</a></li>';
+}
+?>
+
 	<li><a href="<?php echo url('/profile'); ?>">Pilot Center</a></li>
 
 <?php
 }
 ?>
 
-  <li><a href="#" class="icon fa-angle-down">Company</a>
+  <li><a href="#" class="icon fa-desktop">Company <i class="icon fa-angle-down"></i></a>
     <ul>
       <li><a href="<?php echo url('/vStaff');?>">Our Staff</a></li>
       <li><a href="<?php echo url('/vFleetTracker');?>">Our Fleet</a></li>
@@ -39,7 +47,7 @@ else
 if(Auth::LoggedIn())
 { ?>
 
-	<li><a href="#" class="icon fa-angle-down">Flight Operations</a>
+	<li><a href="#" class="icon fa-plane">Flight Operations <i class="icon fa-angle-down"></i></a>
 	<ul>
 		<li><a href="<?php echo url('/pireps/mine');?>">View my PIREPs</a></li>
 		<li><a href="<?php echo url('/pireps/routesmap');?>">View a map of all my flights</a></li>
@@ -50,7 +58,7 @@ if(Auth::LoggedIn())
 	</ul>
   </li>
 
-<li><a href="#" class="icon fa-angle-down">Profile</a>
+<li><a href="#" class="icon fa-user">Profile <i class="icon fa-angle-down"></i></a>
 <ul>
 	<li><a href="<?php echo url('/profile/editprofile'); ?>">Edit My Profile</a></li>
 	<li><a href="<?php echo url('/profile/changepassword'); ?>">Change my Password</a></li>
@@ -64,18 +72,14 @@ if(Auth::LoggedIn())
 }
 ?>
 
+<li><a href="#" class="icon fa-group">Community <i class="icon fa-angle-down"></i></a>
+  <ul>
+    <li><a href="<?php echo url('/acars') ?>">Live Map</a></li>
+    <li><a href="http://flycaribbeanva.com/smf">Forum</a></li>
+  </ul>
+</li>
 
-
-<li><a href="<?php echo url('/acars') ?>">Live Map</a></li>
 <?php echo $MODULE_NAV_INC;?>
-
-<?php
-if(Auth::LoggedIn())
-{
-	echo '<li><a href="'.fileurl('/admin').'">Admin Center</a></li>';
-}
-
-?>
 
 <!-- show log in or log out button -->
 <?php if(Auth::LoggedIn() == false && !$mobile_dev)
