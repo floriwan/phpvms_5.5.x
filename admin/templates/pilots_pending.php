@@ -29,10 +29,10 @@ foreach($allpilots as $pilot)
 	<td align="center" width="1%" nowrap>
         <button href="<?php echo SITE_URL?>/admin/action.php/pilotadmin/pendingpilots" action="approvepilot"
 			id="<?php echo $pilot->pilotid;?>" class="ajaxcall {button:{icons:{primary:'ui-icon-circle-check'}}}">Accept</button>
-				
+
         <button href="<?php echo SITE_URL?>/admin/action.php/pilotadmin/pendingpilots" action="rejectpilot"
 			id="<?php echo $pilot->pilotid;?>" class="ajaxcall {button:{icons:{primary:'ui-icon-circle-close'}}}">Reject</button>
-   
+
         <?php
         if(Config::Get('PILOT_AUTO_CONFIRM') == false) {
             ?>

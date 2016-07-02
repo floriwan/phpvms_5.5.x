@@ -57,7 +57,7 @@ $tplname = Config::Get('ADMIN_SKIN');
 if($tplname == '') {
     $tplname = 'layout';
 }
-    
+
 $settings_file = SITE_ROOT.'admin'.DS.'lib'.DS.$tplname.DS.$tplname.'.php';
 if(file_exists($settings_file)) {
 	include $settings_file;

@@ -22,7 +22,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::HTMLHead()
-     * 
+     *
      * @return
      */
     public function HTMLHead() {
@@ -43,7 +43,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::index()
-     * 
+     *
      * @return
      */
     public function index() {
@@ -53,15 +53,15 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::viewpilots()
-     * 
+     *
      * @return
      */
     public function viewpilots() {
         /* This function is called for *ANYTHING* in that popup box
-        
+
         Preset all of the template items in this function and
         call them in the subsequent templates
-        
+
         Confusing at first, but easier than loading each tab
         independently via AJAX. Though may be an option later
         on, but can certainly be done by a plugin (Add another
@@ -92,8 +92,8 @@ class PilotAdmin extends CodonModule {
                 $this->render('core_success.php');
 
 
-                LogData::addLog(Auth::$userinfo->pilotid, 'Deleted pilot ' . 
-                        PilotData::getPilotCode($pilotinfo->code, $pilotinfo->pilotid) 
+                LogData::addLog(Auth::$userinfo->pilotid, 'Deleted pilot ' .
+                        PilotData::getPilotCode($pilotinfo->code, $pilotinfo->pilotid)
                         .' '.$pilotinfo->firstname.' '.$pilotinfo->lastname
                 );
 
@@ -131,19 +131,19 @@ class PilotAdmin extends CodonModule {
                 }
 
                 $params = array(
-                    'code' => $this->post->code, 
-                    'firstname' => $this->post->firstname, 
-                    'lastname' => $this->post->lastname, 
-                    'email' => $this->post->email, 
-                    'location' => $this->post->location, 
-                    'hub' => $this->post->hub, 
-                    'retired' => $this->post->retired, 
-                    'totalhours' => $this->post->totalhours, 
-                    'totalflights' => $this->post->totalflights, 
-                    'totalpay' => floatval($this->post->totalpay), 
-                    'payadjust' => floatval($this->post->payadjust), 
-                    'transferhours' => $this->post->transferhours, 
-                    'comment' => $this->post->comment, 
+                    'code' => $this->post->code,
+                    'firstname' => $this->post->firstname,
+                    'lastname' => $this->post->lastname,
+                    'email' => $this->post->email,
+                    'location' => $this->post->location,
+                    'hub' => $this->post->hub,
+                    'retired' => $this->post->retired,
+                    'totalhours' => $this->post->totalhours,
+                    'totalflights' => $this->post->totalflights,
+                    'totalpay' => floatval($this->post->totalpay),
+                    'payadjust' => floatval($this->post->payadjust),
+                    'transferhours' => $this->post->transferhours,
+                    'comment' => $this->post->comment,
                 );
 
                 PilotData::updateProfile($this->post->pilotid, $params);
@@ -160,15 +160,15 @@ class PilotAdmin extends CodonModule {
 
                 $this->set('message', 'Profile updated successfully');
                 $this->render('core_success.php');
-                
+
                 if($this->post->resend_email == 'true') {
                     $this->post->id = $this->post->pilotid;
                     $this->resendemail(false);
                 }
 
                 $pilot = PilotData::getPilotData($this->post->pilotid);
-                LogData::addLog(Auth::$userinfo->pilotid, 'Updated profile for ' 
-                                .PilotData::getPilotCode($pilot->code, $pilot->pilotid) 
+                LogData::addLog(Auth::$userinfo->pilotid, 'Updated profile for '
+                                .PilotData::getPilotCode($pilot->code, $pilot->pilotid)
                                 .' '.$pilot->firstname.' '.$pilot->lastname);
 
                 return;
@@ -185,19 +185,19 @@ class PilotAdmin extends CodonModule {
 
     public function pilotgrouptab($pilotid) {
         $this->setGroupsData($pilotid);
-        Template::Show('pilots_groups.php'); 
+        Template::Show('pilots_groups.php');
         Template::Show('pilots_addtogroup.php');
     }
 
 
     /**
      * PilotAdmin::pendingpilots()
-     * 
+     *
      * @return
      */
     public function pendingpilots() {
         $this->checkPermission(MODERATE_REGISTRATIONS);
-        
+
         if (isset($this->post->action)) {
             switch ($this->post->action) {
                 case 'approvepilot':
@@ -216,41 +216,41 @@ class PilotAdmin extends CodonModule {
         $this->set('allpilots', PilotData::getPendingPilots());
         $this->render('pilots_pending.php');
     }
-    
+
     /**
      * PilotAdmin::resendemail()
-     * 
+     *
      * @return
      */
     public function resendemail($show_pending = true) {
         $this->checkPermission(MODERATE_REGISTRATIONS);
         $this->checkPermission(EMAIL_PILOTS);
-                
+
         $pilot = PilotData::getPilotData($this->post->id);
 
         # Send pilot notification
         $subject = Lang::gs('email.register.accepted.subject');
-        
+
         $this->set('pilot', $pilot);
-        
+
         $oldPath = Template::setTemplatePath(TEMPLATES_PATH);
         $oldSkinPath = Template::setSkinPath(ACTIVE_SKIN_PATH);
-        
+
         $message = Template::getTemplate('email_registrationaccepted.php', true, true, true);
-        
+
         Template::setTemplatePath($oldPath);
         Template::setSkinPath($oldSkinPath);
 
         Util::sendEmail($pilot->email, $subject, $message);
-                
+
         $this->set('message', 'Activation email has been re-sent to '.$pilot->firstname.' '.$pilot->lastname);
         $this->render('core_success.php');
-            
+
         LogData::addLog(
-            Auth::$userinfo->pilotid, 
+            Auth::$userinfo->pilotid,
             'Activation email re-sent '.PilotData::getPilotCode($pilot->code, $pilot->pilotid).' - '.$pilot->firstname.' '.$pilot->lastname
         );
-        
+
         if($show_pending === true) {
             $this->set('allpilots', PilotData::getPendingPilots());
             $this->render('pilots_pending.php');
@@ -259,7 +259,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::viewbids()
-     * 
+     *
      * @return
      */
     public function viewbids() {
@@ -284,7 +284,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::pilotgroups()
-     * 
+     *
      * @return
      */
     public function pilotgroups() {
@@ -302,7 +302,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::addgroup()
-     * 
+     *
      * @return
      */
     public function addgroup() {
@@ -315,7 +315,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::editgroup()
-     * 
+     *
      * @return
      */
     public function editgroup() {
@@ -335,7 +335,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::pilotawards()
-     * 
+     *
      * @return
      */
     public function pilotawards() {
@@ -353,7 +353,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::ShowPilotsList()
-     * 
+     *
      * @return
      */
     protected function ShowPilotsList() {
@@ -362,11 +362,11 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::getpilotsjson()
-     * 
+     *
      * @return
      */
     public function getpilotsjson() {
-        
+
         $page = $this->get->page; // get the requested page
         $limit = $this->get->rows; // get how many rows we want to have into the grid
         $sidx = $this->get->sidx; // get index row - i.e. user click to sort
@@ -415,36 +415,36 @@ class PilotAdmin extends CodonModule {
         $json = array('page' => $page, 'total' => $total_pages, 'records' => $count, 'rows' => array());
 
         $statuses = Config::get('PILOT_STATUS_TYPES');
-        
+
         # Add each row to the above array
         foreach ($allpilots as $row) {
-            
+
             $pilotid = PilotData::getPilotCode($row->code, $row->pilotid);
-            
+
             foreach($statuses as $id => $details) {
                 if($row->retired == $id) {
                     $status = $details['name'];
                     break;
                 }
             }
-            
+
             $location = '<img src="' . Countries::getCountryImage($row->location) . '" alt="' . $row->location . '" />';
             $edit = '<a href="' . adminurl('/pilotadmin/viewpilots?action=viewoptions&pilotid=' . $row->pilotid) . '">Edit</a>';
 
             $tmp = array(
-                'id' => $row->id, 
+                'id' => $row->id,
                 'cell' => array( # Each column, in order
-                    $row->id, 
-                    $pilotid, 
-                    $row->firstname, 
-                    $row->lastname, 
-                    $row->email, 
-                    $location, 
-                    $status, 
-                    $row->rank, 
-                    $row->totalflights, 
-                    $row->totalhours, 
-                    $row->lastip, 
+                    $row->id,
+                    $pilotid,
+                    $row->firstname,
+                    $row->lastname,
+                    $row->email,
+                    $location,
+                    $status,
+                    $row->rank,
+                    $row->totalflights,
+                    $row->totalhours,
+                    $row->lastip,
                     $edit
                 )
             );
@@ -458,12 +458,12 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::ViewPilotDetails()
-     * 
+     *
      * @return
      */
     protected function ViewPilotDetails() {
         //This is for the main tab
-        
+
         if(
         PilotGroups::group_has_perm(Auth::$usergroups, EDIT_PILOTS) ||
         PilotGroups::group_has_perm(Auth::$usergroups, EDIT_GROUPS) ||
@@ -491,12 +491,12 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::SetGroupsData()
-     * 
+     *
      * @param mixed $pilotid
      * @return
      */
     protected function SetGroupsData($pilotid) {
-        
+
         # This is for the groups tab
         $freegroups = array();
 
@@ -514,7 +514,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::AddGroupPost()
-     * 
+     *
      * @return
      */
     protected function AddGroupPost() {
@@ -544,7 +544,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::SaveGroup()
-     * 
+     *
      * @return
      */
     protected function SaveGroup() {
@@ -569,7 +569,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::AddPilotToGroup()
-     * 
+     *
      * @return
      */
     protected function AddPilotToGroup() {
@@ -591,7 +591,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::RemovePilotGroup()
-     * 
+     *
      * @return
      */
     protected function RemovePilotGroup() {
@@ -610,7 +610,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::ShowGroups()
-     * 
+     *
      * @return
      */
     protected function ShowGroups() {
@@ -620,13 +620,16 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::ApprovePilot()
-     * 
+     *
      * @return
      */
     protected function ApprovePilot() {
         $this->checkPermission(MODERATE_REGISTRATIONS);
-        
-        PilotData::AcceptPilot($this->post->id);
+
+        $ret = PilotData::AcceptPilot($this->post->id);
+        if ($ret == false) {
+          echo "<p>pilot not created, no email send ...</p>";
+        }
         RanksData::CalculatePilotRanks();
 
         $pilot = PilotData::getPilotData($this->post->id);
@@ -634,12 +637,12 @@ class PilotAdmin extends CodonModule {
         # Send pilot notification
         $subject = Lang::gs('email.register.accepted.subject');
         $this->set('pilot', $pilot);
-        
+
         $oldPath = Template::setTemplatePath(TEMPLATES_PATH);
         $oldSkinPath = Template::setSkinPath(ACTIVE_SKIN_PATH);
-        
+
         $message = Template::getTemplate('email_registrationaccepted.php', true, true, true);
-        
+
         Template::setTemplatePath($oldPath);
         Template::setSkinPath($oldSkinPath);
 
@@ -652,7 +655,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::RejectPilot()
-     * 
+     *
      * @return
      */
     protected function RejectPilot() {
@@ -664,15 +667,15 @@ class PilotAdmin extends CodonModule {
         $subject = Lang::gs('email.register.rejected.subject');
 
         $this->set('pilot', $pilot);
-        
+
         $oldPath = Template::setTemplatePath(TEMPLATES_PATH);
         $oldSkinPath = Template::setSkinPath(ACTIVE_SKIN_PATH);
-        
+
         $message = Template::Get('email_registrationdenied.php', true, true, true);
-        
+
         Template::setTemplatePath($oldPath);
         Template::setSkinPath($oldSkinPath);
-        
+
         Util::SendEmail($pilot->email, $subject, $message);
 
         # Reject in the end, since it's delted
@@ -681,14 +684,14 @@ class PilotAdmin extends CodonModule {
         CodonEvent::Dispatch('pilot_rejected', 'PilotAdmin', $pilot);
 
         LogData::addLog(
-            Auth::$userinfo->pilotid, 
+            Auth::$userinfo->pilotid,
             'Approved '.PilotData::getPilotCode($pilot->code, $pilot->pilotid).' - '.$pilot->firstname.' '.$pilot->lastname
         );
     }
 
     /**
      * PilotAdmin::ChangePassword()
-     * 
+     *
      * @return
      */
     protected function ChangePassword() {
@@ -721,14 +724,14 @@ class PilotAdmin extends CodonModule {
 
         $pilot = PilotData::getPilotData($this->post->pilotid);
         LogData::addLog(
-            Auth::$userinfo->pilotid, 
+            Auth::$userinfo->pilotid,
             'Changed the password for '.PilotData::getPilotCode($pilot->code, $pilot->pilotid).' - '.$pilot->firstname.' '.$pilot->lastname
         );
     }
 
     /**
      * PilotAdmin::AddAward()
-     * 
+     *
      * @return
      */
     protected function AddAward() {
@@ -752,7 +755,7 @@ class PilotAdmin extends CodonModule {
 
     /**
      * PilotAdmin::DeleteAward()
-     * 
+     *
      * @return
      */
     protected function DeleteAward() {

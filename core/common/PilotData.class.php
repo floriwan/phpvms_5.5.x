@@ -466,10 +466,105 @@ class PilotData extends CodonData {
         imagedestroy($img);
     }
 
+   /**
+    * add an new pilot into the smf forum database
+    */
+    public static function addToSMF($pilotid) {
+
+        $pilotdata = self::getPilotData($pilotid);
+        $pilotcode = self::getPilotCode($pilotdata->code, $pilotdata->pilotid);
+
+        //$id = PilotData::getPilotByEmail($eventinfo[2]['email']);
+        //$pid = PilotData::getPilotCode($eventinfo[2]['code'], $id->pilotid);
+        //$username = $eventinfo[2]['firstname'].' '.$eventinfo[2]['lastname'].' '.$pid;
+
+        //$password = sha1(strtolower($username . $eventinfo[2]['password1']));
+        //$salt = substr(md5(mt_rand()), 0, 4);
+        //$time = time();
+/*
+        if (strlen($pilotdata->firstname) < 2) {
+          echo "<p> users firstname " . $pilotdata->firstname . " is not a real name";
+          return -1;
+        }
+
+          if (strlen($pilotdata->lastname) < 2) {
+            echo "<p> users lastname " . $pilotdata->lastname . " is not a real name";
+            return -1;
+          }
+*/
+
+        $username = $pilotcode;
+        $realname = $pilotdata->firstname . ' ' . substr($pilotdata->lastname, 0, 1) . '.';
+        //$username = $pilotdata->firstname.' '.$pilotcode;
+        $password = sha1(strtolower(($username . $pilotcode)));
+        $salt = substr(md5(mt_rand()), 0, 4);
+        $time = time();
+        $email = $pilotdata->email;
+
+            $query = "INSERT INTO smf_members (
+                            member_name,
+                            email_address,
+                            passwd,
+                            password_salt,
+                            posts,
+                            date_registered,
+                            real_name,
+                            pm_email_notify,
+                            id_theme,
+                            id_post_group
+                            )
+                    VALUES (
+                        '$username',
+                        '$email',
+                        '$password',
+                        '$salt',
+                        '0',
+                        '$time',
+                        '$realname',
+                        '1',
+                        '0',
+                        '4'
+                        )";
+
+            echo "<p>create user " . $username . " in smf database</p>";
+
+            DB::query($query);
+
+            $query2 = "SELECT * FROM smf_members WHERE member_name = '$username'";
+
+            $member = DB::get_row($query2);
+
+            $query3 = "UPDATE smf_settings
+                        SET value = (value + 1)
+                        WHERE variable = 'totalMembers'
+                        LIMIT 1";
+
+            DB::query($query3);
+
+            $query4 = "REPLACE INTO smf_settings (variable, value)
+                            VALUES ('latestMember', '$member->id_member')";
+
+            DB::query($query4);
+
+            $query5 = "REPLACE INTO smf_settings (variable, value)
+                            VALUES ('latestRealName', '$member->member_name')";
+
+            DB::query($query5);
+
+            return 0;
+
+    }
     /**
      * Accept the pilot (allow them into the system)
      */
     public static function acceptPilot($pilotid) {
+
+        // add this pilot into the smf forum
+        if (self::addToSMF($pilotid) != 0) {
+          echo "<p> can not create new user in smf forum database, user rejected</p>";
+          return false;
+        }
+
         return self::updateProfile($pilotid, array(
             'confirmed' => PILOT_ACCEPTED,
             'retired' => 0
