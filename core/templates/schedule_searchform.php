@@ -16,10 +16,23 @@
 		<select id="depicao" name="depicao">
 		<option value="">Select All</option>
 		<?php
+
+    $pilotid = PilotData::getProperPilotID($pilotcode);
+    $reports = PIREPDATA::getLastReports($pilotid, 1);
+
+    echo "<p>last airport :" . $reports->arricao . "</p>";
 		if(!$depairports) $depairports = array();
 
 		foreach($depairports as $airport) {
-			echo '<option value="'.$airport->icao.'">'.$airport->icao
+
+      $select = "";
+      if ($reports->arricao == $airport->icao) {
+        $select = "selected";
+      } else {
+        $select = "";
+      }
+
+			echo '<option '.$select.' value="'.$airport->icao.'">'.$airport->icao
 					.' ('.$airport->name.')</option>';
 		}
 		?>

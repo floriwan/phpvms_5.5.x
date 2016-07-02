@@ -17,10 +17,10 @@
  */
 
 class Schedules extends CodonModule {
-    
+
     /**
      * Schedules::index()
-     * 
+     *
      * @return
      */
     public function index() {
@@ -29,7 +29,7 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::view()
-     * 
+     *
      * @return
      */
     public function view() {
@@ -43,7 +43,7 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::detail()
-     * 
+     *
      * @param string $routeid
      * @return
      */
@@ -53,7 +53,7 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::details()
-     * 
+     *
      * @param string $routeid
      * @return
      */
@@ -78,7 +78,7 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::brief()
-     * 
+     *
      * @param string $routeid
      * @return
      */
@@ -96,7 +96,7 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::boardingpass()
-     * 
+     *
      * @param mixed $routeid
      * @return
      */
@@ -115,7 +115,7 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::bids()
-     * 
+     *
      * @return
      */
     public function bids() {
@@ -128,7 +128,7 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::addbid()
-     * 
+     *
      * @return
      */
     public function addbid() {
@@ -176,7 +176,7 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::removebid()
-     * 
+     *
      * @return
      */
     public function removebid() {
@@ -188,35 +188,35 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::showSchedules()
-     * 
+     *
      * @return
      */
     public function showSchedules() {
-        
+
         $depapts = OperationsData::GetAllAirports();
         $equip = OperationsData::GetAllAircraftSearchList(true);
         $airlines = OperationsData::GetAllAirlines();
-        
+
         $this->set('airlines', $airlines); #deprecated
         $this->set('airline_list', $airlines);
-        
+
         $this->set('depairports', $depapts);
-        
+
         $this->set('equipment', $equip); # deprecated
         $this->set('aircraft_list', $equip);
-        
+
         $this->render('schedule_searchform.tpl');
 
         # Show the routes. Remote this to not show them.
-        
+
         $schedules = SchedulesData::getSchedules();
-        
-        # Do some filtering and whatnots, take it out of the template...      
+
+        # Do some filtering and whatnots, take it out of the template...
         $today = getdate();
         $week_number = intval(($today['mday'] - 1) / 7) + 1;
         $current_day == date('w');
         $var_name = 'week'.$week_number;
-        
+
         # query once, save for later
         if(Config::get('SCHEDULES_ONLY_LAST_PIREP') === true && Auth::LoggedIn() == true) {
    	    	$pirep_list = PIREPData::findPIREPS(array(
@@ -224,12 +224,12 @@ class Schedules extends CodonModule {
     			'p.accepted' => PIREP_ACCEPTED
     		  ), 1); // return only one
         }
-        
+
         foreach($schedules as $key => $s) {
-            
+
             # should we skip schedules based on day of week?
             if(Config::get('CHECK_SCHEDULE_DAY_OF_WEEK') === true) {
-                
+
                 if(isset($s->{$var_name}) && !empty($s->{$var_name})) {
                     # check if today is in the active list for this week
                     if(@substr_count($s->{$var_name}, $current_day) == 0) {
@@ -243,14 +243,14 @@ class Schedules extends CodonModule {
                     }
                 }
             }
-            
+
             # remove this schedule from the list if there's a bid on it
         	if(Config::get('DISABLE_SCHED_ON_BID') === true && $route->bidid != 0) {
         		unset($schedules[$key]);
                 continue;
         	}
-            
-            
+
+
             /*	This means the aircraft rank level is higher than
         		what the pilot's ranklevel, so just do "continue"
        			and move onto the next route in the list  */
@@ -260,7 +260,7 @@ class Schedules extends CodonModule {
                     continue;
         		}
         	}
-            
+
             if(Config::get('SCHEDULES_ONLY_LAST_PIREP') === true && Auth::LoggedIn() == true) {
         		if(count($pirep_list) > 0) {
         			# IF the arrival airport doesn't match the departure airport
@@ -270,9 +270,9 @@ class Schedules extends CodonModule {
         			}
         		}
             }
-            
+
         } // end foreach schedules
-        
+
         $this->set('allroutes', $schedules);
         $this->set('schedule_list', $schedules);
         $this->render('schedule_list.tpl');
@@ -280,12 +280,12 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::findFlight()
-     * 
+     *
      * @return
      */
     public function findFlight() {
-        
-        
+
+
         $params = array();
         if($this->post->airlines != '') {
             $params['s.code'] = $this->post->airlines;
@@ -315,29 +315,29 @@ class Schedules extends CodonModule {
         }
 
         $params['s.enabled'] = 1;
-        
+
         $schedule_list = SchedulesData::findSchedules($params);
         $this->set('allroutes', $schedule_list); #deprecated
         $this->set('schedule_list', $schedule_list);
-        
+
         $this->render('schedule_results.tpl');
     }
 
     /**
      * Schedules::statsdaysdata()
-     * 
+     *
      * @param mixed $routeid
      * @return
      */
     public function statsdaysdata($routeid) {
-        
+
         $schedule = SchedulesData::findSchedules(array('s.id' => $routeid));
         $schedule = $schedule[0];
 
         // Last 30 days stats
         $data = PIREPData::getIntervalDataByDays(array(
             'p.code' => $schedule->code,
-            'p.flightnum' => $schedule->flightnum, 
+            'p.flightnum' => $schedule->flightnum,
             ), 30);
 
         $this->create_line_graph('Schedule Flown Counts', $data);
@@ -345,13 +345,13 @@ class Schedules extends CodonModule {
 
     /**
      * Schedules::create_line_graph()
-     * 
+     *
      * @param mixed $title
      * @param mixed $data
      * @return
      */
     protected function create_line_graph($title, $data) {
-        
+
         if (!$data) {
             $data = array();
         }

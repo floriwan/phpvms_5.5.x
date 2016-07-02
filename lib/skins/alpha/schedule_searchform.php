@@ -2,25 +2,21 @@
 <form id="form" action="<?php echo actionurl('/schedules/view');?>" method="post">
 
   <?php
+
+  $lastarrivalicao = "";
+
+  /* search for the last arrival airport for this pilot */
   if(Auth::LoggedIn())
   {
-    $search = array(
-      'p.pilotid' => Auth::$userinfo->pilotid,
-      'p.accepted' => PIREP_ACCEPTED
-    );
+    $reports = PIREPData::getLastReports(Auth::$userinfo->pilotid, 1);
 
-    $reports = PIREPData::findPIREPS($search, 1); // return only one
-
-    if(is_object($reports))
-    {
-      # IF the arrival airport doesn't match the departure airport
-      echo "<p>last arrival : ".$reports->arricao."</p>";
-      if($reports->arricao != $route->depicao)
-      {
-        continue;
-      }
+    if ($reports) {
+      $arrairport = OperationsData::getAirportInfo($reports->arricao);
+      echo "<p>Your last arrival airport : <strong>" .$reports->arricao . "</strong> (" . $arrairport->name . ")</p>";
+      $lastarrivalicao = $reports->arricao;
+    } else {
+      echo "<p>No last airport found.</p>";
     }
-    echo "<p>last arrival : ".$reports->arricao."</p>";
   }
 
   ?>
@@ -39,42 +35,26 @@
 		<option value="">Select All</option>
 		<?php
 
-
-    if(Auth::LoggedIn())
-    {
-      $search = array(
-        'p.pilotid' => Auth::$userinfo->pilotid,
-        'p.accepted' => PIREP_ACCEPTED
-      );
-
-      $reports = PIREPData::findPIREPS($search, 1); // return only one
-
-      if(is_object($reports))
-      {
-        # IF the arrival airport doesn't match the departure airport
-        if($reports->arricao != $route->depicao)
-        {
-          continue;
-        }
-      }
-    }
-
 		if(!$depairports) $depairports = array();
 			foreach($depairports as $airport)
 			{
-        if ($airport->icao == $reports->arricao) {
-          echo '<option selected value="'.$airport->icao.'">'.$airport->icao
-  						.' ('.$airport->name.')</option>';
-        } else {
-				  echo '<option value="'.$airport->icao.'">'.$airport->icao
-						.' ('.$airport->name.')</option>';
-          }
+
+        $selected = "";
+        if ($lastarrivalicao === $airport->icao)
+          $selected = "selected";
+        else
+          $selected = "";
+
+        echo '<option '.$selected. ' value="'.$airport->icao.'">'.$airport->icao
+          .' ('.$airport->name.')</option>';
+
 			}
 		?>
 
 		</select>
 		<input type="submit" name="submit" value="Find Flights" />
 	</div>
+
 	<div id="arrapttab">
 		<p>Select your arrival airport:</p>
 		<select id="arricao" name="arricao">
