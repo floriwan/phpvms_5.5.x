@@ -2037,6 +2037,22 @@ dd {
 		width: 100%;
 	}
 
+  input#datepicker {
+    height: 2em;
+    width: 100%;
+  }
+
+  select#simbrief {
+    height: 2em;
+    width: 100%;
+  }
+
+  select#dephour, select#depmin {
+    width: 40%;
+    height: 2em;
+
+  }
+
 		input[type="text"]:invalid,
 		input[type="password"]:invalid,
 		input[type="email"]:invalid,

@@ -17,6 +17,8 @@
   <!--[if lte IE 8]><script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/ie/respond.min.js"></script><![endif]-->
   <script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/main.js"></script>
 
+  <!-- simbrief include -->
+  <script type="text/javascript" src="<?php echo fileurl('lib/js/simbrief.apiv1.js');?>"></script>
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
