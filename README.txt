@@ -1,3 +1,17 @@
+
+flycaribbeanva integration
+
+use the latest phpvms version and integrate every plugin and new feature we need for our airline.
+
++ simbrief integration
++ rules and regulations
++ add an airline to every plane
++ new html5 design
++ airline staff integration
++ create smf forum users for every new pilot
+
+---------------------------------------------------------------------------------
+
 Updated version of phpVMS maintained by David Clark/Simpilotgroup
 
 Current 5.5.2 release stable on php 5.5.12 environment.
