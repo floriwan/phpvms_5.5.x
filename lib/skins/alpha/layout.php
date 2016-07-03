@@ -83,19 +83,30 @@
         if ($result != 0) { ?>
           <section class="box special">
             <header class="major">
-              <h2>Introducing the caribbean airline</h2>
-              <p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc ornare<br />
-                adipiscing nunc adipiscing. Condimentum turpis massa.</p>
-                <p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc ornare<br />
-                  adipiscing nunc adipiscing. Condimentum turpis massa.</p>
+              <h2>Welcome to FlyCaribbean Virtual Alliance</h2>
+              <p>FlyCaribbean VA is a virtual airline for pilots flying in the Caribbean<br />
+                We offer free flights, charter flights and scheduled flights</p>
+                <p>We give the oppertunity to fly codeshared flights from a lot of airlines operating in the Caribbean<br/>
+				Flightlogging will be done by SmartCars.<br/>
+				This allowes you to fly online on IVAO and VATSIM, or offline.</p>
             </header>
             <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_plane.jpg" alt="" /></span>
           </section>
 
           <section class="box special">
             <header class="major">
-              <h2>Ipsum dolor</h2>
-              <p>Integer volutpat ante et accumsan co mmophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+              <h2>Codeshared Flights</h2>
+              <p>At this moment we offer codeshared flights from WinAir and InselAir.<br/> 
+			  In the future we will also offer flights from:<br/>
+			  - LIAT<br/>
+			  - Seaborne<br/>
+			  - Tiara Air<br/>
+			  - Cayman Airways<br/>
+			  - Surinam Airways<br/>
+			  - Caribbean Airlines<br/>
+			  - Caribair<br/>
+			  - Air Antilles Express<br/>
+			  - Air Caraïbes</p>
             </header>
           </section>
 
