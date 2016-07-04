@@ -85,31 +85,35 @@
             <header class="major">
               <h2>Welcome to FlyCaribbean Virtual Alliance</h2>
               <p>FlyCaribbean VA is a virtual airline for pilots flying in the Caribbean<br />
-                We offer free flights, charter flights and scheduled flights</p>
-                <p>We give the oppertunity to fly codeshared flights from a lot of airlines operating in the Caribbean<br/>
-				Flightlogging will be done by SmartCars.<br/>
-				This allowes you to fly online on IVAO and VATSIM, or offline.</p>
+                We offer free flights, charter flights and scheduled flights.<br />
+				        This allowes you to fly online on IVAO and VATSIM, or offline.</p>
             </header>
             <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_plane.jpg" alt="" /></span>
           </section>
 
-          <section class="box special">
-            <header class="major">
-              <h2>Codeshared Flights</h2>
-              <p>At this moment we offer codeshared flights from WinAir and InselAir.<br/>
-			  In the future we will also offer flights from:<br/>
-			  - LIAT<br/>
-			  - Seaborne<br/>
-			  - Tiara Air<br/>
-			  - Cayman Airways<br/>
-			  - Surinam Airways<br/>
-			  - Caribbean Airlines<br/>
-			  - Caribair<br/>
-			  - Air Antilles Express<br/>
-			  - Air Caraïbes</p>
-            </header>
-          </section>
+        <!-- some airline information -->
+        <br/><br/><br/>
+          <div class="row">
 
+            <div class="6u 12u(narrower)">
+              <section class="box special">
+                <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/code_share.jpg" alt="" /></span>
+								<h3>Codeshared Flights</h3>
+                <p>We give the oppertunity to fly codeshared flights from a lot of airlines operating in the Caribbean.
+                At this moment we offer codeshared flights from WinAir and InselAir. In the future we will also offer flights from more companies operating in the caribbean.</p>
+              </section>
+            </div>
+
+
+            <div class="6u 12u(narrower)">
+              <section class="box special">
+                <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/instruments.jpg" alt="" /></span>
+                <h3>ARCAS</h3>
+                <p>Our flights will be tracked with smartCARS, a flight tracking software made for FSX, P3D and X-Plane. This ACARS system is available for all our pilots.</p>
+              </section>
+            </div>
+
+          </div>
 
           <section class="box feature">
             <h2>Airline News</h2>

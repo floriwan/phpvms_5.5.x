@@ -11,6 +11,7 @@
 <thead>
 <tr>
 	<th>Pilot ID</th>
+  <th></th>
 	<th>Name</th>
 	<th>Rank</th>
 	<th>Flights</th>
@@ -41,9 +42,10 @@ foreach($allpilots as $pilot)
 			<?php echo PilotData::GetPilotCode($pilot->code, $pilot->pilotid)?></a>
 	</td>
 	<td>
-		<img src="<?php echo Countries::getCountryImage($pilot->location);?>"
+		&nbsp;<img src="<?php echo Countries::getCountryImage($pilot->location);?>"
 			alt="<?php echo Countries::getCountryName($pilot->location);?>" />
-
+  </td>
+  <td>
 		<?php echo $pilot->firstname.' '.$pilot->lastname?>
 	</td>
 	<td><img src="<?php echo $pilot->rankimage?>" alt="<?php echo $pilot->rank;?>" /></td>
