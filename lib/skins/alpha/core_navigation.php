@@ -24,11 +24,11 @@ else
 <?php
 if(Auth::LoggedIn())
 {
-	echo '<li><a href="'.fileurl('/admin').'">Admin Center</a></li>';
+	echo '<li><a class="icon fa-cog" href="'.fileurl('/admin').'">Admin Center</a></li>';
 }
 ?>
 
-	<li><a href="<?php echo url('/profile'); ?>">Pilot Center</a></li>
+	<li><a class="icon fa-shopping-bag" href="<?php echo url('/profile'); ?>">Pilot Center</a></li>
 
 <?php
 }
@@ -55,6 +55,7 @@ if(Auth::LoggedIn())
 		<li><a href="<?php echo url('/schedules/view');?>">View Flight Schedules</a></li>
 		<li><a href="<?php echo url('/schedules/bids');?>">View my flight bids</a></li>
 		<li><a href="<?php echo url('/finances');?>">View VA Finances</a></li>
+    <li><a href="<?php echo url('/howto');?>">smartCARS howto</a></li>
 	</ul>
   </li>
 

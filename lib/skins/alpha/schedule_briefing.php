@@ -133,6 +133,10 @@
     <td>Reserve Fuel: </td>
     <td><select  class="dispinput" name="resvrule"><option value="auto">AUTO</option><option value="0">0 MIN</option><option value="15">15 MIN</option><option value="30">30 MIN</option><option value="45" selected>45 MIN</option><option value="60">60 MIN</option><option value="75">75 MIN</option><option value="90">90 MIN</option></select></td>
 </tr>
+<tr>
+  <td>Flight Maps: </td>
+  <td><select name="maps"><option value="detail">Detailed</option><option value="simple">Simple</option><option value="none">None</option></select></td>
+</tr>
 </table>
 
 
@@ -149,7 +153,7 @@
 
 
 
-<table>
+<!--<table>
     <tr>
        <?php $planedata=(OperationsData::getAircraftByReg($schedule->registration)) ;?>
         <td><input type="hidden" name="type" size="5" type="text" placeholder="ZZZZ"  value="<?php echo $planedata->icao ;?>"></td>
@@ -176,19 +180,24 @@
          </tr>
     <tr>
 
-</table>
+</table>-->
 
 
 
 <br><br>
 
 
+<!-- hidden simbrief values -->
+<input type="hidden" name="orig" size="5" type="text" maxlength="4" value="<?php echo $schedule->depicao ; ?>">
+<input type="hidden" name="dest" size="5" type="text" maxlength="4" value="<?php echo $schedule->arricao ; ?>">
 
 <input type="hidden" name="airline" value="<?php echo $schedule->code?>">
 <br>
-
-
+<input type="hidden" name="type" size="5" type="text" placeholder="ZZZZ"  value="<?php echo $planedata->icao ;?>">
+<br>
 <input type="hidden" name="fltnum" value="<?php echo $schedule->flightnum?>">
+
+<input type="hidden" name="navlog" value="0">
 
 <?php $today = date("dMy");?>
 
@@ -209,7 +218,7 @@
 <input type="hidden" name="reg" value="<?php echo $schedule->registration?>">
 
 
- <input type="hidden" name="navlog" value="1">
+<!--<input type="hidden" name="navlog" value="1">-->
 <input type="hidden" name="selcal" value="GR-FS">
 
 <input type="hidden" name="planformat" value="lido">

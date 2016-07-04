@@ -2889,7 +2889,7 @@ dd {
 			margin: 0;
 			padding: 0;
 			position: absolute;
-			top: 0;
+			top: 1.25em;
 		}
 
 			#header h1 a {
@@ -2897,6 +2897,10 @@ dd {
 				font-weight: 400;
 				border: 0;
 			}
+
+      #header h1 a img {
+        vertical-align: middle;
+      }
 
 		#header nav {
 			height: inherit;

@@ -47,7 +47,7 @@
       <?php if(Auth::LoggedIn() == false) { ?>
         <h1><a href="<?php echo url('/'); ?>"><i class="icon fa-home"></i> <?php echo SITE_NAME; ?></a></h1>
       <?php } else { ?>
-        <h1><a href="<?php echo url('/'); ?>"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_logo_small.png" alt="flycaribbean logo" /></a></h1>
+        <h1><a href="<?php echo url('/'); ?>"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_icon_small.png" alt="FCB" /> <?php echo SITE_NAME; ?></a></h1>
       <?php } ?>
 
       <!-- <h1><a href="<?php echo url('/'); ?>"><img src="<?php echo SITE_URL?>/lib/skins/alpha/images/flycaribbean_icon.png"> FlyCaribbean</a></h1> -->
@@ -96,7 +96,7 @@
           <section class="box special">
             <header class="major">
               <h2>Codeshared Flights</h2>
-              <p>At this moment we offer codeshared flights from WinAir and InselAir.<br/> 
+              <p>At this moment we offer codeshared flights from WinAir and InselAir.<br/>
 			  In the future we will also offer flights from:<br/>
 			  - LIAT<br/>
 			  - Seaborne<br/>
