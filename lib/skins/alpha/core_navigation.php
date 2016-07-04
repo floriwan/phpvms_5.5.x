@@ -22,7 +22,7 @@ else
 ?>
 
 <?php
-if(Auth::LoggedIn())
+if(Auth::LoggedIn() && (PilotGroups::group_has_perm(Auth::$usergroups, ACCESS_ADMIN)))
 {
 	echo '<li><a class="icon fa-cog" href="'.fileurl('/admin').'">Admin Center</a></li>';
 }
