@@ -19,6 +19,39 @@
       <span class="icon major fa-info accent3"></span>
       <h3>Users Online</h3>
       <p>There have been <?php echo count($usersonline)?> user(s), and <?php echo count($guestsonline);?> guest(s) online in the past <?php echo Config::Get('USERS_ONLINE_TIME')?> minutes.</p>
+
+<?php
+
+  $acarsdata = ACARSData::GetACARSData();
+
+  if (!$acarsdata) {
+    $acarsdata = array();
+  }
+
+  echo "<table><tr><th colspan=\"5\">Pilots online</th>";
+
+  foreach($acarsdata as $acarsitem) {
+
+    //print_r($acarsitem);
+
+    $pilotcode = "N/A";
+    if (sizeof($acarsitem->pilotid) != 0) {
+      $pilotdata = PilotData::getPilotData($acarsitem->pilotid);
+      $pilotcode =  PilotData::GetPilotCode($pilotdata->code, $pilotdata->pilotid);
+    }
+    echo "<tr>";
+    echo "<td>" . $pilotcode . "</td>";
+    echo "<td></td>";
+    echo "<td><a href=\"".url('/vFleetTracker/view/'.$acarsitem->aircraft)."\">".$acarsitem->aircraft."</a></td>";
+    echo "<td>".$acarsitem->depicao." <i class=\"icon fa-angle-right\"></i> ".$acarsitem->arricao."</td>";
+    echo "<td>".$acarsitem->phasedetail."</td>";
+    echo "</tr>";
+  }
+
+  echo "</table>";
+
+ ?>
+
     </section>
 
     <section>

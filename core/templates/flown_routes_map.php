@@ -1,10 +1,10 @@
 <?php if(!defined('IN_PHPVMS') && IN_PHPVMS !== true) { die(); } ?>
 <?php
 /**
- * 
- * 
+ *
+ *
  */
- 
+
 ?>
 <h3>My Routes Map</h3>
 <div class="mapcenter" align="center">
@@ -19,15 +19,16 @@ var options = {
 var map = new google.maps.Map(document.getElementById("routemap"), options);
 var flightMarkers = [];
 
-<?php 
+<?php
 $shown = array();
-foreach($pirep_list as $pirep) {	
-	// Dont show repeated routes		
+foreach($pirep_list as $pirep) {
+	// Dont show repeated routes
+  echo "<p>in array " . $pirep->code.$pirep->flightnum . "</p>";
 	if(in_array($pirep->code.$pirep->flightnum, $shown))
 		continue;
 	else
 		$shown[] = $pirep->code.$pirep->flightnum;
-	
+
 	if(empty($pirep->arrlat) || empty($pirep->arrlng)
 		|| empty($pirep->deplat) || empty($pirep->deplng))
 	{
@@ -65,5 +66,5 @@ if(flightMarkers.length > 0)
 	}
 }
 
-map.fitBounds(bounds); 
+map.fitBounds(bounds);
 </script>
