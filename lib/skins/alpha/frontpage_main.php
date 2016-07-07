@@ -25,30 +25,31 @@
   $acarsdata = ACARSData::GetACARSData();
 
   if (!$acarsdata) {
+    echo "<p>There are no pilots online at the moment.</p>";
     $acarsdata = array();
-  }
+  } else {
 
-  echo "<table><tr><th colspan=\"5\">Pilots online</th>";
+    echo "<table><tr><th colspan=\"5\">Pilots online</th>";
 
-  foreach($acarsdata as $acarsitem) {
+    foreach($acarsdata as $acarsitem) {
+      //print_r($acarsitem);
 
-    //print_r($acarsitem);
-
-    $pilotcode = "N/A";
-    if (sizeof($acarsitem->pilotid) != 0) {
-      $pilotdata = PilotData::getPilotData($acarsitem->pilotid);
-      $pilotcode =  PilotData::GetPilotCode($pilotdata->code, $pilotdata->pilotid);
+      $pilotcode = "N/A";
+      if (sizeof($acarsitem->pilotid) != 0) {
+        $pilotdata = PilotData::getPilotData($acarsitem->pilotid);
+        $pilotcode =  PilotData::GetPilotCode($pilotdata->code, $pilotdata->pilotid);
+      }
+      echo "<tr>";
+      echo "<td>" . $pilotcode . "</td>";
+      echo "<td></td>";
+      echo "<td><a href=\"".url('/vFleetTracker/view/'.$acarsitem->aircraft)."\">".$acarsitem->aircraft."</a></td>";
+      echo "<td>".$acarsitem->depicao." <i class=\"icon fa-angle-right\"></i> ".$acarsitem->arricao."</td>";
+      echo "<td>".$acarsitem->phasedetail."</td>";
+      echo "</tr>";
     }
-    echo "<tr>";
-    echo "<td>" . $pilotcode . "</td>";
-    echo "<td></td>";
-    echo "<td><a href=\"".url('/vFleetTracker/view/'.$acarsitem->aircraft)."\">".$acarsitem->aircraft."</a></td>";
-    echo "<td>".$acarsitem->depicao." <i class=\"icon fa-angle-right\"></i> ".$acarsitem->arricao."</td>";
-    echo "<td>".$acarsitem->phasedetail."</td>";
-    echo "</tr>";
-  }
 
-  echo "</table>";
+    echo "</table>";
+  }
 
  ?>
 

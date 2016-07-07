@@ -76,7 +76,7 @@ if(Auth::LoggedIn())
 <li><a href="#" class="icon fa-group">Community <i class="icon fa-angle-down"></i></a>
   <ul>
     <li><a href="<?php echo url('/acars') ?>">Live Map</a></li>
-    <li><a href="http://flycaribbeanva.com/smf">Forum</a></li>
+    <li><a href="http://www.flycaribbeanva.com/smf/index.php?action=login">Forum</a></li>
   </ul>
 </li>
 
