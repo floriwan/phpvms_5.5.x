@@ -23,7 +23,6 @@ var flightMarkers = [];
 $shown = array();
 foreach($pirep_list as $pirep) {
 	// Dont show repeated routes
-  echo "<p>in array " . $pirep->code.$pirep->flightnum . "</p>";
 	if(in_array($pirep->code.$pirep->flightnum, $shown))
 		continue;
 	else
@@ -67,4 +66,5 @@ if(flightMarkers.length > 0)
 }
 
 map.fitBounds(bounds);
+
 </script>

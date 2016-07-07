@@ -18,13 +18,13 @@
  */
 
 class PIREPS extends CodonModule {
-    
+
     public $pirep;
     public $pirepdata;
 
     /**
      * PIREPS::__call()
-     * 
+     *
      * @param mixed $name
      * @param mixed $args
      * @return
@@ -37,7 +37,7 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::index()
-     * 
+     *
      * @return
      */
     public function index() {
@@ -46,7 +46,7 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::mine()
-     * 
+     *
      * @return
      */
     public function mine() {
@@ -55,7 +55,7 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::viewpireps()
-     * 
+     *
      * @return
      */
     public function viewpireps() {
@@ -110,21 +110,21 @@ class PIREPS extends CodonModule {
         }
 
         $this->title = 'My PIREPs';
-        
+
         // Show PIREPs filed
         $this->set('userinfo', Auth::$pilot);
         $this->set('pilot', Auth::$pilot);
-        
+
         $pirep_list = PIREPData::getAllReportsForPilot(Auth::$pilot->pilotid);
         $this->set('pireps', $pirep_list);
         $this->set('pirep_list', $pirep_list);
-                
+
         $this->render('pireps_viewall.tpl');
     }
 
     /**
      * PIREPS::view()
-     * 
+     *
      * @param string $pirepid
      * @return
      */
@@ -134,7 +134,7 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::viewreport()
-     * 
+     *
      * @param string $pirepid
      * @return
      */
@@ -163,7 +163,7 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::addcomment()
-     * 
+     *
      * @return
      */
     public function addcomment() {
@@ -201,7 +201,7 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::editpirep()
-     * 
+     *
      * @return
      */
     public function editpirep() {
@@ -246,11 +246,11 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::routesmap()
-     * 
+     *
      * @return
      */
     public function routesmap() {
-        
+
         if (!Auth::LoggedIn()) {
             $this->set('message', 'You must be logged in to access this feature!');
             $this->render('core_error.tpl');
@@ -276,7 +276,7 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::file()
-     * 
+     *
      * @return
      */
     public function file() {
@@ -285,11 +285,11 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::filepirep()
-     * 
+     *
      * @return
      */
     public function filepirep() {
-        
+
         if (!Auth::LoggedIn()) {
             $this->set('message', 'You must be logged in to access this feature!');
             $this->render('core_error.tpl');
@@ -309,12 +309,12 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::getdeptapts()
-     * 
+     *
      * @param mixed $code
      * @return
      */
     public function getdeptapts($code) {
-        
+
         if ($code == '') return;
 
         $this->set('name', 'depicao');
@@ -324,13 +324,13 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::getarrapts()
-     * 
+     *
      * @param string $code
      * @param string $icao
      * @return
      */
     public function getarrapts($code = '', $icao = '') {
-        
+
         if ($icao == '') return;
 
         $this->set('name', 'arricao');
@@ -340,12 +340,12 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::FilePIREPForm()
-     * 
+     *
      * @param string $bidid
      * @return
      */
     protected function FilePIREPForm($bidid = '') {
-        
+
         if (!Auth::LoggedIn()) {
             $this->set('message', 'You must be logged in to access this feature!');
             $this->render('core_error.tpl');
@@ -363,18 +363,18 @@ class PIREPS extends CodonModule {
         $airport_list = OperationsData::getAllAirports();
         $this->set('allairports', $airport_list); #deprecated
         $this->set('airport_list', $airport_list);
-        
+
         $airline_list = OperationsData::getAllAirlines(true);
         $this->set('allairlines', $airline_list); #deprecated
-        $this->set('airline_list', $airline_list); 
-        
+        $this->set('airline_list', $airline_list);
+
         $aircraft_list = OperationsData::getAllAircraft(true);
-        
+
         /*	Skip any aircraft which have aircraft that the pilot
 			is not rated to fly (according to RANK)
             This means the aircraft rank level is higher than
 			what the pilot's ranklevel, so just do "continue"
-			and move onto the next route in the list 
+			and move onto the next route in the list
 	     */
 		if(Config::Get('RESTRICT_AIRCRAFT_RANKS') === true) {
             foreach($aircraft_list as $index => $aircraft) {
@@ -384,7 +384,7 @@ class PIREPS extends CodonModule {
                 }
             }
 		}
-            
+
         $this->set('allaircraft', $aircraft_list); #deprecated
         $this->set('aircraft_list', $aircraft_list);
 
@@ -393,7 +393,7 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::SubmitPIREP()
-     * 
+     *
      * @return
      */
     protected function SubmitPIREP() {
@@ -406,8 +406,8 @@ class PIREPS extends CodonModule {
             return false;
         }
 
-        if ($this->post->code == '' || $this->post->flightnum == '' || $this->post-> depicao == '' 
-                || $this->post->arricao == '' || $this->post->aircraft == '' || $this->post->flighttime == '') 
+        if ($this->post->code == '' || $this->post->flightnum == '' || $this->post-> depicao == ''
+                || $this->post->arricao == '' || $this->post->aircraft == '' || $this->post->flighttime == '')
         {
             $this->set('message', 'You must fill out all of the required fields!');
             return false;
@@ -431,7 +431,7 @@ class PIREPS extends CodonModule {
 
         /* Check the schedule and see if it's been bidded on */
         if (Config::Get('DISABLE_SCHED_ON_BID') == true) {
-            
+
             $biddata = SchedulesData::getBid($sched_data->bidid);
 
             if ($biddata) {
@@ -459,17 +459,17 @@ class PIREPS extends CodonModule {
 
         # form the fields to submit
         $this->pirepdata = array(
-            'pilotid' => $pilotid, 
+            'pilotid' => $pilotid,
             'code' => $this->post->code,
-            'flightnum' => $this->post->flightnum, 
+            'flightnum' => $this->post->flightnum,
             'depicao' => $this->post->depicao,
-            'arricao' => $this->post->arricao, 
+            'arricao' => $this->post->arricao,
             'aircraft' => $this->post->aircraft,
-            'flighttime' => $this->post->flighttime, 
+            'flighttime' => $this->post->flighttime,
             'route' => $this->post->route,
-            'submitdate' => 'NOW()', 
-            'fuelused' => $this->post->fuelused, 
-            'source' =>'manual', 
+            'submitdate' => 'NOW()',
+            'fuelused' => $this->post->fuelused,
+            'source' =>'manual',
             'comment' => $this->post->comment
             );
 
@@ -510,17 +510,17 @@ class PIREPS extends CodonModule {
 
     /**
      * PIREPS::RecentFrontPage()
-     * 
+     *
      * @param integer $count
      * @return
      */
     public function RecentFrontPage($count = 10) {
-        
+
         $pirep_list = PIREPData::getRecentReportsByCount($count);
-        
+
         $this->set('reports', $pirep_list); #deprecated
         $this->set('pirep_list', $pirep_list);
-        
+
         $this->render('frontpage_reports.tpl');
     }
 }

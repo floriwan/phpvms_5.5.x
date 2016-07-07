@@ -38,7 +38,7 @@
 ?>
 var acars_map_defaults = {
 	autozoom: true,
-	zoom: 10,
+	zoom: 4,
     center: new google.maps.LatLng("<?php echo Config::Get('MAP_CENTER_LAT'); ?>", "<?php echo Config::Get('MAP_CENTER_LNG'); ?>"),
     mapTypeId: google.maps.MapTypeId.TERRAIN,
     refreshTime: 10000

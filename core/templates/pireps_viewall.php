@@ -41,7 +41,7 @@ foreach($pirep_list as $pirep) {
 	<td align="center"><?php echo date(DATE_FORMAT, $pirep->submitdate); ?></td>
 	<td align="center">
 		<?php
-		
+
 		if($pirep->accepted == PIREP_ACCEPTED) {
             echo '<div id="success">Accepted</div>';
 		} elseif($pirep->accepted == PIREP_REJECTED) {
@@ -51,8 +51,8 @@ foreach($pirep_list as $pirep) {
 		} elseif($pirep->accepted == PIREP_INPROGRESS) {
             echo '<div id="error">Flight in Progress</div>';
 		}
-			
-		
+
+
 		?>
 	</td>
 	<?php
