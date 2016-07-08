@@ -29,7 +29,7 @@ class RegistrationData extends CodonData {
      */
     public static function getCustomFields($getall = false) {
 
-        $sql = 'SELECT * 
+        $sql = 'SELECT *
                 FROM `'.TABLE_PREFIX.'customfields`';
 
         if ($getall == false) {
@@ -41,7 +41,7 @@ class RegistrationData extends CodonData {
 
     /**
      * RegistrationData::CheckUserEmail()
-     * 
+     *
      * @param mixed $email
      * @return
      */
@@ -54,7 +54,7 @@ class RegistrationData extends CodonData {
 
     /**
      * Add a  User
-     * 
+     *
      * $data = array(
      * 'firstname' => '',
      * 'lastname' => '',
@@ -103,8 +103,8 @@ class RegistrationData extends CodonData {
 					code, location, hub, password, salt, confirmed, joindate, lastip)
 				  VALUES (
                     '{$firstname}', '{$lastname}', '{$data['email']}', '{$code}',
-					'{$location}', '{$data['hub']}', '{$password}', 
-                    '{$salt}', {$confirm}, NOW(), 
+					'{$location}', '{$data['hub']}', '{$password}',
+                    '{$salt}', {$confirm}, NOW(),
                     '{$_SERVER['REMOTE_ADDR']}'
                     )";
 
@@ -134,23 +134,23 @@ class RegistrationData extends CodonData {
 
         //Get customs fields
         $fields = self::getCustomFields();
-        
+
         if(count($fields) > 0) {
             foreach ($fields as $field) {
                 $value = Vars::POST($field->fieldname);
                 $value = DB::escape($value);
-    
+
                 if ($value != '') {
                     $sql = "INSERT INTO `".TABLE_PREFIX."fieldvalues` (fieldid, pilotid, value)
     							VALUES ($field->fieldid, $pilotid, '$value')";
-    
+
                     DB::query($sql);
                 }
             }
         }
 
         $pilotdata = PilotData::getPilotData($pilotid);
-        
+
         /* Add this into the activity feed */
         $message = Lang::get('activity.new.pilot');
         foreach($pilotdata as $key=>$value) {
@@ -163,14 +163,14 @@ class RegistrationData extends CodonData {
             'type' => ACTIVITY_NEW_PILOT,
             'refid' => $pilotid,
             'message' => htmlentities($message),
-        ));        
+        ));
 
         return true;
     }
 
     /**
      * RegistrationData::ChangePassword()
-     * 
+     *
      * @param mixed $pilotid
      * @param mixed $newpassword
      * @return
@@ -181,8 +181,8 @@ class RegistrationData extends CodonData {
         self::$salt = $salt;
 
         //, confirmed='y'
-        $sql = "UPDATE " . TABLE_PREFIX . "pilots 
-				SET password='$password', 
+        $sql = "UPDATE " . TABLE_PREFIX . "pilots
+				SET password='$password',
 					salt='$salt'
 				WHERE pilotid=$pilotid";
 
@@ -195,7 +195,7 @@ class RegistrationData extends CodonData {
 
     /**
      * RegistrationData::SendEmailConfirm()
-     * 
+     *
      * @param mixed $email
      * @param mixed $firstname
      * @param mixed $lastname
@@ -203,7 +203,7 @@ class RegistrationData extends CodonData {
      * @return void
      */
     public static function SendEmailConfirm($email, $firstname, $lastname, $newpw = '') {
-        
+
         $confid = self::$salt;
 
         $subject = SITE_NAME . ' Registration';
@@ -211,12 +211,12 @@ class RegistrationData extends CodonData {
         Template::Set('firstname', $firstname);
         Template::Set('lastname', $lastname);
         Template::Set('confid', $confid);
-        
+
         $oldPath = Template::setTemplatePath(TEMPLATES_PATH);
         $oldSkinPath = Template::setSkinPath(ACTIVE_SKIN_PATH);
-        
+
         $message = Template::getTemplate('email_registered.tpl', true, true, true);
-        
+
         Template::setTemplatePath($oldPath);
         Template::setSkinPath($oldSkinPath);
 
@@ -226,14 +226,14 @@ class RegistrationData extends CodonData {
 
     /**
      * RegistrationData::ValidateConfirm()
-     * 
+     *
      * @return
      */
     public static function ValidateConfirm() {
         $confid = Vars::GET('confirmid');
 
-        $sql = "UPDATE `".TABLE_PREFIX."pilots` 
-                SET `confirmed`=1, `retired`=0 
+        $sql = "UPDATE `".TABLE_PREFIX."pilots`
+                SET `confirmed`=1, `retired`=0
                 WHERE `salt`='".$confid."'";
         $res = DB::query($sql);
 

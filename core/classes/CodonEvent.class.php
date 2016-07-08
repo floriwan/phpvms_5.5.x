@@ -42,12 +42,12 @@ class CodonEvent
 	public static $listeners;
 	public static $lastevent;
 	public static $stopList = array();
-	
+
 	public static function addListener($module_name, $event_list='')
 	{
 		self::$listeners[$module_name] = $event_list;
 	}
-	
+
 	/**
 	 * Dispatch an event to the modules, will call the
 	 *  modules with the EventListener() function.
@@ -62,11 +62,11 @@ class CodonEvent
 	{
 		// if there are parameters added, then call the function
 		//	using those additional params
-		
+
 		$params=array();
 		$params[0] = $eventname;
 		$params[1] = $origin;
-		
+
 		$args = func_num_args();
 		if($args>2)
 		{
@@ -76,20 +76,20 @@ class CodonEvent
 				array_push($params, $tmp);
 			}
 		}
-		
+
 		# Load each module and call the EventListen function
 		if(!self::$listeners) self::$listeners = array();
 		foreach(self::$listeners as $ModuleName => $Events)
 		{
 			$ModuleName = strtoupper($ModuleName);
 			global $$ModuleName;
-			
+
 			# Run if no specific events specified, or if the eventname is there
 			if(!$Events || in_array($eventname, $Events))
 			{
 				self::$lastevent = $eventname;
 				MainController::Run($ModuleName, 'EventListener', $params);
-				
+
 				if(isset(self::$stopList[$eventname]) && self::$stopList[$eventname] == true)
 				{
 					unset(self::$stopList[$eventname]);
@@ -97,30 +97,30 @@ class CodonEvent
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
-	public function hasStop($eventname)
+
+	public static function hasStop($eventname)
 	{
 		if(isset(self::$stopList[$eventname]) && self::$stopList[$eventname] == true)
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public function CheckStop($eventname)
 	{
 		if(isset(self::$stopList[$eventname]) && self::$stopList[$eventname] == true)
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public function Stop($eventname='')
 	{
 		if($eventname != '')
