@@ -28,14 +28,23 @@ var geourl = "<?php echo GEONAME_URL; ?>";
 </script>
 
 <link rel="stylesheet" media="all" type="text/css" href="<?php echo fileurl('lib/css/phpvms.css')?>" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/ju/jqc-1.12.3/dt-1.10.12/datatables.min.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo Config::Get('PAGE_ENCODING');?>" />
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>-->
 <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script type="text/javascript" src="<?php echo fileurl('lib/js/jquery.form.js');?>"></script>
 <script type="text/javascript" src="<?php echo fileurl('lib/js/phpvms.js');?>"></script>
+
+<!-- paging for the schedule page -->
+<!--<script type="text/javascript" src="https://cdn.datatables.net/v/ju/jqc-1.12.3/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/ju-1.11.4/jqc-1.12.3/dt-1.10.12/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.js"></script>-->
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></script>
+
 
 <?php
 echo $MODULE_HEAD_INC;

@@ -3,7 +3,7 @@
 function get_metar($location){
   $fileName = "http://weather.noaa.gov/pub/data/observations/metar/stations/$location.TXT";
   $metar = '';
-  $fileData = @file($fileName) or die('METAR for '. $location . ' not available');
+  $fileData = @file($fileName); //or die ("weather script died :-(");
   if ($fileData != false) {
     list($i, $date) = each($fileData);
 
@@ -14,8 +14,10 @@ function get_metar($location){
       $metar .= ' ' . trim($line);
     }
     $metar = trim(str_replace(' ', ' ', $metar));
+    echo "<strong>METAR FOR $location ($time UTC):</strong><br \>$metar";
+  } else {
+    echo "METAR for ". $location . " not available";
   }
-  echo "<strong>METAR FOR $location ($time UTC):</strong><br \>$metar";
 }
 
 

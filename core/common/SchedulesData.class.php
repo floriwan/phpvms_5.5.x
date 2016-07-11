@@ -21,25 +21,25 @@ class SchedulesData extends CodonData {
 
     /**
      * A generic find function for schedules. As parameters, do:
-     * 
+     *
      * $params = array( 's.depicao' => 'value',
      *					's.arricao' => array ('multiple', 'values'),
      *	);
-     * 
+     *
      * Syntax is ('s.columnname' => 'value'), where value can be
-     *	an array is multiple values, or with a SQL wildcard (%) 
+     *	an array is multiple values, or with a SQL wildcard (%)
      *  if that's what is desired.
-     * 
+     *
      * Columns from the schedules table should be prefixed by 's.',
      * the aircraft table as 'a.'
-     * 
-     * You can also pass offsets ($start and $count) in order to 
+     *
+     * You can also pass offsets ($start and $count) in order to
      * facilitate pagination
-     * 
+     *
      * @tutorial http://docs.phpvms.net/media/development/searching_and_retriving_schedules
      */
     public static function findSchedules($params, $count = '', $start = '') {
-        $sql = 'SELECT s.*, 
+        $sql = 'SELECT s.*,
 					a.id as aircraftid, a.name as aircraft, a.registration,
 					a.minrank as aircraft_minrank, a.ranklevel as aircraftlevel,
 					dep.name as depname, dep.lat AS deplat, dep.lng AS deplng,
@@ -66,11 +66,11 @@ class SchedulesData extends CodonData {
         }
 
         $ret = DB::get_results($sql);
-        
+
         if(!$ret) {
             return array();
         }
-        
+
         return $ret;
     }
 
@@ -107,7 +107,7 @@ class SchedulesData extends CodonData {
      * Return a flight given the airline code and flight number
      *
      * @deprecated
-     * 
+     *
      * @param string $code Airline code
      * @param mixed $flightnum Flight number
      * @return array Returns a full flight
@@ -176,34 +176,34 @@ class SchedulesData extends CodonData {
      *
      * @param string $code Airline code
      * @param int $flightnum Flight number
-     * @return bool 
+     * @return bool
      *
      */
     public static function incrementFlownCount($code, $flightnum) {
         return self::changeFlownCount($code, $flightnum, '+1');
     }
 
-    
+
     /**
      * SchedulesData::changeFlownCount()
-     * 
+     *
      * @param mixed $code
      * @param mixed $flightnum
      * @param mixed $amount
      * @return void
      */
     public static function changeFlownCount($code, $flightnum, $amount) {
-        
+
         $schedid = intval($schedid);
 
         $code = strtoupper($code);
         $flightnum = strtoupper($flightnum);
-        
+
         if(substr_count($amount, '+') == 0) {
             $amount = '+'.$amount;
         }
 
-        $sql = 'UPDATE ' . TABLE_PREFIX . "schedules 
+        $sql = 'UPDATE ' . TABLE_PREFIX . "schedules
 				SET timesflown=timesflown {$amount}
 				WHERE code='{$code}' AND flightnum='{$flightnum}'";
 
@@ -212,12 +212,12 @@ class SchedulesData extends CodonData {
         if (DB::errno() != 0) return false;
 
         return true;
-        
+
     }
 
 
     /**
-     * Get detailed information about a schedule 
+     * Get detailed information about a schedule
      *
      * @param int $id ID of the schedule
      * @return array Schedule details
@@ -269,7 +269,7 @@ class SchedulesData extends CodonData {
      * Get all of the airports which have a schedule, from
      *	a certain airport, using the airline code. Code
      *	is optional, otherwise it returns all of the airports.
-     * 
+     *
      * @return database object
      */
     public static function getArrivalAiports($depicao, $airlinecode = '', $onlyenabled = true) {
@@ -315,7 +315,7 @@ class SchedulesData extends CodonData {
     /**
      * Calculate the distance between two coordinates
      * Using a revised equation found on http://www.movable-type.co.uk/scripts/latlong.html
-     * 
+     *
      * Also converts to proper type based on UNIT setting
      *
      */
@@ -324,17 +324,17 @@ class SchedulesData extends CodonData {
         New formula, from http://jan.ucc.nau.edu/~cvm/latlon_formula.html
         */
         if (strtolower(Config::Get('UNITS')) === 'mi') # miles
- 
+
             $radius = 3963.192;
         elseif (strtolower(Config::Get('UNITS')) === 'km') # Convert to km
- 
+
             $radius = 6378.14;
         else  $radius = 3443.92;
 
         /*
         $distance = ($radius * 3.1415926 * sqrt(($lat2-$lat1) * ($lat2-$lat1)
         +cos($lat2/57.29578) * cos($lat1/57.29578) * ($lng2-$lng1) * ($lng2-$lng1))/180);
-        
+
         return $distance;
         */
         $lat1 = deg2rad(floatval($lat1));
@@ -363,7 +363,7 @@ class SchedulesData extends CodonData {
 
         return $distance;
         /*$distance = acos(cos($lat1)*cos($lng1)*cos($lat2)*cos($lng2)
-        + cos($lat1)*sin($lng1)*cos($lat2)*sin($lng2) 
+        + cos($lat1)*sin($lng1)*cos($lat2)*sin($lng2)
         + sin($lat1)*sin($lat2)) * $r;
 
         return floatval(round($distance, 2));*/
@@ -371,7 +371,7 @@ class SchedulesData extends CodonData {
 
     /**
      * Add a schedule
-     * 
+     *
      * Pass in the following:
      * $data = array(	'code'=>'',
      * 'flightnum'=''
@@ -389,7 +389,7 @@ class SchedulesData extends CodonData {
      * 'flighttype'=>'');
      */
     public static function addSchedule($data) {
-        
+
         if (!is_array($data)) return false;
 
         # Commented out to allow flights to/from the same airport
@@ -411,9 +411,9 @@ class SchedulesData extends CodonData {
         if ($data['flighttype'] == '') $data['flighttype'] = 'P';
 
         $data['flightlevel'] = str_replace(',', '', $data['flightlevel']);
-        
+
         if(isset($data['week1'])) {
-            
+
         }
 
         if (isset($fields['route'])) {
@@ -429,21 +429,21 @@ class SchedulesData extends CodonData {
         }
 
         $data['flighttime'] = str_replace(':', '.', $data['flighttime']);
-        
-        
+
+
         # Do the insert based on the columns here
         $cols = array();
         $col_values = array();
-        
+
         foreach ($data as $key => $value) {
-            
-            if($key == 'daysofweek' || $key == 'week1' || $key == 'week2' || $key == 'week3' || $key == 'week4') {        
+
+            if($key == 'daysofweek' || $key == 'week1' || $key == 'week2' || $key == 'week3' || $key == 'week4') {
                 $value = str_replace('7', '0', $value);
             } else {
                 $value = DB::escape($value);
             }
-            
-            
+
+
             $cols[] = "`{$key}`";
             $col_values[] = "'{$value}'";
         }
@@ -481,7 +481,7 @@ class SchedulesData extends CodonData {
     /**
      * Parse a schedule's route, and store it in the route_details
      * column for later on. It will store a serialized array of the
-     * route's details. 
+     * route's details.
      *
      * @param int $schedule_id ID of the schedule to parse
      * @param string $route Optional route to parse, otherwise it will look it up
@@ -489,7 +489,7 @@ class SchedulesData extends CodonData {
      *
      */
     public static function getRouteDetails($schedule_id, $route = '') {
-        
+
         $schedule = self::findSchedules(array('s.id' => $schedule_id), 1);
         $schedule = $schedule[0];
 
@@ -510,7 +510,7 @@ class SchedulesData extends CodonData {
      *
      * @param int $scheduleid ID of the schedule to update
      * @param array $fields Array, column name as key, with values to update
-     * @return bool 
+     * @return bool
      *
      */
     public static function updateScheduleFields($scheduleid, $fields) {
@@ -522,11 +522,11 @@ class SchedulesData extends CodonData {
      *
      * @param int $scheduleid ID of the schedule to update
      * @param array $fields Array, column name as key, with values to update
-     * @return bool 
+     * @return bool
      *
      */
     public static function editScheduleFields($scheduleid, $fields) {
-        
+
         if (!is_array($fields)) {
             return false;
         }
@@ -612,9 +612,9 @@ class SchedulesData extends CodonData {
      * Delete a schedule
      */
     public static function deleteSchedule($scheduleid) {
-        
+
         $scheduleid = DB::escape($scheduleid);
-        $sql = 'DELETE FROM ' . TABLE_PREFIX . 'schedules 
+        $sql = 'DELETE FROM ' . TABLE_PREFIX . 'schedules
 				WHERE id=' . $scheduleid;
 
         $res = DB::query($sql);
@@ -635,8 +635,8 @@ class SchedulesData extends CodonData {
     }
 
     public static function deleteAllScheduleDetails() {
-        
-        $sql = 'UPDATE ' . TABLE_PREFIX . "schedules 
+
+        $sql = 'UPDATE ' . TABLE_PREFIX . "schedules
 				SET `route_details` = ''";
 
         $res = DB::query($sql);
@@ -647,9 +647,9 @@ class SchedulesData extends CodonData {
     }
 
     public static function getAllBids() {
-        $sql = 'SELECT  p.*, s.*, 
+        $sql = 'SELECT  p.*, s.*,
 						b.bidid as bidid, b.dateadded, a.name as aircraft, a.registration
-				FROM ' . TABLE_PREFIX . 'schedules s, 
+				FROM ' . TABLE_PREFIX . 'schedules s,
 					 ' . TABLE_PREFIX . 'bids b,
 					 ' . TABLE_PREFIX . 'aircraft a,
 					 ' . TABLE_PREFIX . 'pilots p
@@ -664,9 +664,9 @@ class SchedulesData extends CodonData {
      */
 
     public static function getLatestBids($limit = 5) {
-        $sql = 'SELECT  p.*, s.*, 
+        $sql = 'SELECT  p.*, s.*,
 						b.bidid as bidid, a.name as aircraft, a.registration
-				FROM ' . TABLE_PREFIX . 'schedules s, 
+				FROM ' . TABLE_PREFIX . 'schedules s,
 					 ' . TABLE_PREFIX . 'bids b,
 					 ' . TABLE_PREFIX . 'aircraft a,
 					 ' . TABLE_PREFIX . 'pilots p
@@ -681,10 +681,10 @@ class SchedulesData extends CodonData {
         $pilotid = DB::escape($pilotid);
 
         $sql = 'SELECT s.*, b.bidid, a.id as aircraftid, a.name as aircraft, a.registration, a.maxpax, a.maxcargo
-				FROM ' . TABLE_PREFIX . 'schedules s, 
+				FROM ' . TABLE_PREFIX . 'schedules s,
 					 ' . TABLE_PREFIX . 'bids b,
 					 ' . TABLE_PREFIX . 'aircraft a
-				WHERE b.routeid = s.id 
+				WHERE b.routeid = s.id
 					AND s.aircraft=a.id
 					AND b.pilotid=' . $pilotid . '
 				ORDER BY b.bidid ASC LIMIT 1';
@@ -701,11 +701,11 @@ class SchedulesData extends CodonData {
     public static function getBid($bidid) {
         $bidid = DB::escape($bidid);
 
-        $sql = 'SELECT s.*, b.bidid, b.pilotid, b.routeid, 
+        $sql = 'SELECT s.*, b.bidid, b.pilotid, b.routeid,
 						a.name as aircraft, a.registration
 				FROM ' . TABLE_PREFIX . 'schedules s, ' . TABLE_PREFIX . 'bids b,
 					' . TABLE_PREFIX . 'aircraft a
-				WHERE b.routeid = s.id 
+				WHERE b.routeid = s.id
 						AND s.aircraft=a.id
 						AND b.bidid=' . $bidid;
 
@@ -723,7 +723,7 @@ class SchedulesData extends CodonData {
         $sql = 'SELECT s.*, b.bidid, a.name as aircraft, a.registration
 				FROM ' . TABLE_PREFIX . 'schedules s, ' . TABLE_PREFIX . 'bids b,
 					' . TABLE_PREFIX . 'aircraft a
-				WHERE b.routeid = s.id 
+				WHERE b.routeid = s.id
 					AND s.aircraft=a.id
 					AND b.pilotid=' . $pilotid;
 
@@ -737,11 +737,11 @@ class SchedulesData extends CodonData {
     public static function getBidWithRoute($pilotid, $code, $flightnum) {
         if ($pilotid == '') return;
 
-        $sql = 'SELECT b.bidid 
+        $sql = 'SELECT b.bidid
 				FROM ' . TABLE_PREFIX . 'bids b, ' . TABLE_PREFIX . 'schedules s
-				WHERE b.pilotid=' . $pilotid . ' 
+				WHERE b.pilotid=' . $pilotid . '
 					AND b.routeid=s.id
-					AND s.code=\'' . $code . '\' 
+					AND s.code=\'' . $code . '\'
 					AND s.flightnum=\'' . $flightnum . '\'';
 
         return DB::get_row($sql);
@@ -830,7 +830,7 @@ class SchedulesData extends CodonData {
         $bidid = intval($bidid);
         $bid_info = self::getBid($bidid);
 
-        $sql = 'DELETE FROM ' . TABLE_PREFIX . 'bids 
+        $sql = 'DELETE FROM ' . TABLE_PREFIX . 'bids
 				WHERE `bidid`=' . $bidid;
 
         DB::query($sql);
@@ -878,7 +878,7 @@ class SchedulesData extends CodonData {
     /**
      * Show the graph of the past week's reports. Outputs the
      *	image unless $ret == true
-     * 
+     *
      * @deprecated
      */
     public static function showReportCounts() {
