@@ -196,7 +196,7 @@ $shown = array();
 $pirep_list = vFleetTrackData::getLastNumFlightsAircraft($aircraft->id, 15);
 foreach($pirep_list as $pirep) {
 	// Dont show repeated routes
-	if(in_array($pirep->code.$pirep->flightnum, $shown))
+  if(in_array($pirep->code.$pirep->flightnum.$pirep->depicao.$pirep->arricao, $shown))
 		continue;
 	else
 		$shown[] = $pirep->code.$pirep->flightnum;

@@ -51,8 +51,8 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
     $airline_aircrafts = vFleetTrackData::getAircraftsByAirline($airline->id);
     if (!$airline_aircrafts) {
       if (strlen($airline->name) != 0) {
-        echo "<tr><th>".$airline->name."</th></tr>";
-        echo "<tr><td>no aircrafts found for airline " . $airline->name . "</td></tr>";
+        echo "<tr><th colspan=\"9\">".$airline->name."</th></tr>";
+        echo "<tr><td colspan=\"9\">no aircrafts available</td></tr>";
       }
     } else {
 

@@ -23,7 +23,8 @@ var flightMarkers = [];
 $shown = array();
 foreach($pirep_list as $pirep) {
 	// Dont show repeated routes
-	if(in_array($pirep->code.$pirep->flightnum, $shown) && strcmp($pirep->code, "PVT") != 0)
+	//if(in_array($pirep->code.$pirep->flightnum, $shown) && strcmp($pirep->code, "PVT") != 0)
+  if(in_array($pirep->code.$pirep->flightnum.$pirep->depicao.$pirep->arricao, $shown))
 		continue;
 	else
 		$shown[] = $pirep->code.$pirep->flightnum;
