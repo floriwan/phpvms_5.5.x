@@ -58,6 +58,9 @@ class Pilots extends CodonModule
 
   public function getAllPilots()
   {
+
+    IvaoData::updatePilotsOnlineState();
+
     $pilot_list = PilotData::getAllPilots();
     $this->set('pilot_list', $pilot_list);
     $this->set('allpilots', $pilot_list);

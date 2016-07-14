@@ -16,6 +16,7 @@
 	<th>Rank</th>
 	<th>Flights</th>
 	<th>Hours</th>
+  <th> </th>
 </tr>
 </thead>
 <tbody>
@@ -51,6 +52,11 @@ foreach($allpilots as $pilot)
 	<td><img src="<?php echo $pilot->rankimage?>" alt="<?php echo $pilot->rank;?>" /></td>
 	<td><?php echo $pilot->totalflights?></td>
 	<td><?php echo Util::AddTime($pilot->totalhours, $pilot->transferhours); ?></td>
+
+  <td><?php if (!empty($pilot->ivao_id) && $pilot->ivao_status == 0) { ?> <img alt="offline" src="<?php echo SITE_URL?>/lib/images/ivao_offline.png" alt="ivao" />
+    <?php } else if (!empty($pilot->ivao_id) && $pilot->ivao_status == 1) { ?> <img alt="online" src="<?php echo SITE_URL?>/lib/images/ivao_online.png" alt="ivao" />
+    <?php } ?>
+  </td>
 <?php
 }
 ?>

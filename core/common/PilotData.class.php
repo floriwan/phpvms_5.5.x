@@ -55,6 +55,21 @@ class PilotData extends CodonData {
         return $ret;
     }
 
+    public static function setIvaoOnline($ivaoid, $status) {
+      $sql = "UPDATE ". TABLE_PREFIX . "pilots SET `ivao_status` = 1 WHERE `ivao_id` = " . $ivao_id;
+      DB::query($sql);
+    }
+
+    public static function resetAllIvaoStates() {
+      $sql = "UPDATE ". TABLE_PREFIX . "pilots SET `ivao_status` = 0 WHERE `ivao_status` = 1";
+    }
+
+    public static function getAllIvaoIds() {
+      $sql = "SELECT ivao_id FROM " . TABLE_PREFIX . "pilots";
+      $ret = DB::get_results($sql);
+      return $ret;
+    }
+
     /**
      * Get all the pilots, or the pilots who's last names start
      * with the letter
