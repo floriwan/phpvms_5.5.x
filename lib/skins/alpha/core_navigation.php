@@ -55,7 +55,7 @@ if(Auth::LoggedIn())
 		<li><a href="<?php echo url('/schedules/view');?>">View Flight Schedules</a></li>
 		<li><a href="<?php echo url('/schedules/bids');?>">View my flight bids</a></li>
 		<li><a href="<?php echo url('/finances');?>">View VA Finances</a></li>
-    <li><a href="<?php echo url('/howto');?>">smartCARS howto</a></li>
+    <li><a href="<?php echo url('/Airline');?>">View Airline Codes</a></li>
 	</ul>
   </li>
 
@@ -65,6 +65,7 @@ if(Auth::LoggedIn())
 	<li><a href="<?php echo url('/profile/changepassword'); ?>">Change my Password</a></li>
 	<li><a href="<?php echo url('/profile/badge'); ?>">View my Badge</a></li>
 	<li><a href="<?php echo url('/profile/stats'); ?>">My Stats</a></li>
+  <li><a href="<?php echo url('/downloads/dl/7') ?>">smartCARS Tutorial</a></li>
 	<li><a href="<?php echo url('/downloads'); ?>">View Downloads</a></li>
 </ul>
 </li>

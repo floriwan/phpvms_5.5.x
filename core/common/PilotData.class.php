@@ -62,6 +62,7 @@ class PilotData extends CodonData {
 
     public static function resetAllIvaoStates() {
       $sql = "UPDATE ". TABLE_PREFIX . "pilots SET `ivao_status` = 0 WHERE `ivao_status` = 1";
+      DB::query($sql);
     }
 
     public static function getAllIvaoIds() {

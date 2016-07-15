@@ -684,6 +684,7 @@ class Operations extends CodonModule {
     protected function edit_airline_post() {
         $this->checkPermission(EDIT_AIRLINES);
         $this->post->code = strtoupper($this->post->code);
+        $this->post->callsign = strtoupper($this->post->callsign);
 
         if ($this->post->code == '' || $this->post->name == '') {
             $this->set('message', 'Code and name cannot be blank');
@@ -700,8 +701,8 @@ class Operations extends CodonModule {
         if (isset($this->post->enabled)) $enabled = true;
         else  $enabled = false;
 
-        OperationsData::EditAirline($this->post->id, $this->post->code, $this->post->name,
-            $enabled);
+        OperationsData::EditAirline($this->post->id, $this->post->code, $this->post->callsign,
+            $this->post->name, $enabled);
 
         if (DB::errno() != 0) {
             $this->set('message', 'There was an error editing the airline');
@@ -714,7 +715,7 @@ class Operations extends CodonModule {
         $this->render('core_success.php');
 
         LogData::addLog(Auth::$userinfo->pilotid, 'Edited the airline "' . $this->post->code .
-            ' - ' . $this->post->name . '"');
+            ' - ' . $this->post->code . ' - '. $this->post->name . '"');
     }
 
     /**

@@ -5,6 +5,9 @@
 <dt>Airline Code *</dt>
 <dd><input name="code" type="text" value="<?php echo $airline->code; ?>" /></dd>
 
+<dt>Airline Callsign *</dt>
+<dd><input name="callsign" type="text" value="<?php echo $airline->callsign; ?>" /></dd>
+
 <dt>Airline Name *</dt>
 <dd><input name="name" type="text" value="<?php echo $airline->name; ?>" /></dd>
 

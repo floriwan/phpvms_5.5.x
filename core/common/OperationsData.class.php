@@ -289,13 +289,14 @@ class OperationsData extends CodonData {
     /**
      * Add an airline
      */
-    public static function addAirline($code, $name) {
+    public static function addAirline($code, $callsign, $name) {
         $code = strtoupper($code);
+        $callsign = strtoupper($callsign);
         $name = DB::escape($name);
 
         $sql = "INSERT INTO " . TABLE_PREFIX . "airlines (
-					`code`, `name`)
-				VALUES ('$code', '$name')";
+					`code`, `callsign`, `name`)
+				VALUES ('$code', '$callsign', '$name')";
 
         $res = DB::query($sql);
 
@@ -312,22 +313,24 @@ class OperationsData extends CodonData {
      *
      * @param mixed $id
      * @param mixed $code
+     * @param mixed $code
      * @param mixed $name
      * @param bool $enabled
      * @return
      */
-    public static function editAirline($id, $code, $name, $enabled = true) {
+    public static function editAirline($id, $code, $callsign, $name, $enabled = true) {
 
         $old_airline = self::getAirlineByID($id);
 
         $code = DB::escape($code);
+        $callsign = DB::escape($callsign);
         $name = DB::escape($name);
 
         if ($enabled) $enabled = 1;
         else  $enabled = 0;
 
         $sql = "UPDATE " . TABLE_PREFIX . "airlines
-				SET `code`='$code', `name`='$name', `enabled`=$enabled
+				SET `code`='$code', `callsign`='$callsign', `name`='$name', `enabled`=$enabled
 				WHERE id=$id";
 
         $res = DB::query($sql);
@@ -338,8 +341,7 @@ class OperationsData extends CodonData {
         foreach($tables as $t) {
 
             $sql = 'UPDATE '.TABLE_PREFIX.$t.'
-                    SET `code`=\''.$code.'\'
-                    WHERE `code`='.$old_airline->code;
+                    SET `code`=\''.$code.'\' WHERE `code`=\''.$old_airline->code.'\'';
 
             DB::query($sql);
         }

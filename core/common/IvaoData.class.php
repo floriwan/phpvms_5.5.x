@@ -154,7 +154,7 @@ class IvaoData extends CodonData {
     $today = date_create(date(''));
     $diff = date_diff($past, $today);
 
-    if ($diff->format("%h%i") > 15) {
+    if ($diff->format("%h%i") > 8) {
       return true;
     } else {
       return false;

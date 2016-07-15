@@ -28,7 +28,8 @@ var geourl = "<?php echo GEONAME_URL; ?>";
 </script>
 
 <link rel="stylesheet" media="all" type="text/css" href="<?php echo fileurl('lib/css/phpvms.css')?>" />
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/ju/jqc-1.12.3/dt-1.10.12/datatables.min.css"/>
+<link rel="stylesheet" media="all" type="text/css" href="<?php echo fileurl('lib/css/datatables.min.css')?>" />
+
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo Config::Get('PAGE_ENCODING');?>" />
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

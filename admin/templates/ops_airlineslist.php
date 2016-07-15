@@ -11,7 +11,8 @@ if(!$allairlines)
 <thead>
 <tr>
 	<th>Code</th>
-	<th>Name</th>
+	<th>Callsign</th>
+  <th>Name</th>
 	<th>Enabled</th>
 	<th>Options</th>
 </tr>
@@ -23,10 +24,11 @@ foreach($allairlines as $airline)
 ?>
 <tr>
 	<td align="center"><?php echo $airline->code; ?></td>
-	<td align="center"><?php echo $airline->name; ?></td>
+	<td align="center"><?php echo $airline->callsign; ?></td>
+  <td align="center"><?php echo $airline->name; ?></td>
 	<td align="center"><?php echo ($airline->enabled == 1) ? 'Yes' : 'No'; ?></td>
 	<td align="center" width="1%" nowrap>
-	<button id="dialog" class="jqModal {button:{icons:{primary:'ui-icon-wrench'}}}" 
+	<button id="dialog" class="jqModal {button:{icons:{primary:'ui-icon-wrench'}}}"
 		href="<?php echo adminaction('/operations/editairline?id='.$airline->id);?>">
 		Edit</button>
 	</td>
