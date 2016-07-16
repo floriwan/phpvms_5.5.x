@@ -25,14 +25,16 @@ if(Auth::LoggedIn())
 
 $(document).ready(function() {
         $('#schedule').dataTable( {
-                "pagingType":      "full_numbers",
-                "order":           [[ 0, "asc" ]],
+                "pagingType":   "full_numbers",
+                "order":        [[ 0, "asc" ]],
+                "ordering":     false
         } );
 
 
         $('#schedule thead #searchcol').each( function () {
           var title = $(this).text();
-          $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+          //$(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+          $(this).html( '<input type="text" placeholder="Search" />' );
         } );
 
         // DataTable
@@ -42,7 +44,7 @@ $(document).ready(function() {
         table.columns().every( function () {
                 var that = this;
 
-                $( 'input', this.footer() ).on( 'keyup change', function () {
+                $( 'input', this.header() ).on( 'keyup change', function () {
                     if ( that.search() !== this.value ) {
                         that
                             .search( this.value )
@@ -66,12 +68,21 @@ if(!$schedule_list)
 <table id="schedule" class="display">
 <thead>
   <tr>
-    <th id="searchcol">Departure</th>
-    <th id="searchcol">Arrival</th>
+    <th>Departure</th>
+    <th>Arrival</th>
     <th>Flight</th>
     <th>Flight Info</th>
     <th>Options</th>
   </tr>
+
+  <tr>
+    <th id="searchcol">Departure</th>
+    <th id="searchcol">Arrival</th>
+    <th id="searchcol">Flight</th>
+    <th></th>
+    <th></th>
+  </tr>
+
 </thead>
 <tfoot>
   <tr>
