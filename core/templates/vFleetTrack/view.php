@@ -39,15 +39,15 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
     <td><?php echo $aircraft->registration;?></td>
   </tr>
   <tr>
-    <td>Range</td>
+    <td>Range (nm)</td>
     <td><?php echo $aircraft->range;?></td>
   </tr>
   <tr>
-    <td>Weight</td>
+    <td>Weight (lbs)</td>
     <td><?php echo $aircraft->weight;?></td>
   </tr>
   <tr>
-    <td>Cruise</td>
+    <td>Cruise (ft)</td>
     <td><?php echo $aircraft->cruise;?></td>
   </tr>
   <tr>

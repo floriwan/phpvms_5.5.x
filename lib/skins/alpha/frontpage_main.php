@@ -63,7 +63,7 @@
           <tr><td><?php echo StatsData::PilotCount(); ?></td><td>Pilots</td></tr>
           <tr><td><?php echo StatsData::TotalFlights(); ?></td><td>Total Flights</td></tr>
           <tr><td><?php echo StatsData::TotalHours(); ?></td><td>Total Hours</td></tr>
-          <tr><td><?php echo StatsData::TotalFlights(); ?></td><td>Total Flights</td></tr>
+          <!--<tr><td><?php echo StatsData::TotalFlights(); ?></td><td>Total Flights</td></tr>-->
           <!--<?php echo StatsData::TotalHours(); ?></span>Total hr</li>-->
           <tr><td><?php echo StatsData::TotalFlightsToday(); ?></td><td>Flights Today</td></tr>
         </table>

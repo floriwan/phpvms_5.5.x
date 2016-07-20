@@ -13,7 +13,8 @@ if(!Auth::LoggedIn())
     <li><a href="<?php echo url('/login'); ?>">Login</a></li>
   <?php } ?>
 
-	<li><a href="<?php echo url('/ruleregs'); ?>">Register</a></li>
+	<!--<li><a href="<?php echo url('/ruleregs'); ?>">Register</a></li>-->
+  <li><a href="<?php echo url('/#airline_news'); ?>"><i class="icon fa-newspaper-o"></i> News</a></li>
 <?php
 }
 else
@@ -65,7 +66,7 @@ if(Auth::LoggedIn())
 	<li><a href="<?php echo url('/profile/changepassword'); ?>">Change my Password</a></li>
 	<li><a href="<?php echo url('/profile/badge'); ?>">View my Badge</a></li>
 	<li><a href="<?php echo url('/profile/stats'); ?>">My Stats</a></li>
-  <li><a href="<?php echo url('/downloads/dl/7') ?>">smartCARS Tutorial</a></li>
+  <li><a href="<?php echo url('/downloads/dl/7') ?>">snartCARS Tutorial</a></li>
 	<li><a href="<?php echo url('/downloads'); ?>">View Downloads</a></li>
 </ul>
 </li>

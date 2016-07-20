@@ -63,7 +63,17 @@
     <section id="banner">
       <?php if(Auth::LoggedIn() == false) { ?>
         <img src="<?php echo SITE_URL?>/lib/images/flycaribbean.png" alt="flycaribbean logo" />
-        <p>Caribbeans finest airline</p>
+        <p>Caribbeans finest virtual airline</p>
+
+        <ul class="actions">
+						<li>
+							<a href="<?php echo url('/ruleregs'); ?>" class="button special">
+							Sign Up
+							<i class="fa fa-sign-in" aria-hidden="true"></i></a>
+						</li>
+						<li><a href="<?php echo url('#who_we_are'); ?>" class="button">Learn More</a></li>
+				</ul>
+
       <?php } ?>
     </section>
 
@@ -81,40 +91,52 @@
         $result = preg_match($regex, $server_url);
 
         if ($result != 0) { ?>
-          <section class="box special">
-            <header class="major">
-              <h2>Welcome to FlyCaribbean Virtual Alliance</h2>
-              <p>FlyCaribbean VA is a virtual airline for pilots flying in the Caribbean<br />
-                We offer free flights, charter flights and scheduled flights.<br />
-				        This allowes you to fly online on IVAO and VATSIM, or offline.</p>
-            </header>
-            <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_plane.jpg" alt="" /></span>
-          </section>
 
-        <!-- some airline information -->
-        <br/><br/><br/>
-          <div class="row">
+          <a name="who_we_are"></a>
 
-            <div class="6u 12u(narrower)">
-              <section class="box special">
-                <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/code_share.jpg" alt="" /></span>
-								<h3>Codeshared Flights</h3>
-                <p>We give the oppertunity to fly codeshared flights from a lot of airlines operating in the Caribbean.
-                At this moment we offer codeshared flights from WinAir and InselAir. In the future we will also offer flights from more companies operating in the caribbean.</p>
-              </section>
-            </div>
+          <div class="box">
+          <header><h2>Who we are</h2></header>
+          <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_plane2.jpg" alt="" /></span>
 
 
-            <div class="6u 12u(narrower)">
-              <section class="box special">
-                <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/instruments.jpg" alt="" /></span>
-                <h3>ARCAS</h3>
-                <p>Our flights will be tracked with smartCARS, a flight tracking software made for FSX, P3D and X-Plane. This ACARS system is available for all our pilots.</p>
-              </section>
-            </div>
+          <p>FlyCaribbeanVA is a Virtual Alliance by and for
+          virtual pilots who like to fly in the Caribbean area.
+          It is founded in 2016. The idea is to offer the
+          possibility to simulate real world flights flown in the
+          Caribbean, from small private aircrafts to large passenger
+          and cargo jets. </p>
 
-          </div>
+          <p>We have two hubs: St. Maarten (TNCM) and Curacao (TNCC).</p>
 
+  				</div>
+
+          </br>
+
+          <div class="box">
+          <header><h2>What we offer</h2></header>
+          <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/code_share.jpg" alt="" /></span>
+          <p>We offer our pilots the possibility to fly offline and
+				  online (<a href="https://www.ivao.aero/">IVAO</a>,
+					<a href="https://www.vatsim.net/">VATSIM</a>, or any other
+					network).</p>
+
+          <p>Flighttracking will be done primarily by our own
+					smartCARS, but we do allow XAcars as well.</p>
+
+					<p>To fly as real as it gets we offer flights from many
+					realworld airlines that are operating in the Caribbean
+					(LIAT, InselAir, Winair, Seaborne and many more) and
+					intercontinental flights to/from Europe, North - and South
+					America (KLM, Delta, British Airways, etc)  with their
+					appropriate callsigns.</p>
+
+					<p>We also allow our pilots to create their own flights, using
+					our FCB-callsign. We have a large fleet with realworld
+					aircrafts, from small props to big jets, from helicopters to
+					bussiness jets.</p>
+        </div>
+
+        <a name="airline_news"></a>
           <section class="box feature">
             <h2>Airline News</h2>
             <?php MainController::Run('News', 'ShowNewsFront', 5); ?>
@@ -123,6 +145,18 @@
           <section class="box special features">'
             <?php echo $page_content; ?>
           </section>
+
+        <div class="box">
+        <header><h2>Why choose FlyCaribbeanVA</h2></header>
+        <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_palm.jpg" alt="" /></span>
+        <p>The Caribbean are one the most beautifull places in the world.
+          Wether you like to do some island hoping and try your skills on the
+          approaches of St. Barths and Saba, or fly big jets for a nice approach
+          into St. Maarten, FlyCaribbeanVA can make this happen.</p>
+
+        <p>We have an active and friendly community, new pilots are very welcome.</p>
+
+        </div>
 
         <?php
         } else {
@@ -197,6 +231,7 @@
         <li>copyright &copy; 2007 - <?php echo date('Y') ?> - <?php echo SITE_NAME; ?></li>
         <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
         <li><a href="http://www.phpvms.net" target="_blank">powered by phpVMS</a></li>
+        <li>Images: <a href="https://unsplash.com">unsplash</a></li>
       </ul>
     </footer>
 
