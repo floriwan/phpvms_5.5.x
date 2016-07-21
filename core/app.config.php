@@ -31,7 +31,7 @@ define('IN_PHPVMS', true);
 
 # Debug mode is off by default
 Config::Set('DEBUG_MODE', true);
-Config::Set('DEBUG_LEVEL', 1); // 1 logs query errors, 2 logs all queries
+Config::Set('DEBUG_LEVEL', 2); // 1 logs query errors, 2 logs all queries
 Config::Set('ERROR_LEVEL', E_ALL ^ E_NOTICE);
 
 # Page encoding options
@@ -74,7 +74,7 @@ Config::Set('PILOT_AUTO_CONFIRM', false);
 Config::Set('RANKS_AUTOCALCULATE', true);
 
 # Schedules - ignore the day of week active?
-Config::Set('CHECK_SCHEDULE_DAY_OF_WEEK', true);
+Config::Set('CHECK_SCHEDULE_DAY_OF_WEEK', false);
 
 # Schedules - only show schedules from the last filed PIREP
 Config::Set('SCHEDULES_ONLY_LAST_PIREP', false);

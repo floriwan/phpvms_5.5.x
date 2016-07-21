@@ -6,6 +6,7 @@
       <p>
       <strong>Your Pilot ID: </strong> <?php echo $pilotcode; ?><br />
       <strong>Your Rank: </strong><?php echo $userinfo->rank;?><br />
+      <strong>IVAO ID: </strong><?php echo $pilot->ivao_id;?><br />
       <?php
       if($report)
       { ?>

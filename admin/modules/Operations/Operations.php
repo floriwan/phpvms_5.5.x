@@ -656,7 +656,7 @@ class Operations extends CodonModule {
             return;
         }
 
-        OperationsData::AddAirline($this->post->code, $this->post->name);
+        OperationsData::AddAirline($this->post->code, $this->post->callsign, $this->post->name);
 
         if (DB::errno() != 0) {
             if (DB::errno() == 1062) // Duplicate entry

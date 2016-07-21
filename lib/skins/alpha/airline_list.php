@@ -24,7 +24,7 @@ if(!$allairlines)
   <td><?php echo $airline->code; ?></td>
 	<td><?php echo $airline->callsign; ?></td>
   <td><?php echo $airline->name; ?></td>
-  <td><img src="<?php echo $airline->logo; ?>"></td>
+  <td><?php if (strlen($airline->logo) > 1) echo "<img src=\"$airline->logo\"></td>"; ?>
 </tr>
 
 <?php } ?>

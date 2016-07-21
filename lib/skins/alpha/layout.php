@@ -134,6 +134,10 @@
 					our FCB-callsign. We have a large fleet with realworld
 					aircrafts, from small props to big jets, from helicopters to
 					bussiness jets.</p>
+
+          <p><a href="http://www.ivao.aero"><img src="<?php echo SITE_URL?>/lib/images/ivao_logo.png" alt="" /></a>
+            <a href="http://www.vatsim.net"><img src="<?php echo SITE_URL?>/lib/images/vatsim_logo.png" alt="" /></a></p>
+
         </div>
 
         <a name="airline_news"></a>

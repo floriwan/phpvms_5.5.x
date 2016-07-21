@@ -209,9 +209,10 @@ class Profile extends CodonModule
 		PilotData::GenerateSignature($pilot->pilotid);
 
 		PilotData::SaveAvatar($pilot->code, $pilot->pilotid, $_FILES);
-
+    echo "<p>profile laved</p>";
 		$this->set('message', 'Profile saved!');
 		$this->render('core_success.tpl');
+    //$this->render('profile_main.tpl');
 	}
 
 	/**

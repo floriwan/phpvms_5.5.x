@@ -55,7 +55,7 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
     <td><?php echo $aircraft->maxpax;?></td>
   </tr>
   <tr>
-    <td>Cargo</td>
+    <td>Cargo (lbs)</td>
     <td><?php echo $aircraft->maxcargo;?></td>
   </tr>
 
