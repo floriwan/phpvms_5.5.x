@@ -13,6 +13,7 @@ if(!$allairlines)
 	<th>Code</th>
 	<th>Callsign</th>
   <th>Name</th>
+  <th>Logo</th>
 	<th>Enabled</th>
 	<th>Options</th>
 </tr>
@@ -26,6 +27,7 @@ foreach($allairlines as $airline)
 	<td align="center"><?php echo $airline->code; ?></td>
 	<td align="center"><?php echo $airline->callsign; ?></td>
   <td align="center"><?php echo $airline->name; ?></td>
+  <td><?php if (strlen($airline->logo) > 1) echo "<img src=\"$airline->logo\"></td>"; ?>
 	<td align="center"><?php echo ($airline->enabled == 1) ? 'Yes' : 'No'; ?></td>
 	<td align="center" width="1%" nowrap>
 	<button id="dialog" class="jqModal {button:{icons:{primary:'ui-icon-wrench'}}}"

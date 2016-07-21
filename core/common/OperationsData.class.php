@@ -289,14 +289,14 @@ class OperationsData extends CodonData {
     /**
      * Add an airline
      */
-    public static function addAirline($code, $callsign, $name) {
+    public static function addAirline($code, $callsign, $name, $logo) {
         $code = strtoupper($code);
         $callsign = strtoupper($callsign);
         $name = DB::escape($name);
 
         $sql = "INSERT INTO " . TABLE_PREFIX . "airlines (
-					`code`, `callsign`, `name`)
-				VALUES ('$code', '$callsign', '$name')";
+					`code`, `callsign`, `name`, `logo`)
+				VALUES ('$code', '$callsign', '$name', '$logo')";
 
         $res = DB::query($sql);
 
@@ -318,7 +318,7 @@ class OperationsData extends CodonData {
      * @param bool $enabled
      * @return
      */
-    public static function editAirline($id, $code, $callsign, $name, $enabled = true) {
+    public static function editAirline($id, $code, $callsign, $name, $logo, $enabled = true) {
 
         $old_airline = self::getAirlineByID($id);
 
@@ -330,7 +330,7 @@ class OperationsData extends CodonData {
         else  $enabled = 0;
 
         $sql = "UPDATE " . TABLE_PREFIX . "airlines
-				SET `code`='$code', `callsign`='$callsign', `name`='$name', `enabled`=$enabled
+				SET `code`='$code', `callsign`='$callsign', `name`='$name', `logo`='$logo', `enabled`=$enabled
 				WHERE id=$id";
 
         $res = DB::query($sql);

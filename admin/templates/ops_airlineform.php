@@ -11,6 +11,9 @@
 <dt>Airline Name *</dt>
 <dd><input name="name" type="text" value="<?php echo $airline->name; ?>" /></dd>
 
+<dt>Airline logo (link)</dt>
+<dd><input name="logo" type="text" value="<?php echo $airline->logo; ?>" /></dd>
+
 <dt>Enabled *</dt>
 <dd><?php $checked = ($airline->enabled==1)?'CHECKED':''; ?>
 	<input name="enabled" type="checkbox" <?php echo $checked ?> /></dd>

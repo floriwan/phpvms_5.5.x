@@ -656,7 +656,7 @@ class Operations extends CodonModule {
             return;
         }
 
-        OperationsData::AddAirline($this->post->code, $this->post->callsign, $this->post->name);
+        OperationsData::AddAirline($this->post->code, $this->post->callsign, $this->post->name, $this->post->logo);
 
         if (DB::errno() != 0) {
             if (DB::errno() == 1062) // Duplicate entry
@@ -702,7 +702,7 @@ class Operations extends CodonModule {
         else  $enabled = false;
 
         OperationsData::EditAirline($this->post->id, $this->post->code, $this->post->callsign,
-            $this->post->name, $enabled);
+            $this->post->name, $this->post->logo, $enabled);
 
         if (DB::errno() != 0) {
             $this->set('message', 'There was an error editing the airline');

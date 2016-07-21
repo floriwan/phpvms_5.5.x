@@ -66,7 +66,7 @@
           <!--<tr><td><?php echo StatsData::TotalFlights(); ?></td><td>Total Flights</td></tr>-->
           <!--<?php echo StatsData::TotalHours(); ?></span>Total hr</li>-->
           <tr><td><?php echo StatsData::TotalFlightsToday(); ?></td><td>Flights Today</td></tr>
-          <tr><td><?php echo SchedulesData::countSchedules(); ?></td><td>Routes available</td></tr>
+          <tr><td><?php echo SchedulesData::countSchedules(""); ?></td><td>Routes available</td></tr>
         </table>
       </p>
     </section>
