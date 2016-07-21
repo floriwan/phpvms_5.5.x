@@ -77,7 +77,7 @@ class IvaoData extends CodonData {
                   $fields = explode(":", $line);
                   if ($fields[3] === "PILOT") {
                     if (in_array($fields[1], $ivao_ids)) {
-                      PilotData::setIvaoOnline($ivao_ids);
+                      PilotData::setIvaoOnline($fields[1]);
                     }
                   }
                 }
@@ -155,8 +155,10 @@ class IvaoData extends CodonData {
     $diff = date_diff($past, $today);
 
     if ($diff->format("%h%i") > 8) {
+      //echo "<p>pilot update needed</p>";
       return true;
     } else {
+      //echo "<p>no pilot update</p>";
       return false;
     }
   }
@@ -177,8 +179,10 @@ class IvaoData extends CodonData {
     $diff = date_diff($past, $today);
 
     if ($diff->format("%a") > 30) {
+      //echo "<p>update needed</p>";
       return true;
     } else {
+      //echo "<p>no update</p>";
       return false;
     }
 

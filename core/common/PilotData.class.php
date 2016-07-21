@@ -55,8 +55,9 @@ class PilotData extends CodonData {
         return $ret;
     }
 
-    public static function setIvaoOnline($ivaoid, $status) {
-      $sql = "UPDATE ". TABLE_PREFIX . "pilots SET `ivao_status` = 1 WHERE `ivao_id` = " . $ivao_id;
+    public static function setIvaoOnline($ivaoid) {
+      $sql = "UPDATE ". TABLE_PREFIX . "pilots SET `ivao_status` = 1 WHERE `ivao_id` = " . $ivaoid;
+      echo "<p>update " .$sql. "</p>";
       DB::query($sql);
     }
 
