@@ -79,6 +79,7 @@ if(Auth::LoggedIn())
   <ul>
     <li><a href="<?php echo url('/acars') ?>">Live Map</a></li>
     <li><a href="http://www.flycaribbeanva.com/smf/index.php?action=login">Forum</a></li>
+    <li><a href="JavaScript:ts_popup('../../teamspeak.html');">Teamspeak</a></li>
   </ul>
 </li>
 

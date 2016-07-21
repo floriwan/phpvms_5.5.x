@@ -135,6 +135,9 @@
 					aircrafts, from small props to big jets, from helicopters to
 					bussiness jets.</p>
 
+          <p>All pilots are welcome to use our Team Speak 3 server which
+            runs 24 / 7.</p>
+
           <p><a href="http://www.ivao.aero"><img src="<?php echo SITE_URL?>/lib/images/ivao_logo.png" alt="" /></a>
             <a href="http://www.vatsim.net"><img src="<?php echo SITE_URL?>/lib/images/vatsim_logo.png" alt="" /></a></p>
 
