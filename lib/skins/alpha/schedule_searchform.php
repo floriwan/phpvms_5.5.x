@@ -1,1 +1,1 @@
-<h3>Search Schedules</h3>
+<h3>Search Today Schedules</h3>

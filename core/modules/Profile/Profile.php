@@ -196,6 +196,7 @@ class Profile extends CodonModule
 		$params = array(
 			'code' => $pilot->code,
 			'email' => $this->post->email,
+      'ivao_id' => $this->post->ivao_id,
 			'location' => $this->post->location,
 			'hub' => $pilot->hub,
 			'bgimage' => $this->post->bgimage,
@@ -209,7 +210,6 @@ class Profile extends CodonModule
 		PilotData::GenerateSignature($pilot->pilotid);
 
 		PilotData::SaveAvatar($pilot->code, $pilot->pilotid, $_FILES);
-    echo "<p>profile laved</p>";
 		$this->set('message', 'Profile saved!');
 		$this->render('core_success.tpl');
     //$this->render('profile_main.tpl');
