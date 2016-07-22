@@ -90,6 +90,8 @@ $trans = array(
     
     'activity.pilot.promotion' => 'has been promoted to $rank!',
 	
+	'activity.new.news' => 'has posted news', 
+	
 	/*
 	 * Template language replacements
 	 */

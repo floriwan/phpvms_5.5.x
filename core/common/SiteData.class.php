@@ -68,6 +68,10 @@ class SiteData extends CodonData {
 									FROM ' . TABLE_PREFIX . 'news ORDER BY postdate DESC');
     }
 
+    public static function getLastNewsItemID() {
+      return DB::get_results('SELECT max(id) FROM ' . TABLE_PREFIX . 'news');
+    }
+
     /**
      * SiteData::AddNewsItem()
      *

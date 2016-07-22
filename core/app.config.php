@@ -557,6 +557,7 @@ define('ACTIVITY_PROMOTION', 3);
 define('ACTIVITY_NEW_AWARD', 4);
 define('ACTIVITY_NEW_BID', 5);
 define('ACTIVITY_TWITTER', 6);
+define('ACTIVITY_NEW_NEWS', 7);
 
 define('TWITTER_STATUS_URL', 'http://api.twitter.com/1/statuses/user_timeline.json?include_entities=0&screen_name=');
 

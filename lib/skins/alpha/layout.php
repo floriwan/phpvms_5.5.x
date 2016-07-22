@@ -71,7 +71,8 @@
 							Sign Up
 							<i class="fa fa-sign-in" aria-hidden="true"></i></a>
 						</li>
-						<li><a href="<?php echo url('#who_we_are'); ?>" class="button">Learn More</a></li>
+						<li><a href="<?php echo url('contact'); ?>" class="button">Contact
+            <i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
 				</ul>
 
       <?php } ?>
@@ -110,8 +111,6 @@
 
   				</div>
 
-          </br>
-
           <div class="box">
           <header><h2>What we offer</h2></header>
           <span class="image featured"><img src="<?php echo SITE_URL?>/lib/images/code_share.jpg" alt="" /></span>
@@ -146,7 +145,7 @@
         <a name="airline_news"></a>
           <section class="box feature">
             <h2>Airline News</h2>
-            <?php MainController::Run('News', 'ShowNewsFront', 5); ?>
+            <?php MainController::Run('News', 'ShowNewsPreview', 5); ?>
           </section>
 
           <section class="box special features">'
@@ -192,7 +191,7 @@
           /*echo "true";*/
           echo '<section class="box feature">';
           echo '<h2>Airline News</h2>';
-          MainController::Run('News', 'ShowNewsFront', 5);
+          MainController::Run('News', 'ShowNewsPreview', 5);
           echo '</section>';
 
           echo '<section class="box special features">';

@@ -150,6 +150,11 @@
             $airport = OperationsData::getAirportInfo($pilot->hub);
             $lat = $airport->lat;
             $long = $airport->lng;
+
+        } elseif($params['type']== ACTIVITY_NEW_NEWS) {
+
+            $message .= url('/news');
+
         }
 
         require_once CORE_LIB_PATH.'/codebird_php/codebird.php';

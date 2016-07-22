@@ -20,31 +20,62 @@ class News extends CodonModule
 {
 	public function index()
 	{
-		$this->ShowNewsFront(5);
+		$this->ShowNewsFront(50);
 	}
-	
+
 	// This function gets called directly in the template
 	public function ShowNewsFront($count=5)
 	{
 		$sql='SELECT id, subject, body, postedby, UNIX_TIMESTAMP(postdate) AS postdate
-				FROM ' . TABLE_PREFIX .'news 
-				ORDER BY postdate DESC 
+				FROM ' . TABLE_PREFIX .'news
+				ORDER BY postdate DESC
 				LIMIT '.$count;
-		
+
 		$res = DB::get_results($sql);
-		
+
 		if(!$res)
 			return;
-			
-		foreach($res as $row)
+
+    $this->set('allnews', $res);
+    $this->show('news_newslist.tpl');
+
+		/*
+    foreach($res as $row)
 		{
 			//TODO: change the date format to a setting in panel
 			$this->set('subject', $row->subject);
 			$this->set('body', $row->body);
 			$this->set('postedby', $row->postedby);
 			$this->set('postdate', date(DATE_FORMAT, $row->postdate));
-		
+
 			$this->show('news_newsitem.tpl');
-		}
+		}*/
 	}
+
+  public function ShowNewsPreview($count=5) {
+    $sql='SELECT id, subject, body, postedby, UNIX_TIMESTAMP(postdate) AS postdate
+				FROM ' . TABLE_PREFIX .'news
+				ORDER BY postdate DESC
+				LIMIT '.$count;
+
+		$res = DB::get_results($sql);
+
+		if(!$res)
+			return;
+
+    $this->set('allnews', $res);
+    $this->show('news_newspreview.tpl');
+
+		/*foreach($res as $row)
+		{
+			//TODO: change the date format to a setting in panel
+      $this->set('id', $row->id);
+			$this->set('subject', $row->subject);
+			$this->set('postedby', $row->postedby);
+      $this->set('body', $row->body);
+			$this->set('postdate', date(DATE_FORMAT, $row->postdate));
+
+			$this->show('news_newspreview.tpl');
+		}*/
+  }
 }

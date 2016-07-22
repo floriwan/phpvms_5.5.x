@@ -10,7 +10,7 @@
       <?php
       if($report)
       { ?>
-        <strong>Latest Flight: </strong><ahref="<?php echo url('pireps/view/'.$report->pirepid); ?>">
+        <strong>Latest Flight: </strong><a href="<?php echo url('pireps/view/'.$report->pirepid); ?>">
             <?php echo $report->code . $report->flightnum; ?></a>
         <br />
       <?php
@@ -84,10 +84,9 @@
 
         foreach($reports as $report) { ?>
           <tr>
-            <td><a href="<?php echo url('/pireps/viewreport/'.$report->pirepid);?>">#<?php echo $report->pirepid; ?></td>
+            <td><a href="<?php echo url('/pireps/viewreport/'.$report->pirepid);?>">#<?php echo $report->pirepid; ?></a></td>
             <td><?php echo $report->code.$report->flightnum;?></td>
             <td><?php echo $report->depicao?> <i class="icon fa-angle-right"></i> <?php echo $report->arricao?></td>
-          </tr>
           </tr>
 
           <?php }
