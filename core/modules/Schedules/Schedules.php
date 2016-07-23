@@ -24,6 +24,12 @@ class Schedules extends CodonModule {
      * @return
      */
     public function index() {
+
+        if (Auth::LoggedIn() == false) {
+          $this->render('pages_nopermission.tpl');
+          return;
+        }
+
         $this->view();
     }
 
@@ -33,12 +39,19 @@ class Schedules extends CodonModule {
      * @return
      */
     public function view() {
-        if (isset($this->post->action) && $this->post->action == 'findflight') {
-            $this->FindFlight();
-            return;
-        }
 
-        $this->showSchedules();
+      if (Auth::LoggedIn() == false) {
+        $this->render('pages_nopermission.tpl');
+        return;
+      }
+
+      if (isset($this->post->action) && $this->post->action == 'findflight') {
+        $this->FindFlight();
+        return;
+      }
+
+      $this->showSchedules();
+      
     }
 
     /**
