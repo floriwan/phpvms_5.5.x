@@ -228,7 +228,7 @@ class SiteCMS extends CodonModule
     $pilotinfo = PilotData::getPilotData( Auth::$userinfo->pilotid);
     $pilotcode = PilotData::getPilotCode($pilotinfo->code, $pilotinfo->pilotid);
 
-    $message = $pilotcode . " " . Lang::get('activity.new.news');
+    $message = $pilotinfo->firstname . "(" . $pilotcode . ") " . Lang::get('activity.new.news');
 
     ActivityData::addActivity(array(
         'pilotid' => $userinfo->pilotid,

@@ -1017,7 +1017,7 @@ class PilotData extends CodonData {
 
         # Configure what we want to show on each line
         $output = array();
-        $output[] = $pilotcode . ' ' . $pilot->firstname . ' ' . $pilot->lastname;
+        $output[] = $pilot->firstname . ' ' . $pilot->lastname . ' (' . $pilotcode . ') ';
         $output[] = $pilot->rank . ', ' . $pilot->hub;
         $output[] = 'Total Flights: ' . $pilot->totalflights;
         $output[] = 'Total Hours: ' . $totalhours;
