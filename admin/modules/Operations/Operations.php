@@ -31,6 +31,10 @@ class Operations extends CodonModule {
             case 'airlines':
                 $this->set('sidebar', 'sidebar_airlines.php');
                 break;
+            case 'liveries':
+            case 'addlivery':
+            case 'editlivery':
+            case 'deletelivery':
             case 'addaircraft':
             case 'aircraft':
                 $this->set('sidebar', 'sidebar_aircraft.php');
@@ -60,6 +64,64 @@ class Operations extends CodonModule {
         $this->schedules();
     }
 
+
+    public function liveries() {
+
+      switch ($this->post->action) {
+
+            case 'addlivery':
+                $this->add_livery_post();
+                break;
+            case 'editlivery':
+                $this->edit_livery_post();
+                break;
+        }
+
+
+      $data = AircraftData::getAllLiveries();
+      $this->set('allliveries', $data);
+      $this->render('ops_liverylist.php');
+
+    }
+
+    public function edit_livery_post() {
+      AircraftData::updateLivery($this->post->liveryID, $this->post->registration,
+            $this->post->sim, $this->post->desc, $this->post->link, $this->post->image);
+    }
+
+    public function editlivery() {
+
+      $data = AircraftData::loadLivery($this->get->id);
+      $this->set('livery', $data);
+
+      $aircraft = OperationsData::getAircraftInfo($data->aircraftID);
+      $this->set('aircraft', $aircraft);
+
+      $this->render('ops_editlivery.php');
+    }
+
+    public function deletelivery() {
+      AircraftData::deleteLivery($this->get->id);
+
+      $data = AircraftData::getAllLiveries();
+      $this->set('allliveries', $data);
+      $this->render('ops_liverylist.php');
+
+    }
+
+    public function add_livery_post() {
+      AircraftData::saveLivery($this->post->aircraftID, $this->post->registration,
+            $this->post->sim, $this->post->desc, $this->post->link, $this->post->image);
+    }
+
+    public function addlivery() {
+      $this->checkPermission(EDIT_FLEET);
+
+      $aircraftid = $this->get->aircraftID;
+
+      $this->set('aircraft', OperationsData::GetAircraftInfo($aircraftid));
+      $this->render('ops_addlivery.php');
+    }
 
     /**
      * Operations::viewmap()
@@ -752,6 +814,7 @@ class Operations extends CodonModule {
             'name' => $this->post->name,
             'fullname' => $this->post->fullname,
             'registration' => $this->post->registration,
+            'equipment' => $this->post->registration,
             'downloadlink' => $this->post->downloadlink,
             'imagelink' => $this->post->imagelink,
             'range' => $this->post->range,
@@ -817,6 +880,7 @@ class Operations extends CodonModule {
 
         $data = array('id' => $this->post->id, 'icao' => $this->post->icao, 'name' => $this->post->name,
             'fullname' => $this->post->fullname, 'registration' => $this->post->registration,
+            'equipment' => $this->post->equipment,
             'downloadlink' => $this->post->downloadlink, 'imagelink' => $this->post->imagelink,
             'range' => $this->post->range, 'weight' => $this->post->weight, 'cruise' => $this->post->cruise,
             'maxpax' => $this->post->maxpax, 'maxcargo' => $this->post->maxcargo, 'minrank' =>

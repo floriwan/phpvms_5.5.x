@@ -39,6 +39,14 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
     <td><?php echo $aircraft->registration;?></td>
   </tr>
   <tr>
+    <td>Navigation Equipment</td>
+    <td><?php echo $aircraft->equipment;
+      if ($aircraft->equipment)
+      echo " <a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/Equipment_codes\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i</a>"
+    ?>
+
+  </tr>
+  <tr>
     <td>Range (nm)</td>
     <td><?php echo $aircraft->range;?></td>
   </tr>
@@ -94,6 +102,31 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
 
 </table>
 
+<?php
+  $liveries = AircraftData::getLiveries($aircraft->id);
+  if (!$liveries) $liveries = [];
+
+  if (sizeof($liveries) > 0) { ?>
+    <h3>Liveries</h3>
+
+    <table>
+    <?php foreach ($liveries as $livery) { ?>
+
+      <tr><td>
+        <?php switch($livery->sim) {
+        case 1: echo "FSX"; break;
+        case 2: echo "P3D"; break;
+        case 3: echo "X-Plane"; break;
+      } ?>
+      </td>
+      <td><?php echo $livery->desc ?></td>
+      <td><a target="_blank" href="<?php echo $livery->link ?>"> <i class="fa fa-external-link" aria-hidden="true"></i> </a></td>
+
+    <?php } ?>
+    </table>
+  <?php }
+
+?>
 
 
 
@@ -194,6 +227,7 @@ var flightMarkers = [];
 <?php
 $shown = array();
 $pirep_list = vFleetTrackData::getLastNumFlightsAircraft($aircraft->id, 15);
+if (!$pirep_list) $pirep_list = [];
 foreach($pirep_list as $pirep) {
 	// Dont show repeated routes
   if(in_array($pirep->code.$pirep->flightnum.$pirep->depicao.$pirep->arricao, $shown))

@@ -27,6 +27,12 @@
 	<p>The maximum cargo load of this aircraft in <?php echo Config::Get('CARGO_UNITS'); ?>, for cargo flights</p>
 </dd>
 
+<dt>Navigation Equipment</dt>
+<dd><input name="equipment" type="text"  value="<?php echo $aircraft->equipment; ?>" />
+	<p>The available navigation equipment in this aircraft</p>
+</dd>
+
+
 <dt>Link to download aircraft</dt>
 <dd><input name="downloadlink" type="text"  value="<?php echo $aircraft->downloadlink; ?>" /></dd>
 
