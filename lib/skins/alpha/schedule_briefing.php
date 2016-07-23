@@ -117,6 +117,8 @@
 </table>
 
 
+<form id="sbapiform" method="get" action="http://www.simbrief.com/ofp/ofp.loader.api.php" target="SBworker">
+
 <table width="98%" align="center" padding="2">
 <tr style="background-color: #333; color: #FFF; padding: 5px;">
     <td colspan="2">Simbrief Options</td>
@@ -147,7 +149,7 @@
 
 
 
-<form id="sbapiform" method="get" action="http://www.simbrief.com/ofp/ofp.loader.api.php" target="SBworker">
+
 
 
 
@@ -229,6 +231,8 @@
 
 </form>
 
-    </div>
 <div align="right" style="font-size: small;">Data Courtesy of <a href="http://flightaware.com" target="_new">FlightAware</a></div>
+
+    </div>
+
 <br />
