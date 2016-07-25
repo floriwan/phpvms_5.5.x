@@ -808,13 +808,13 @@ class Operations extends CodonModule {
             return;
         }
 
-        echo "<p> airline id " . $this->port->airlineid . "</p>";
+        //echo "<p> airline id " . $this->port->airlineid . "</p>";
         $data = array(
             'icao' => $this->post->icao,
             'name' => $this->post->name,
             'fullname' => $this->post->fullname,
             'registration' => $this->post->registration,
-            'equipment' => $this->post->registration,
+            'equipment' => $this->post->equipment,
             'downloadlink' => $this->post->downloadlink,
             'imagelink' => $this->post->imagelink,
             'range' => $this->post->range,
