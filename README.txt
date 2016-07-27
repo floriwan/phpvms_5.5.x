@@ -3,6 +3,7 @@ flycaribbeanva integration
 
 use the latest phpvms version and integrate every plugin and new feature we need for our airline.
 
++ livery support for aircrafts
 + show ivao online state for pilots
 + simbrief integration
 + rules and regulations
