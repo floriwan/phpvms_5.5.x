@@ -62,17 +62,7 @@ class IvaoData extends CodonData {
         default:
 
           if ($data_block === 'clients') {
-            switch($line) {
-              case "!CLIENTS":
-                $data_block = 'clients';
-                break;
-              case "!GENERAL":
-              case "!SERVERS":
-              case "!AIRPORTS":
-                $data_block = 'xxx';
-                break;
-              default:
-
+            
                 if ($data_block === 'clients') {
                   $fields = explode(":", $line);
                   if ($fields[3] === "PILOT") {
