@@ -1811,7 +1811,7 @@ dd {
 	}
 
 	body, input, select, textarea {
-		color: #777;
+		color: #333;
 		font-family: "Source Sans Pro", sans-serif;
 		font-size: 14pt;
 		font-weight: 300;
@@ -1997,7 +1997,7 @@ dd {
 		header.major p {
 			display: inline-block;
 			border-top: solid 2px #e5e5e5;
-			color: #777;
+			color: #333;
 			margin: 1.5em 0 0 0;
 			padding: 1.5em 0 0 0;
 			font-style: normal;
@@ -2131,7 +2131,7 @@ dd {
 		input[type="checkbox"] + label,
 		input[type="radio"] + label {
 			text-decoration: none;
-			color: #777;
+			color: #333;
 			cursor: pointer;
 			display: inline-block;
 			font-size: 1em;
@@ -2626,9 +2626,9 @@ dd {
 
 		table th {
 			color: #646464;
-			font-size: 0.9em;
+			//font-size: 0.9em;
 			#font-weight: 300;
-      font-weight: 400;
+      font-weight: 500;
 			padding: 0 0em 0em 0em;
 			text-align: left;
       color: #646464;
@@ -2758,7 +2758,7 @@ dd {
 		.button.alt {
 			background-color: transparent;
 			box-shadow: inset 0 0 0 2px #e5e5e5;
-			color: #777;
+			color: #333;
 		}
 
 			input[type="submit"].alt:hover,
@@ -3105,10 +3105,10 @@ dd {
 	#banner {
 		background-attachment: scroll,							fixed;
 		background-color: #666;
-		background-image: url("images/overlay.png"),  url("images/flycaribbean_background.jpg");
-		background-position: top left,						center center;
-		background-repeat: repeat,							no-repeat;
-		background-size: auto,							cover;
+		background-image: url("images/flycaribbean_background.jpg");
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
 		color: #fff;
 		padding: 12em 0 20em 0;
 		text-align: center;
@@ -3184,7 +3184,7 @@ dd {
 
 			#main > header p {
 				border-top: solid 2px #e5e5e5;
-				color: #777;
+				color: #333;
 				display: inline-block;
 				font-style: normal;
 				margin: 1em 0 0 0;

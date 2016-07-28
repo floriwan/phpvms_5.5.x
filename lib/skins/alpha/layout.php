@@ -1,37 +1,37 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=7">
+  <!-- <meta http-equiv="X-UA-Compatible" content="IE=7"> -->
   <title><?php echo $page_title; ?></title>
 
   <?php echo $page_htmlhead; ?>
 
   <!-- Scripts for the layout template -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lte IE 8]><script src="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/js/ie/html5shiv.js"></script><![endif]-->
+  <link rel="stylesheet" href="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/css/main.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/css/ie8.css" /><![endif]-->
+  <link rel="stylesheet" href="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/css/animation.css" />
 
   <!---<script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/jquery.min.js"></script>-->
   <script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/jquery.dropotron.min.js"></script>
   <script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/jquery.scrollgress.min.js"></script>
   <script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/skel.min.js"></script>
   <script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/util.js"></script>
-  <!--[if lte IE 8]><script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/ie/respond.min.js"></script><![endif]-->
+  <!--[if lte IE 8]><script src="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/js/ie/respond.min.js"></script><![endif]-->
   <script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/main.js"></script>
 
   <!-- simbrief include -->
   <script type="text/javascript" src="<?php echo fileurl('lib/js/simbrief.apiv1.js');?>"></script>
-
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!--[if lte IE 8]><script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/ie/html5shiv.js"></script><![endif]-->
-  <link rel="stylesheet" href="<?php echo SITE_URL?>/lib/skins/alpha/assets/css/main.css" />
-  <!--[if lte IE 8]><link rel="stylesheet" href="<?php echo SITE_URL?>/lib/skins/alpha/assets/css/ie8.css" /><![endif]-->
-  <link rel="stylesheet" href="<?php echo SITE_URL?>/lib/skins/alpha/assets/css/animation.css" />
 
   <!-- for the login pop up window -->
   <script src="<?php echo SITE_URL?>/lib/skins/alpha/assets/js/login.js"></script>
   <link href="<?php echo SITE_URL?>/lib/skins/alpha/assets/css/login.css" rel="stylesheet" media="all" />
 
   <!--<link rel="icon" href="<?php echo SITE_URL?>/lib/skins/alpha/images/flycaribbean_icon.ico" type="image/x-icon"/>-->
+
 
 </head>
 
