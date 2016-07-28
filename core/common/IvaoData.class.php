@@ -62,7 +62,7 @@ class IvaoData extends CodonData {
         default:
 
           if ($data_block === 'clients') {
-            
+
                 if ($data_block === 'clients') {
                   $fields = explode(":", $line);
                   if ($fields[3] === "PILOT") {
@@ -75,11 +75,10 @@ class IvaoData extends CodonData {
             }
           }
       }
+
+      self::saveLastPilotUpdate($service);
+
     }
-
-    self::saveLastPilotUpdate($service);
-
-  }
 
   /**
    * set the last pilot update timestamp in database

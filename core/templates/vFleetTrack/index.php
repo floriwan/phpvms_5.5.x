@@ -67,7 +67,11 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
         $lastflight = vFleetTrackData::getLastFlightAircraft($aircraft->id);
         if($lastflight)
         {
-          $last = '<a href="'.url('/pireps/view/'.$lastflight->pirepid).'">'.$lastflight->code.$lastflight->flightnum.' ('.$lastflight->depicao.' - '.$lastflight->arricao.')</a>';
+          if(Auth::LoggedIn() == true) {
+            $last = '<a href="'.url('/pireps/view/'.$lastflight->pirepid).'">'.$lastflight->code.$lastflight->flightnum.' ('.$lastflight->depicao.' - '.$lastflight->arricao.')</a>';
+          } else {
+            $last = ''.$lastflight->code.$lastflight->flightnum.' ('.$lastflight->depicao.' - '.$lastflight->arricao.')';
+          }
         }
         else
         {

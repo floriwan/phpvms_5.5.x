@@ -41,6 +41,13 @@ class PIREPS extends CodonModule {
      * @return
      */
     public function index() {
+
+        if (Auth::LoggedIn() == false) {
+          $this->set('message', 'You are not logged in!');
+          $this->render('core_error.tpl');
+          return;
+        }
+
         $this->viewpireps();
     }
 
@@ -129,6 +136,13 @@ class PIREPS extends CodonModule {
      * @return
      */
     public function view($pirepid = '') {
+
+        if (Auth::LoggedIn() == false) {
+          $this->set('message', 'You are not logged in!');
+          $this->render('core_error.tpl');
+          return;
+        }
+
         $this->viewreport($pirepid);
     }
 

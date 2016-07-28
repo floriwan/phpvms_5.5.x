@@ -27,13 +27,13 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
 	<th>Arrival</th>
 	<th>Flight Time</th>
     <th>Flight Distance</th>
-    <th>View</th>
+    <?php if(Auth::LoggedIn() == true) { ?><th>View</th><?php } ?>
 </tr>
 </thead>
 <tbody>
 <?php
 foreach($flightsav as $flight)
-{	
+{
 ?>
 <tr>
 	<td><?php echo $flight->code . $flight->flightnum; ?></td>
@@ -41,7 +41,7 @@ foreach($flightsav as $flight)
 	<td><?php echo $flight->arricao; ?></td>
 	<td><?php echo $flight->flighttime; ?></td>
     <td><?php echo $flight->distance; ?></td>
-    <td><a href="<?php echo url('/schedules/view/'.$flight->id);?>">View Flight Schedule</a></td>
+    <?php if(Auth::LoggedIn() == true) { ?><td><a href="<?php echo url('/schedules/view/'.$flight->id);?>">View Flight Schedule</a></td><?php } ?>
 <?php
 }
 ?>

@@ -28,13 +28,13 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
 	<th>Flight Time</th>
 	<th>Flight Date</th>
     <th>Landing Rate</th>
-    <th>View</th>
+    <?php if(Auth::LoggedIn() == true) { ?> <th>View</th> <?php } ?>
 </tr>
 </thead>
 <tbody>
 <?php
 foreach($flights as $flight)
-{	
+{
 ?>
 <tr>
 	<td><?php echo $flight->code . $flight->flightnum; ?></td>
@@ -43,7 +43,7 @@ foreach($flights as $flight)
 	<td><?php echo round($flight->flighttime); ?></td>
 	<td><?php echo date(DATE_FORMAT, $flight->submitdate); ?></td>
     <td><?php echo $flight->landingrate; ?></td>
-    <td><a href="<?php echo url('/pireps/view/'.$flight->pirepid);?>">View</a></td>
+    <?php if(Auth::LoggedIn() == true) { ?> <td><a href="<?php echo url('/pireps/view/'.$flight->pirepid);?>">View</a></td> <?php } ?>
 <?php
 }
 ?>
