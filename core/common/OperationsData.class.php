@@ -212,6 +212,16 @@ class OperationsData extends CodonData {
     }
 
     /**
+     * check registration is not used on other planes
+     */
+    public static function checkRegistration($reg) {
+      $sql = "SELECT * FROM " . TABLE_PREFIX . "aircraft
+      WHERE `registration`='{$reg}'";
+      return DB::get_results($sql);
+    }
+
+
+    /**
      * Get all of the airports
      */
     public static function getAllAirports() {
@@ -445,7 +455,7 @@ class OperationsData extends CodonData {
         $data['name'] = DB::escape(strtoupper($data['name']));
         $data['registration'] = DB::escape(strtoupper($data['registration']));
         $data['equipment'] = DB::escape(strtoupper($data['equipment']));
-        
+
         $data['range'] = ($data['range'] == '') ? 0 : $data['range'];
         $data['weight'] = ($data['weight'] == '') ? 0 : $data['weight'];
         $data['cruise'] = ($data['cruise'] == '') ? 0 : $data['cruise'];

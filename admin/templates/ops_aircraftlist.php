@@ -20,7 +20,7 @@ if(!$allaircraft)
 	<th align="center">Max Cargo</th>
   <th align="center">Airline</th>
   <th align="center">Liveries</th>
-	<th colspan="2">Options</th>
+	<th colspan="3">Options</th>
 </tr>
 </thead>
 <tbody>
@@ -70,6 +70,11 @@ foreach($allaircraft as $aircraft)
 	<td align="center" width="1%" nowrap>
 		<button class="{button:{icons:{primary:'ui-icon-wrench'}}}"
 			onclick="window.location='<?php echo adminurl('/operations/editaircraft?id='.$aircraft->id);?>';">Edit</button>
+	</td>
+
+  <td align="center" width="1%" nowrap>
+    <button class="{button:{icons:{primary:'ui-icon-copy'}}}"
+			onclick="window.location='<?php echo adminurl('/operations/copyaircraft?id='.$aircraft->id);?>';">Copy</button>
 	</td>
 
 </tr>

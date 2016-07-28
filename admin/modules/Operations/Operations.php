@@ -191,6 +191,17 @@ class Operations extends CodonModule {
         $this->render('ops_aircraftform.php');
     }
 
+    public function copyaircraft() {
+      $this->checkPermission(EDIT_FLEET);
+      $id = $this->get->id;
+
+      $this->set('aircraft', OperationsData::GetAircraftInfo($id));
+      $this->set('title', 'Copy Aircraft');
+      $this->set('action', 'copyaircraft');
+      $this->set('allranks', RanksData::getAllRanks());
+      $this->render('ops_aircraftform.php');
+    }
+
     /**
      * Operations::addairline()
      *
@@ -292,6 +303,10 @@ class Operations extends CodonModule {
 
             case 'editaircraft':
                 $this->edit_aircraft_post();
+                break;
+
+            case 'copyaircraft':
+                $this->copy_aircraft_post();
                 break;
         }
 
@@ -900,6 +915,65 @@ class Operations extends CodonModule {
         $this->set('message', 'The aircraft "' . $this->post->registration .
             '" has been edited');
         $this->render('core_success.php');
+    }
+
+    protected function copy_aircraft_post() {
+      $this->checkPermission(EDIT_FLEET);
+      if ($this->post->id == '') {
+          $this->set('message', 'Invalid ID specified');
+          $this->render('core_error.php');
+          return;
+      }
+
+      if ($this->post->icao == '' || $this->post->name == '' || $this->post->fullname ==
+          '' || $this->post->registration == '') {
+          $this->set('message',
+              'You must enter the ICAO, name, full name, and registration');
+          $this->render('core_error.php');
+          return;
+      }
+
+      $ac = OperationsData::checkRegistration($this->post->registration);
+      if ($ac) {
+          $this->set('message',
+              'This registration is already assigned to another active aircraft');
+          $this->render('core_error.php');
+          return;
+      }
+
+      if ($this->post->enabled == '1') $this->post->enabled = true;
+      else  $this->post->enabled = false;
+
+      $data = array('icao' => $this->post->icao, 'name' => $this->post->name,
+          'fullname' => $this->post->fullname, 'registration' => $this->post->registration,
+          'equipment' => $this->post->equipment,
+          'downloadlink' => $this->post->downloadlink, 'imagelink' => $this->post->imagelink,
+          'range' => $this->post->range, 'weight' => $this->post->weight, 'cruise' => $this->post->cruise,
+          'maxpax' => $this->post->maxpax, 'maxcargo' => $this->post->maxcargo, 'minrank' =>
+          $this->post->minrank, 'enabled' => $this->post->enabled, 'airlineid' => $this->post->airlineid);
+
+          echo "<p> add aircraft " . $this->post->icao . "</p>";
+
+      OperationsData::AddAircraft($data);
+
+      if (DB::errno() != 0) {
+
+          if (DB::$errno == 1062) // Duplicate entry
+            $this->set('message', 'This aircraft already exists');
+          else
+            $this->set('message', 'There was an error adding the aircraft');
+
+          $this->render('core_error.php');
+          return false;
+      }
+
+      $this->set('message', 'The aircraft has been added');
+      $this->render('core_success.php');
+
+      LogData::addLog(Auth::$userinfo->pilotid, 'Added the aircraft "' . $this->post->name .
+          ' - ' . $this->post->registration . '"');
+
+
     }
 
     /**
