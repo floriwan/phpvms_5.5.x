@@ -53,10 +53,19 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
     } else {
 
       /* if the is no airline set, write fixed text */
-      if (strlen($airline->name) != 0)
-        echo "<tr><th colspan=\"9\">".$airline->name."</th></tr>";
-      else
+      if (strlen($airline->name) != 0) {
+        echo "<tr>";
+        echo "<th colspan=\"9\">";
+
+        if (strlen($airline->logo) > 1) echo "<img height=\"32\" width=\"127\" src=\"$airline->logo\">";
+        else echo $airline->name;
+
+        echo "</th>";
+        echo "</tr>";
+
+      } else {
         echo "<tr><th colspan=\"9\">No Airline</th></tr>";
+      }
 
       //echo "<table>";
       //echo "<tr><th>ICAO</th><th>Name</th><th>Full Name</th><th>Registration</th><th>Last Flight</th><th>Location</th><th>Total Flights</th><th>Total Hours</th><th>Total Miles</th></tr>";
