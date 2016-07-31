@@ -102,15 +102,24 @@
       <h3>Weather</h3>
       <p>
         <?php
-        include 'include.php';
+        //include 'include.php';
+
         $pilotid = PilotData::getProperPilotID($pilotcode);
         $reports = PIREPDATA::getLastReports($pilotid, 1);
 
-        if(!$reports) {
-        	echo 'No reports have been found';
-        } else {
-          get_metar($reports->arricao);
-        }
+        MainController::Run('Weather', 'request_metar', $reports->arricao);
+        
+        //Weather::request_metar($reports->arricao);
+        //echo "<p> new weather : " . $metar . "</p>";
+
+        //print_r( WeatherData::get_metar($reports->arricao));
+        //echo "<p> new weather : " . WeatherData::get_metar($reports->arricao)['altim_in_hg'] . "</p>";
+
+        //if(!$reports) {
+        //	echo 'No reports have been found';
+        //} else {
+        //  get_metar($reports->arricao);
+        //}
         ?>
       </p>
   </section>

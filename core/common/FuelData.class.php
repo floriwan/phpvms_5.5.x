@@ -31,11 +31,41 @@ class FuelData extends CodonData {
 
         $aptinfo = OperationsData::GetAirportInfo($apt_icao);
 
+        /* file price list is set in configuration */
+
+        $fuelPriceListName = CORE_PATH . "/" . Config::Get('FUEL_PRICE');
+        echo "<p>" . $fuelPriceListName . "</p>";
+
+        if (!empty(Config::Get('FUEL_PRICE')) && file_exists($fuelPriceListName)) {
+          $price = FuelData::readFuelPriceList($fuelPriceListName, $apt_icao);
+          if ($price != 0) {
+            echo "<p> return "  . $price . "</p>";
+            return $price;
+          }
+        }
+
+
         if ($aptinfo->fuelprice == '' || $aptinfo->fuelprice == 0)  {
             return Config::Get('FUEL_DEFAULT_PRICE');
         }
         else    {
             return $aptinfo->fuelprice;
         }
+    }
+
+    /**
+     * read fuel price from text file
+     */
+    public static function readFuelPriceList($fuelPriceList, $apt_icao) {
+
+      $pricelist = file_get_contents($fuelPriceList);
+
+      foreach (explode("\n", $pricelist) as $line) {
+        $prices = explode(" ", $line);
+        if (strcmp($prices[0], $apt_icao) == 0) {
+          return $prices[1];
+        }
+      }
+      return 0;
     }
 }

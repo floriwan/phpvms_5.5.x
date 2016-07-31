@@ -1,0 +1,5 @@
+icao price
+EDDF 3.0
+TNCM 2.5
+SVMC 3.45
+TAPA 3.7
