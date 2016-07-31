@@ -32,7 +32,11 @@
 		<select name="code" id="code">
 		<?php
 		foreach($airline_list as $airline) {
-			echo '<option value="'.$airline->code.'">'.$airline->code.' - '.$airline->name.'</option>';
+      if (strcmp($airline->code, "FCB") == 0) {
+			   echo '<option selected value="'.$airline->code.'">'.$airline->code.' - '.$airline->name.'</option>';
+      } else {
+         echo '<option value="'.$airline->code.'">'.$airline->code.' - '.$airline->name.'</option>';
+      }
 		}
 		?>
 		</select>
