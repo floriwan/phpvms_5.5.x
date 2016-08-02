@@ -34,12 +34,12 @@ class FuelData extends CodonData {
         /* file price list is set in configuration */
 
         $fuelPriceListName = CORE_PATH . "/" . Config::Get('FUEL_PRICE');
-        echo "<p>" . $fuelPriceListName . "</p>";
+        #echo "<p>" . $fuelPriceListName . "</p>";
 
         if (!empty(Config::Get('FUEL_PRICE')) && file_exists($fuelPriceListName)) {
           $price = FuelData::readFuelPriceList($fuelPriceListName, $apt_icao);
           if ($price != 0) {
-            echo "<p> return "  . $price . "</p>";
+            #echo "<p> return "  . $price . "</p>";
             return $price;
           }
         }
@@ -57,7 +57,7 @@ class FuelData extends CodonData {
      * read fuel price from text file
      */
     public static function readFuelPriceList($fuelPriceList, $apt_icao) {
-
+      #echo "<p> read from file . ".$apt_icao ."</p>";
       $pricelist = file_get_contents($fuelPriceList);
 
       foreach (explode("\n", $pricelist) as $line) {
@@ -66,6 +66,7 @@ class FuelData extends CodonData {
           return $prices[1];
         }
       }
+      #echo "<p> not found1</p>";
       return 0;
     }
 }

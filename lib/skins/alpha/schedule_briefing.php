@@ -48,6 +48,16 @@
     </tr>
 
     <tr style="background-color: #333; color: #FFF;">
+        <td>Departure Fuel Price (Jet A)</td>
+        <td>Arrival Fuel Price (Jet A)</td>
+    </tr>
+    <tr>
+        <td width="50%" > $<?php echo FuelData::getFuelPrice($schedule->depicao) ?> </td>
+        <td width="50%" > $<?php echo FuelData::getFuelPrice($schedule->arricao) ?> </td>
+    </tr>
+
+
+    <tr style="background-color: #333; color: #FFF;">
         <td>Departure METAR</td>
         <td>Arrival METAR</td>
     </tr>
