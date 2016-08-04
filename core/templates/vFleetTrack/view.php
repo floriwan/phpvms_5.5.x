@@ -38,14 +38,28 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
     <td>Registration</td>
     <td><?php echo $aircraft->registration;?></td>
   </tr>
+
   <tr>
-    <td>Navigation Equipment</td>
+    <td>SELCAL</td>
+    <td><?php echo $aircraft->selcal;
+      if ($aircraft->selcal)
+      echo " <a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/SELCAL\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i</a>"
+    ?>
+  </tr>
+
+  <tr>
+    <td>Navigation Equipment (flightplan item 10)</td>
     <td><?php echo $aircraft->equipment;
       if ($aircraft->equipment)
       echo " <a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/Equipment_codes\"><i class=\"fa fa-info-circle\" aria-hidden=\"true\"></i</a>"
     ?>
-
   </tr>
+
+  <tr>
+    <td>Additional Information (flightplan item 18)</td>
+    <td><?php echo $aircraft->field18; ?>
+  </tr>
+
   <tr>
     <td>Range (nm)</td>
     <td><?php echo $aircraft->range;?></td>

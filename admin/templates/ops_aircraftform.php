@@ -27,11 +27,19 @@
 	<p>The maximum cargo load of this aircraft in <?php echo Config::Get('CARGO_UNITS'); ?>, for cargo flights</p>
 </dd>
 
-<dt>Navigation Equipment</dt>
+<dt>Navigation Equipment (flightplan item 10)</dt>
 <dd><input name="equipment" type="text"  value="<?php echo $aircraft->equipment; ?>" />
 	<p>The available navigation equipment in this aircraft</p>
 </dd>
 
+<dt>Other Information (flightplan item 18)</dt>
+<dd><input name="field18" type="text"  value="<?php echo $aircraft->field18; ?>" />
+	<p>Addition information in flightplan item 18</p>
+</dd>
+
+<dt>SELCAL</dt>
+<dd><input name="selcal" type="text"  value="<?php echo $aircraft->selcal; ?>" />
+</dd>
 
 <dt>Link to download aircraft</dt>
 <dd><input name="downloadlink" type="text"  value="<?php echo $aircraft->downloadlink; ?>" /></dd>

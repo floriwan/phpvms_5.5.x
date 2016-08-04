@@ -9,4 +9,6 @@ CREATE TABLE IF NOT EXISTS `phpvms_aircraft_liveries` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-ALTER TABLE  `phpvms_aircraft` ADD  `equipment` varchar(30) NOT NULL ;
+ALTER TABLE  `phpvms_aircraft` ADD  `equipment` varchar(64) NOT NULL ;
+ALTER TABLE  `phpvms_aircraft` ADD  `field18` varchar(100) NOT NULL ;
+ALTER TABLE  `phpvms_aircraft` ADD  `selcal` varchar(4) NOT NULL ;

@@ -397,7 +397,9 @@ class OperationsData extends CodonData {
         $data['icao'] = DB::escape(strtoupper($data['icao']));
         $data['name'] = DB::escape(strtoupper($data['name']));
         $data['registration'] = DB::escape(strtoupper($data['registration']));
+        $data['selcal'] = DB::escape(strtoupper($data['selcal']));
         $data['equipment'] = DB::escape(strtoupper($data['equipment']));
+        $data['field18'] = DB::escape(strtoupper($data['field18']));
 
         $data['range'] = ($data['range'] == '') ? 0 : $data['range'];
         $data['weight'] = ($data['weight'] == '') ? 0 : $data['weight'];
@@ -454,7 +456,9 @@ class OperationsData extends CodonData {
         $data['icao'] = DB::escape(strtoupper($data['icao']));
         $data['name'] = DB::escape(strtoupper($data['name']));
         $data['registration'] = DB::escape(strtoupper($data['registration']));
+        $data['selcal'] = DB::escape(strtoupper($data['selcal']));
         $data['equipment'] = DB::escape(strtoupper($data['equipment']));
+        $data['field18'] = DB::escape(strtoupper($data['field18']));
 
         $data['range'] = ($data['range'] == '') ? 0 : $data['range'];
         $data['weight'] = ($data['weight'] == '') ? 0 : $data['weight'];

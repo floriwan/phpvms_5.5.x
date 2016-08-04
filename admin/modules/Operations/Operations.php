@@ -829,7 +829,9 @@ class Operations extends CodonModule {
             'name' => $this->post->name,
             'fullname' => $this->post->fullname,
             'registration' => $this->post->registration,
+            'selcal' => $this->post->selcal,
             'equipment' => $this->post->equipment,
+            'field18' => $this->post->field18,
             'downloadlink' => $this->post->downloadlink,
             'imagelink' => $this->post->imagelink,
             'range' => $this->post->range,
@@ -895,7 +897,9 @@ class Operations extends CodonModule {
 
         $data = array('id' => $this->post->id, 'icao' => $this->post->icao, 'name' => $this->post->name,
             'fullname' => $this->post->fullname, 'registration' => $this->post->registration,
+            'selcal' => $this->post->selcal,
             'equipment' => $this->post->equipment,
+            'field18' => $this->post->field18,
             'downloadlink' => $this->post->downloadlink, 'imagelink' => $this->post->imagelink,
             'range' => $this->post->range, 'weight' => $this->post->weight, 'cruise' => $this->post->cruise,
             'maxpax' => $this->post->maxpax, 'maxcargo' => $this->post->maxcargo, 'minrank' =>
@@ -946,7 +950,9 @@ class Operations extends CodonModule {
 
       $data = array('icao' => $this->post->icao, 'name' => $this->post->name,
           'fullname' => $this->post->fullname, 'registration' => $this->post->registration,
+          'selcal' => $this->post->selcal,
           'equipment' => $this->post->equipment,
+          'field18' => $this->post->field18,
           'downloadlink' => $this->post->downloadlink, 'imagelink' => $this->post->imagelink,
           'range' => $this->post->range, 'weight' => $this->post->weight, 'cruise' => $this->post->cruise,
           'maxpax' => $this->post->maxpax, 'maxcargo' => $this->post->maxcargo, 'minrank' =>
