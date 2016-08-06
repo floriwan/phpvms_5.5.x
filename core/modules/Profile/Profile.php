@@ -84,7 +84,7 @@ class Profile extends CodonModule
 			$this->render('core_error.tpl');
 			return;
 		}
-    
+
             #replacement for OFC charts - Google Charts API - simpilot
             $this->set('chart_url', ChartsData::build_pireptable(PilotData::parsePilotID($pilotid), 30));
             #end
@@ -203,6 +203,7 @@ class Profile extends CodonModule
 			'code' => $pilot->code,
 			'email' => $this->post->email,
       'ivao_id' => $this->post->ivao_id,
+      'vatsim_id' => $this->post->vatsim_id,
 			'location' => $this->post->location,
 			'hub' => $pilot->hub,
 			'bgimage' => $this->post->bgimage,

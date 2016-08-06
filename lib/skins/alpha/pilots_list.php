@@ -57,6 +57,12 @@ foreach($allpilots as $pilot)
     <?php } else if (!empty($pilot->ivao_id) && $pilot->ivao_status == 1) { ?> <img alt="online" src="<?php echo SITE_URL?>/lib/images/ivao_online.png" alt="ivao" />
     <?php } ?>
   </td>
+
+  <td><?php if (!empty($pilot->vatsim_id) && $pilot->vatsim_status == 0) { ?> <img alt="offline" src="<?php echo SITE_URL?>/lib/images/vatsim_offline.png" alt="vatsim" />
+    <?php } else if (!empty($pilot->vatsim_id) && $pilot->vatsim_status == 1) { ?> <img alt="online" src="<?php echo SITE_URL?>/lib/images/vatsim_online.png" alt="vatsim" />
+    <?php } ?>
+  </td>
+
 <?php
 }
 ?>

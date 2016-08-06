@@ -67,15 +67,18 @@ class RegistrationData extends CodonData {
      */
     public static function addUser($data) {
 
-        /*$data = array(
-        'firstname' => '',
-        'lastname' => '',
-        'email' => '',
-        'password' => '',
-        'code' => '',
-        'location' => '',
-        'hub' => '',
-        'confirm' => false);*/
+        /*$$data = array(
+    			'firstname' => $this->post->firstname,
+    			'lastname' => $this->post->lastname,
+    			'email' => $this->post->email,
+    			'password' => $this->post->password1,
+          'vatsim_id' => $this->post->vatsimid,
+          'ivao_id' => $this->post->ivaoid,
+    			'code' => $this->post->code,
+    			'location' => $this->post->location,
+    			'hub' => $this->post->hub,
+    			'confirm' => false
+    		);;*/
 
         $exists = self::CheckUserEmail($data['email']);
         if (is_object($exists)) {
@@ -94,16 +97,18 @@ class RegistrationData extends CodonData {
         $firstname = DB::escape(ucwords($data['firstname']));
         $lastname = DB::escape(ucwords($data['lastname']));
         $location = DB::escape(strtoupper($data['location']));
+        $vatsimid = DB::escape($data['vatsim_id']);
+        $ivaoid = DB::escape($data['ivao_id']);
         //Add this stuff in
 
         if ($data['confirm'] === true) $confirm = 1;
         else  $confirm = 0;
 
         $sql = "INSERT INTO " . TABLE_PREFIX . "pilots (firstname, lastname, email,
-					code, location, hub, password, salt, confirmed, joindate, lastip)
+					code, location, hub, password, ivao_id, vatsim_id, salt, confirmed, joindate, lastip)
 				  VALUES (
                     '{$firstname}', '{$lastname}', '{$data['email']}', '{$code}',
-					'{$location}', '{$data['hub']}', '{$password}',
+					'{$location}', '{$data['hub']}', '{$password}', '{$ivaoid}', '{$vatsimid}',
                     '{$salt}', {$confirm}, NOW(),
                     '{$_SERVER['REMOTE_ADDR']}'
                     )";
@@ -156,7 +161,7 @@ class RegistrationData extends CodonData {
         foreach($pilotdata as $key=>$value) {
             $message = str_replace('$'.$key, $value, $message);
         }
-        
+
         # Add it to the activity feed
         ActivityData::addActivity(array(
             'pilotid' => $pilotid,

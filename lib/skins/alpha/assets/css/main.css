@@ -53,13 +53,13 @@
 dt {
   float: left;
   clear: lefgt;
-  width: 200px;
+  width: 300px;
   text-align: right;
   font-weight: bold;
 }
 
 dd {
-  margin: 0 0 0 220px;
+  margin: 0 0 0 320px;
   padding: 0 0 0.5em 0;
 }
 
@@ -1824,7 +1824,7 @@ dd {
 		-webkit-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
-		border-bottom: dotted 1px;
+		/*border-bottom: dotted 1px;*/
 		color: #e89980;
 		text-decoration: none;
 	}
@@ -3209,6 +3209,7 @@ dd {
 			-ms-transition: opacity 0.2s ease-in-out;
 			transition: opacity 0.2s ease-in-out;
 			opacity: 0.35;
+      border-bottom: none;
 		}
 
 			#footer .icons a:hover {

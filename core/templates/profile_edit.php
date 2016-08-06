@@ -42,6 +42,10 @@
   <dd><input type="text" name="ivao_id" value="<?php echo $pilot->ivao_id;?>" />
 	</dd>
 
+  <dt>VATSIM ID</dt>
+  <dd><input type="text" name="vatsim_id" value="<?php echo $pilot->vatsim_id;?>" />
+	</dd>
+
 	<dt>Signature Background</dt>
 	<dd><select name="bgimage">
 		<?php

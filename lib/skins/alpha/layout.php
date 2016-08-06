@@ -218,6 +218,10 @@
     <!-- footer -->
     <footer id="footer">
       <ul class="icons">
+        <li><a target="_blank" href="http://an.ivao.aero/"><img border="0" height="150" width="150" src="http://an.ivao.aero/public/images/an.svg"></a></li>
+      </ul>
+
+      <ul class="icons">
         <li><a href="https://twitter.com/flycaribbeanva" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
         <li><a href="https://www.facebook.com/flycaribbeanVirtual/" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
         <li><a href="" class="icon fa-youtube"><span class="label">Youtube</span></a></li>

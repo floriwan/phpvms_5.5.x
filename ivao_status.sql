@@ -20,3 +20,6 @@ CREATE TABLE IF NOT EXISTS `phpvms_onlinestatus` (
 
 ALTER TABLE  `phpvms_pilots` ADD  `ivao_id` VARCHAR( 7 ) NOT NULL ;
 ALTER TABLE  `phpvms_pilots` ADD  `ivao_status` INT NOT NULL DEFAULT  '0';
+
+ALTER TABLE  `phpvms_pilots` ADD  `vatsim_id` VARCHAR( 7 ) NOT NULL ;
+ALTER TABLE  `phpvms_pilots` ADD  `vatsim_status` INT NOT NULL DEFAULT  '0';
