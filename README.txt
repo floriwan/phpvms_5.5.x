@@ -7,7 +7,7 @@ use the latest phpvms version and integrate every plugin and new feature we need
 + METAR decoder
 + live fuel support
 + livery support for aircrafts
-+ show ivao online state for pilots
++ show ivao and vatsim online state for pilots
 + simbrief integration
 + rules and regulations
 + add an airline to every plane
