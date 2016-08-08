@@ -8,7 +8,7 @@
 
 class Ruleregs extends CodonModule {
 	public function HTMLHead() {
-        $this->set('sidebar', 'ruleregs/ruleregs_sidebar.tpl');
+        $this->set('sidebar', 'ruleregs/ruleregs_sidebar.php');
     }
 	public function NavBar() {
         echo '<li><a href="'.SITE_URL.'/admin/index.php/Ruleregs">Rules and Regulations</a></li>';
@@ -61,7 +61,7 @@ class Ruleregs extends CodonModule {
 			$this->show('core_error');
 			self::add_rule();
 			return;
-		}	
+		}
 		$rule = DB::escape($this->post->rule);
 		$status = DB::escape($this->post->status);
 		$category = DB::escape($this->post->category);
@@ -87,7 +87,7 @@ class Ruleregs extends CodonModule {
 			$this->show('core_error');
 			self::add_category();
 			return;
-		}	
+		}
 		$title = DB::escape($this->post->title);
 		$status = DB::escape($this->post->status);
 		RuleregsData::addcategory($title, $status);
