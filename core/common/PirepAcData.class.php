@@ -200,139 +200,82 @@
 
         }
 
-        public static function search($id)
-        {
-            $criteriafound = 0;
-            //Get Pirep Details for Email
-            $pirepdetails = PIREPData::getReportDetails($id);
 
-            //Get Proper Pilot ID
-            $pilotid=PilotData::GetPilotCode($pirepdetails->code,$pirepdetails->pilotid) ;
+        public static function search($id) {
 
-            //Get Pilot EMAIL
-            $userinfo = PilotData::getPilotData($pirepdetails->pilotid);
+          $reject_pirep = false;
 
-            //Get Settings from DB
-            $sqlset ="SELECT *
-            FROM ".TABLE_PREFIX."autopirep_settings";
+          // get auopirep setting from db
+          $sqlset ="SELECT * FROM ".TABLE_PREFIX."autopirep_settings";
+          $settings = DB::get_row($sqlset);
+          $adminid=PilotData::parsePilotID($settings->admin_rejecting) ;
 
-            $settings = DB::get_row($sqlset);
-            $adminid=PilotData::parsePilotID($settings->admin_rejecting) ;
+          // if plugin is diabled, do nothing and return
+          if ($settings->enabled == 0) {
+            return;
+          }
 
+          // get pirep details
+          $pirepdetails = PIREPData::getReportDetails($id);
+          // get pilots data
+          $pilotid=PilotData::GetPilotCode($pirepdetails->code,$pirepdetails->pilotid) ;
+          $userinfo = PilotData::getPilotData($pirepdetails->pilotid);
+          //echo "<p> pilot id " . $pilotid . "</p>";
 
+          // get active autoaccept criteria from db
+          $sql = "SELECT * FROM ".TABLE_PREFIX."autopirep WHERE enabled = '1'";
+          $criteria = DB::get_results($sql);
 
-            //Select the Criteria that are enabled
-            $sql = "SELECT *
-            FROM ".TABLE_PREFIX."autopirep
-            WHERE enabled = '1'";
+          if($pirepdetails->landingrate < $settings->landing_rate) {
+              $reject_pirep = true;
+              PIREPData::addComment($pirepdetails->pirepid,$adminid,"Your Pirep has been rejected because you exeeded maximum landing rate of" .$settings->landing_rate) ;
+          }
 
+          // check the addition autoaccept criteria
+          if (!empty($criteria)) {
+            foreach($criteria as $cvariable) {
+                //echo "<p>check criteria ". $cvariable->criteria_variable . " </p>";
 
-            $ret = DB::get_results($sql);
-            if ($settings->enabled == 1) {
+                // search piprep log for found criteria
+                $sql = "SELECT * FROM ".TABLE_PREFIX."pireps WHERE pirepid='$id' AND log LIKE '%$cvariable->criteria_variable%'";
+                //echo "<p>sql " . $sql . "</p>";
+                $match_result = DB::get_row($sql);
 
-
-                if($pirepdetails->landingrate < $settings->landing_rate)
-                {
-                    $criteriafound = $criteriafound +1;
-                    PIREPData::addComment($pirepdetails->pirepid,$adminid,"Your Pirep has been rejected because you exeeded maximum landing rate of" .$settings->landing_rate) ;
-                }
-
-                if(empty($ret)and $pirepdetails->landingrate < $settings->landing_rate){
-                    $criteriafound = $criteriafound +0;
-                    // self::approve_pirep_post($id);
-                }
-
-                if   (empty($ret))
-                {
-                    $criteriafound = $criteriafound +0;
-                    // self::approve_pirep_post($id);
-
-                }
-                else
-                    foreach($ret as $criteria)
-                    {
-
-                        //Seacrh the pirep for criteria
-
-                        $sql2 = "SELECT * FROM ".TABLE_PREFIX."pireps WHERE pirepid='$id'
-                        AND log LIKE '%$criteria->criteria_variable%'";
-
-                        $ret2 = DB::get_row($sql2);
-                        if(empty($ret2))  {
-                            $criteriafound = $criteriafound +0;
-
-                        }
-                        else
-
-                            foreach($ret2 as $criteria2)
-                            {
-                                //Add Coments to the pirep
-                                PIREPData::addComment($ret2->pirepid,$adminid,"Your Pirep has been rejected because you " .$criteria->criteria_custom_message) ;
-                                $criteriafound = $criteriafound +1;
-                                break;
-                        }
-
-                        if ($criteriafound > 0 )
-                        {
-
-                            self::reject_pirep_post($id)  ;
-                        }
-                        else
-                        {
-
-                            self::approve_pirep_post($id)  ;
-
-                        }
-                        //Get Pirep Againt to check status  1 for accepted 2 declined
-                        $pirepdetailsafter = PIREPData::getReportDetails($id);
-
-                        //If sendmail_to_admin=1 send email to admin
-
-
-                        if ($settings->sendmail_to_admin == '1' && $pirepdetailsafter->accepted =='2')
-                        {
-
-                            $sub = "PIREP {$pirepdetails->pirepid} by {$pilotid} ({$pirepdetails->depicao} - {$pirepdetails->arricao}) has been rejected ";
-                            $message="PIREP {$pirepdetails->pirepid} has been submitted by {$pilotid} {$pirepdetails->firstname} {$pirepdetails->lastname } and has been rejected\n\n" ;
-
-                            $email = Config::Get('EMAIL_REJECTED_PIREP');
-                            if(empty($email))
-                            {
-                                $email = ADMIN_EMAIL;
-                            }
-
-                            Util::SendEmail($email, $sub, $message);
-
-
-                    }
-
-
-                    //If sendmail_to_pilot=1 send email to pilot that the pirep has been rejected
-
-                    if ($settings->sendmail_to_pilot == '1' && $pirepdetailsafter->accepted =='2')
-                    {
-
-                        $sub = "Your PIREP {$pirepdetails->pirepid}({$pirepdetails->depicao} - {$pirepdetails->arricao}) has been rejected ";
-                        $message="Your PIREP {$pirepdetails->pirepid}({$pirepdetails->depicao} - {$pirepdetails->arricao}) has been rejected\n\n"
-                        ."if you wish to see the reason please visit the company Website \n";
-
-                        $email = $userinfo->email;
-
-
-                        Util::SendEmail($email, $sub, $message);
-
-
-
-                    }
+                // found criteria in pirep log, add comment to pirep
+                if (!empty($match_result)) {
+                  //echo "<p>reject pirep " .$cvariable->criteria_custom_message . "</p>";
+                  $reject_pirep = true;
+                  //echo "<p>add pipep comment</p>";
+                  PIREPData::addComment($match_result->pirepid, $adminid, "Your Pirep has been rejected because you " .$cvariable->criteria_custom_message) ;
 
                 }
-
             }
-            else
-            {
+          }
 
+          if ($reject_pirep == true) {
+            // do not autoreject, inform the admin only
+            //self::reject_pirep_post($id);
+          } else {
+            //echo "<p> accept the pirep</p>";
+            self::approve_pirep_post($id);
+          }
+
+          // send email to admin
+          if ($settings->sendmail_to_admin == '1' && $reject_pirep == true) {
+
+            $sub = "PIREP {$pirepdetails->pirepid} by {$pilotid} ({$pirepdetails->depicao} - {$pirepdetails->arricao}) has been rejected ";
+            $message="PIREP {$pirepdetails->pirepid} has been submitted by {$pilotid} {$pirepdetails->firstname} {$pirepdetails->lastname } and has been rejected, please take a look into the pirep comments.\n\n -- your autoaccept plugin -- \n\n" ;
+
+            $email = Config::Get('EMAIL_REJECTED_PIREP');
+            if(empty($email)) {
+                $email = ADMIN_EMAIL;
             }
+
+            //echo "<p>send eamil : " . $message . "</p>";
+            Util::SendEmail($email, $sub, $message);
+
+          }
+
         }
 
-
-    }
+}

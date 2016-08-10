@@ -15,11 +15,6 @@
 
     class PirepAutoAccept extends CodonModule {
 
-        public function NavBar()
-        {
-          echo '<li><a href="'.SITE_URL.'/admin/index.php/PirepAutoAccept">Pirep Auto Accept</a></li>';
-        }
-
         public function HTMLHead()
         {
             $this->set('sidebar', 'PirepAutoAccept/sidebar_PirepAutoAccept.php');

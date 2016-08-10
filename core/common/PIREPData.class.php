@@ -752,6 +752,9 @@ class PIREPData extends CodonData {
         $pilotcode = PilotData::getPilotCode($pilotinfo->code, $pilotinfo->pilotid);
         PilotData::UpdateLastPIREPDate($pilotinfo->pilotid);
 
+        # call the auto accept pirep module
+        PirepAcData::search($pirepid);
+
         if (Config::Get('EMAIL_SEND_PIREP') === true) {
 
             # Send an email to the admin that a PIREP was submitted
@@ -809,6 +812,8 @@ class PIREPData extends CodonData {
         if (!is_array($pirepdata)) {
             return false;
         }
+
+        //PirepAcData::search($pirepid);
 
         if ($pirepdata['depicao'] == '' || $pirepdata['arricao'] == '') {
             return false;

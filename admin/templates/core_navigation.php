@@ -193,6 +193,13 @@ if(PilotGroups::group_has_perm(Auth::$usergroups, MODERATE_PIREPS)
 		if(PilotGroups::group_has_perm(Auth::$usergroups, EDIT_PIREPS_FIELDS))
 		{
 		?>
+    <li><a href="<?php echo adminurl('/PirepAutoAccept'); ?>">Auto Pirep</a></li>
+    <?php
+      }
+      if(PilotGroups::group_has_perm(Auth::$usergroups, EDIT_PIREPS_FIELDS))
+      {
+      ?>
+
 		<li><a href="<?php echo adminurl('/settings/pirepfields'); ?>">PIREP Fields</a></li>
 		<?php
 		}
