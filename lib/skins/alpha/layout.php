@@ -122,7 +122,7 @@
           <p>Flighttracking will be done primarily by our own
 					smartCARS, but we do allow XAcars as well.</p>
 
-					<p>To fly as real as it gets we offer flights from many
+					<p>Too fly as real as it gets we offer flights from many
 					realworld airlines that are operating in the Caribbean
 					(LIAT, InselAir, Winair, Seaborne and many more) and
 					intercontinental flights to/from Europe, North - and South
@@ -137,8 +137,11 @@
           <p>All pilots are welcome to use our Team Speak 3 server which
             runs 24 / 7.</p>
 
-          <p><a href="http://www.ivao.aero"><img src="<?php echo SITE_URL?>/lib/images/ivao_logo.png" alt="" /></a>
-            <a href="http://www.vatsim.net"><img src="<?php echo SITE_URL?>/lib/images/vatsim_logo.png" alt="" /></a></p>
+          <ul class="icons">
+            <li><a target="_blank" href="http://www.ivao.aero"><img src="<?php echo SITE_URL?>/lib/images/ivao_logo.png" alt="" /></a></li>
+            <li><a target="_blank" href="http://www.vatsim.net"><img src="<?php echo SITE_URL?>/lib/images/vatsim_logo.png" alt="" /></a></li>
+            <li><a target="_blank"  href="http://www.simbrief.com/"><img src="<?php echo SITE_URL?>/lib/images/simbrief_logo.png" alt="" /></li>
+          </ul>
 
         </div>
 

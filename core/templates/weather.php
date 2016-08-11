@@ -39,7 +39,7 @@
     flight category <?php echo $flight_category ?> </br>
 
   <?php } else { ?>
-    no metar information for <?php echo $station_id; ?> evailable.</br>
+    no metar information for <?php echo $station_id; ?> available.</br>
   <?php } ?>
 
 </p>

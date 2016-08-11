@@ -167,7 +167,7 @@
             SchedulesData::IncrementFlownCount($pirep_details->code, $pirep_details->flightnum);
             PIREPData::ChangePIREPStatus($pirepid, PIREP_ACCEPTED); // 1 is accepted
             PilotData::UpdateFlightData($pirep_details->pilotid, $pirep_details->flighttime, 1);
-            PilotData::UpdatePilotPay($pirep_details->pilotid, $pirep_details->flighttime);
+            //PilotData::UpdatePilotPay($pirep_details->pilotid, $pirep_details->flighttime);
 
             RanksData::CalculateUpdatePilotRank($pirep_details->pilotid);
             PilotData::GenerateSignature($pirep_details->pilotid);
@@ -272,7 +272,7 @@
             }
 
             //echo "<p>send eamil : " . $message . "</p>";
-            Util::SendEmail($email, $sub, $message);
+            Util::SendEmail("florian@goeldenitz.org", $sub, $message);
 
           }
 
