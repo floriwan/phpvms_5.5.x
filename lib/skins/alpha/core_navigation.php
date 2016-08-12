@@ -53,12 +53,13 @@ if(Auth::LoggedIn())
 	<li><a href="#" class="icon fa-plane">Flight Operations <i class="icon fa-angle-down"></i></a>
 	<ul>
 		<li><a href="<?php echo url('/pireps/mine');?>">View my PIREPs</a></li>
-		<li><a href="<?php echo url('/pireps/routesmap');?>">View a map of all my flights</a></li>
+		<li><a href="<?php echo url('/pireps/routesmap');?>">A Map Of All My Flights</a></li>
 		<li><a href="<?php echo url('/pireps/filepirep');?>">File a Pilot Report</a></li>
-		<li><a href="<?php echo url('/schedules/view');?>">View Flight Schedules</a></li>
-		<li><a href="<?php echo url('/schedules/bids');?>">View my flight bids</a></li>
-		<li><a href="<?php echo url('/finances');?>">View VA Finances</a></li>
-    <li><a href="<?php echo url('/Airline');?>">View Airline Codes</a></li>
+		<li><a href="<?php echo url('/schedules/view');?>">Flight Schedules</a></li>
+		<li><a href="<?php echo url('/schedules/bids');?>">My Flight Bids</a></li>
+    <li><a href="<?php echo url('/statistic');?>">VA Statistics</a></li>
+		<li><a href="<?php echo url('/finances');?>">VA Finances</a></li>
+    <li><a href="<?php echo url('/Airline');?>">Airline Codes</a></li>
 	</ul>
   </li>
 
