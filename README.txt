@@ -3,6 +3,8 @@ flycaribbeanva integration
 
 use the latest phpvms version and integrate every plugin and new feature we need for our airline.
 
++ events addon
++ statistics page with google charts
 + flightplan item 10, 18 and SECAL
 + METAR decoder
 + live fuel support
