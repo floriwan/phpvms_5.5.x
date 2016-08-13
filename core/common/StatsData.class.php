@@ -375,6 +375,16 @@ class StatsData extends CodonData {
         return $aircraft_usage;
     }
 
+//SELECT CONCAT(depicao, " - ", arricao) as fromto, count(*) FROM `phpvms_pireps` group by fromto
+
+    public static function getFlownRoutes() {
+      $sql = 'SELECT CONCAT(depicao, "-", arricao) AS fromto, count(*) AS count
+      FROM ' . TABLE_PREFIX . 'pireps GROUP BY fromto';
+      $stats = DB::get_results($sql);
+      if (!$stats) $stats = [];
+      return $stats;
+    }
+
     public static function getAircraftHoursData() {
       $sql = 'SELECT a.name AS aircraft, SUM(p.flighttime) AS count
       FROM ' . TABLE_PREFIX . 'pireps p, ' . TABLE_PREFIX . 'aircraft a
