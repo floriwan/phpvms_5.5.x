@@ -37,32 +37,27 @@
 
   <section>
     <span class="icon major fa-trophy accent3"></span>
-    <h3>My Awards</h3>
+    <h3>Upcoming Events</h3>
     <p>
     <?php
-    if(!$allawards)
-    {
-      echo 'No awards yet';
-    }
-    else
-    {
+      $events = EventsData::get_upcoming_events();
 
-      /* To show the image:
-        <img src="<?php echo $award->image?>" alt="<?php echo $award->descrip?>" />
-      */
-
-    ?>
-
-    <ul>
-      <?php foreach($allawards as $award){ ?>
-      <li><?php echo $award->name ?></li>
-      <?php } ?>
-    </ul>
-
-    <?php
-    }
+      if (!$events) {
+        echo 'No Upcoming Events';
+      } else {
+        echo '<table>';
+        foreach($events as $event) { ?>
+          <tr>
+            <td> <?php echo date('Y-m-t', strtotime($event->date)) ?> </td>
+            <td> <?php echo $event->title ?></td>
+            <td> <?php echo '<td><a href="'.SITE_URL.'/index.php/events/get_event?id='.$event->id.'">' ?> <i class="fa fa-sign-in" aria-hidden="true"></i> </a></td>
+          </tr>
+        <?php }
+        echo '</table>';
+      }
     ?>
     </p>
+
   </section>
 
   </div>
@@ -108,7 +103,7 @@
         $reports = PIREPDATA::getLastReports($pilotid, 1);
 
         MainController::Run('Weather', 'request_metar', $reports->arricao);
-        
+
         //Weather::request_metar($reports->arricao);
         //echo "<p> new weather : " . $metar . "</p>";
 

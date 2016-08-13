@@ -42,6 +42,7 @@ if(Auth::LoggedIn() && (PilotGroups::group_has_perm(Auth::$usergroups, ACCESS_AD
       <li><a href="<?php echo url('/vStaff');?>">Our Staff</a></li>
       <li><a href="<?php echo url('/vFleetTracker');?>">Our Fleet</a></li>
       <li><a href="<?php echo url('/Pilots/getAllPilots');?>">Our Pilots</a></li>
+      <li><a href="<?php echo url('/events');?>">Our Events</a></li>
       <li><a href="<?php echo url('/Ranks');?>">Pilot Ratings</a></li>
       <li><a href="<?php echo url('/ruleregs');?>">Rules & Regulations</a></li>
     </ul>
