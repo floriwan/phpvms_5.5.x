@@ -74,8 +74,7 @@
   $routes['rows'] = $rows;
   $jsonroutes = json_encode($routes, true);
 
-  //$stats = StatsData::TopRoutes();
-  //print_r($stats);
+
 
 ?>
 
@@ -121,6 +120,7 @@
 
         var options = {
           title: ' Routes',
+          sliceVisibilityThreshold: 0.015,
           pieHole: 0.4,
           width: 400,
           height: 300
@@ -135,7 +135,6 @@
 
 <h3><?php echo SITE_NAME; ?> Statistics</h3>
 <p>Work in progress</p>
-
 
   <div class="features-row">
     <section>
@@ -152,4 +151,60 @@
     </section>
     <section>
     </section>
+
+  </div>
+
+  <div class="features-row">
+    <section>
+      <p>top schedule routes</p>
+      <table>
+        <tr><td>no</td><td>code</td><td>route</td></tr>
+      <?php
+        $stats = StatsData::TopRoutes();
+        $count = 1;
+        foreach ($stats as $route) { ?>
+          <tr>
+            <td> <?php echo $route->timesflown ?></td>
+            <td> <?php echo $route->code . $route->flightnum ?></td>
+            <td> <?php echo $route->depicao ?> <i class="icon fa-angle-right"></i> <?php echo $route->arricao ?></td>
+          </tr>
+
+          <?php $count = $count + 1;
+          if ($count > 5) break;
+        }
+
+       ?>
+      </table>
+    </section>
+    <section>
+      <p>top pilots (hours)</p>
+      <table>
+        <tr><td><strong>pilot</strong></td><td><strong>hours</strong></td></tr>
+        <?php
+        $stats = StatsData::getTopPilotsHours();
+        foreach ($stats as $pilot) { ?>
+          <tr>
+            <td><?php echo PilotData::getPilotCode($pilot->code, $pilot->pilotid) ?></td>
+            <td><?php echo $pilot->totalhours ?></td>
+          </tr>
+        <?php }
+        ?>
+      </table>
+
+      <p>top pilots (flights)</p>
+      <table>
+        <tr><td><strong>pilot</strong></td><td><strong>flights</strong></td></tr>
+        <?php
+        $stats = StatsData::getTopPilotsFlights();
+        foreach ($stats as $pilot) { ?>
+          <tr>
+            <td><?php echo PilotData::getPilotCode($pilot->code, $pilot->pilotid) ?></td>
+            <td><?php echo $pilot->totalflights ?></td>
+          </tr>
+        <?php }
+        ?>
+      </table>
+
+    </section>
+
   </div>

@@ -48,7 +48,7 @@
         echo '<table>';
         foreach($events as $event) { ?>
           <tr>
-            <td> <?php echo date('Y-m-t', strtotime($event->date)) ?> </td>
+            <td> <?php echo date('Y-m-d', strtotime($event->date)) ?> </td>
             <td> <?php echo $event->title ?></td>
             <td> <?php echo '<td><a href="'.SITE_URL.'/index.php/events/get_event?id='.$event->id.'">' ?> <i class="fa fa-sign-in" aria-hidden="true"></i> </a></td>
           </tr>

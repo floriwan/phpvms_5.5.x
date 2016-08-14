@@ -33,7 +33,7 @@ else
                 {
                     continue;
                 }
-        echo '<tr><td>'.date('n/j/Y', strtotime($event->date)).'</td>';
+        echo '<tr><td>'.date('Y-m-d', strtotime($event->date)).'</td>';
         echo '<td>'.$event->title.'</td>';
         echo '<td><a href="'.SITE_URL.'/index.php/events/get_event?id='.$event->id.'">Details/Signups</a></td></tr>';
     }
@@ -62,7 +62,7 @@ else
     <?php
     foreach($history as $event)
     {
-        echo '<tr><td>'.date('n/j/Y', strtotime($event->date)).'</td>';
+        echo '<tr><td>'.date('Y-m-d', strtotime($event->date)).'</td>';
         echo '<td>'.$event->title.'</td>';
         echo '<td><a href="'.SITE_URL.'/index.php/events/get_past_event?id='.$event->id.'">Details</a></td></tr>';
     }

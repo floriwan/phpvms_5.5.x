@@ -256,6 +256,17 @@ class StatsData extends CodonData {
         SettingsData::SaveSetting('TOTAL_HOURS', $totaltime);
     }
 
+
+    public static function getTopPilotsHours($count = 5) {
+      $sql = "SELECT * FROM `".TABLE_PREFIX."pilots` ORDER BY `totalhours` DESC LIMIT $count";
+      return DB::get_results($sql);
+    }
+
+    public static function getTopPilotsFlights($count = 5) {
+      $sql = "SELECT * FROM `".TABLE_PREFIX."pilots` ORDER BY `totalflights` DESC LIMIT $count";
+      return DB::get_results($sql);
+    }
+
     /**
      * Get the total number of hours flown by pilots
      */
