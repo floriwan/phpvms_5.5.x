@@ -53,7 +53,6 @@
 
   // routes
   $stats = StatsData::getFlownRoutes();
-  print_r($routes);
   $rows = array();
   $routes = array();
 
@@ -74,6 +73,31 @@
   $routes['rows'] = $rows;
   $jsonroutes = json_encode($routes, true);
 
+  // pilot hours
+  $stats = StatsData::getTopPilotsHours();
+  $pilothours = array();
+
+  $pilothours[] = array('pilot', 'hours');
+
+  foreach ($stats as $stat_line) {
+    $pilothours[] = array((string) PilotData::getPilotCode($stat_line->code, $stat_line->pilotid),
+      (float) $stat_line->totalhours);
+  }
+
+  $jsonpilothours = json_encode($pilothours, true);
+
+  // pilot flights
+  $stats = StatsData::getTopPilotsFlights();
+  $pilotflights = array();
+
+  $pilotflights[] = array('pilot', 'flights');
+
+  foreach ($stats as $stat_line) {
+    $pilotflights[] = array((string) PilotData::getPilotCode($stat_line->code, $stat_line->pilotid),
+      (float) $stat_line->totalflights);
+  }
+
+  $jsonpilotflights = json_encode($pilotflights, true);
 
 
 ?>
@@ -92,8 +116,8 @@
           title: ' Aircraft Types Used by Flight',
           sliceVisibilityThreshold: 0.02,
           pieHole: 0.4,
-          width: 400,
-          height: 300
+          width: 500,
+          height: 400
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
@@ -107,26 +131,51 @@
           title: ' Aircraft Types Used by hours',
           sliceVisibilityThreshold: 0.035,
           pieHole: 0.4,
-          width: 400,
-          height: 300
+          width: 500,
+          height: 400
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('aircraft_hours'));
         chart.draw(data, options);
 
         // routs flown
-
         var data = new google.visualization.DataTable(<?=$jsonroutes?>);
 
         var options = {
           title: ' Routes',
           sliceVisibilityThreshold: 0.015,
           pieHole: 0.4,
-          width: 400,
-          height: 300
+          width: 500,
+          height: 400
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('routes'));
+        chart.draw(data, options);
+
+        // pilot hours
+        var data = new google.visualization.arrayToDataTable(<?=$jsonpilothours?>);
+
+        var options = {
+          title: 'pilot hours',
+          width: 500,
+          height: 400
+        };
+
+        //var chart = new google.visualization.DataView(document.getElementById('pilot_hours'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('pilot_hours'));
+        chart.draw(data, options);
+
+        // pilot flights1
+        var data = new google.visualization.arrayToDataTable(<?=$jsonpilotflights?>);
+
+        var options = {
+          title: 'pilot flights',
+          width: 500,
+          height: 400
+        };
+
+        //var chart = new google.visualization.DataView(document.getElementById('pilot_hours'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('pilot_flights'));
         chart.draw(data, options);
 
       }
@@ -156,55 +205,11 @@
 
   <div class="features-row">
     <section>
-      <p>top schedule routes</p>
-      <table>
-        <tr><td>no</td><td>code</td><td>route</td></tr>
-      <?php
-        $stats = StatsData::TopRoutes();
-        $count = 1;
-        foreach ($stats as $route) { ?>
-          <tr>
-            <td> <?php echo $route->timesflown ?></td>
-            <td> <?php echo $route->code . $route->flightnum ?></td>
-            <td> <?php echo $route->depicao ?> <i class="icon fa-angle-right"></i> <?php echo $route->arricao ?></td>
-          </tr>
-
-          <?php $count = $count + 1;
-          if ($count > 5) break;
-        }
-
-       ?>
-      </table>
+      <div id="pilot_hours"></div>
     </section>
+
     <section>
-      <p>top pilots (hours)</p>
-      <table>
-        <tr><td><strong>pilot</strong></td><td><strong>hours</strong></td></tr>
-        <?php
-        $stats = StatsData::getTopPilotsHours();
-        foreach ($stats as $pilot) { ?>
-          <tr>
-            <td><?php echo PilotData::getPilotCode($pilot->code, $pilot->pilotid) ?></td>
-            <td><?php echo $pilot->totalhours ?></td>
-          </tr>
-        <?php }
-        ?>
-      </table>
-
-      <p>top pilots (flights)</p>
-      <table>
-        <tr><td><strong>pilot</strong></td><td><strong>flights</strong></td></tr>
-        <?php
-        $stats = StatsData::getTopPilotsFlights();
-        foreach ($stats as $pilot) { ?>
-          <tr>
-            <td><?php echo PilotData::getPilotCode($pilot->code, $pilot->pilotid) ?></td>
-            <td><?php echo $pilot->totalflights ?></td>
-          </tr>
-        <?php }
-        ?>
-      </table>
-
+      <div id="pilot_flights"></div>
     </section>
 
   </div>
