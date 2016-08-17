@@ -13,6 +13,21 @@ class Pilotmanager extends CodonModule
            	$this->show('/pm/pilot_manager.php');
         }
 
+    public static function getAllEmailTemplates() {
+
+      $dirContent = scandir("templates/pm/");
+
+      $email_teamplates = array();
+
+      foreach($dirContent as $filename) {
+        if (preg_match("#^email_.*\.php#", $filename)) {
+          $email_templates[] = $filename;
+        }
+      }
+      //print_r($email_templates);
+      return $email_templates;
+    }
+
         public function savepro()
          {
           if ($this->post->firstname == '' || $this->post->lastname == '')
@@ -71,41 +86,46 @@ class Pilotmanager extends CodonModule
 			$send = $this->post->send;
 			Template::Set('send', $send);
 
+      Template::Set('pilot', PManagerData::getpilotbyemail($email));
+      Template::Set('email', $email);
+
+      $message = Template::Get('/pm/email_'.$send.'.php', true);
+      Template::Set('message', $message);
+
 			if($send == "warning")
 				{
 					$pilotinfo = PManagerData::getpilotbyemail($email);
 					$pilot = $pilotinfo->pilotid;
-					Template::Set('pilot', PManagerData::getpilotbyemail($email));
+
 					Template::Set('subject', 'Account termination Warning!!');
-					Template::Set('email', $email);
 					$subject = "Account termination Warning!!";
-					$message = Template::Get('/pm/email_warning.php', true);
-					Template::Set('message', $message);
 					Util::SendEmail($email, $subject, $message);
 					PManagerData::warningsent($pilot, $message);
-					$this->show('/pm/email_confirm.php');
+
 				}
 			if($send == "welcome")
 				{
 					$pilotinfo = PManagerData::getpilotbyemail($email);
 					$pilot = $pilotinfo->pilotid;
-					Template::Set('pilot', PManagerData::getpilotbyemail($email));
+
 					Template::Set('subject', 'Welcome!!');
-					Template::Set('email', $email);
 					$subject = "Welcome!!";
-					$message = Template::Get('/pm/email_welcome.php', true);
-					Template::Set('message', $message);
 					Util::SendEmail($email, $subject, $message);
 					PManagerData::welcomesent($pilot, $message);
-					$this->show('/pm/email_confirm.php');
+
 				}
 
 			if($send == "blank")
 				{
 					$this->set('title', 'Pilot Manager');
 					$this->set('email', $email);
-					$this->show('/pm/blank_email.php');
+          $this->show('/pm/blank_email.php');
 				}
+
+        // show the email confirmation message
+        if($send != "blank")
+          $this->show('/pm/email_confirm.php');
+
 		}
 
 	public function send_blank()

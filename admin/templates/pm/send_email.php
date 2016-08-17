@@ -27,7 +27,7 @@ foreach($pilots as $pilot)
 		<tr>
 			<td><?php echo $pilot->firstname.' '.$pilot->lastname ;?></td>
 			<td>
-			<?php 
+			<?php
 			if($pilot->lastpirep == 0)
 			{
 				echo ' <font color="red">None</font> ';
@@ -39,7 +39,7 @@ foreach($pilots as $pilot)
 			?>
 			</td>
 			<td>
-			<?php 
+			<?php
 			if($param->datesent == 0)
 			{
 				echo ' None ';
@@ -47,7 +47,7 @@ foreach($pilots as $pilot)
 			else
 			{
 				echo date("Y-m-d h:ia", $dtme) ;
-			}	
+			}
 			?>
 			</td>
 			<td title="Warning Email Sent On <?php echo $param->datesent;?>" align="center"><b><font size="3" color="red"><?php echo $param->warning;?></font></b></td>
@@ -55,11 +55,25 @@ foreach($pilots as $pilot)
 			<td title="Warning Email Sent On <?php echo $param->datesent;?>" align="center"><b><font size="3" color="red"><?php echo $param->blank ;?></font></b></td>
 			<td align="center">
 			<form  name="warning" method="post" action="<?php echo adminurl('/pilotmanager/emails');?>">
-			<select name="send">
+
+        <select name="send">
+          <?php
+
+          foreach(Pilotmanager::getAllEmailTemplates() as $e_tmpl) {
+
+            $id = explode("_", $e_tmpl)[1];
+            $id = substr($id, 0, strlen($id)-4);
+            if ($id == "confirm") continue;
+            echo "<option value=\"".$id."\">". $id . " email</option>";
+
+            } ?>
+        </select>
+
+			<!--<select name="send">
 				<option value="blank">Blank Email</option>
 				<option value="warning">Warning Email</option>
 				<option value="welcome">Welcome Email</option>
-			</select>
+			</select>-->
 			<input name="email" type="hidden" Value="<?php echo $pilot->email ;?>">
 			&nbsp;&nbsp;&nbsp;<button type="submit" value="submit">Send</button>
 			</form>
