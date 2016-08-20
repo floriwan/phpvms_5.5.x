@@ -61,6 +61,7 @@ var acars_map_defaults = {
 		<td><b>Altitude</b></td>
 		<td><b>Speed</b></td>
 		<td><b>Distance/Time Remain</b></td>
+    <td><b>Network</b></td>
 	</tr>
 </thead>
 <tbody id="pilotlist"></tbody>
@@ -108,6 +109,7 @@ var acars_map_defaults = {
 <td><%=flight.alt%></td>
 <td><%=flight.gs%></td>
 <td><%=flight.distremaining%> <?php echo Config::Get('UNITS');?> / <%=flight.timeremaining%></td>
+<td><%=flight.online%></td>
 </tr>
 </script>
 

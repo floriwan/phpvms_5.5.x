@@ -81,11 +81,13 @@
                 ('.$params['pilotid'].','.$params['refid'].','.$params['type']
                   .',\''.DB::escape($params['message']).'\', '.$params['submitdate'].')';
 
+        print_r($sql);
+        
         $ret = DB::query($sql);
 
-        if(Config::get('TWITTER_ENABLE_PUSH') == true) {
+        /*if(Config::get('TWITTER_ENABLE_PUSH') == true) {
             self::pushToTwitter($params);
-        }
+        }*/
 
     }
 

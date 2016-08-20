@@ -80,6 +80,8 @@ $trans = array(
 	/* PIREPS */
 	'pireps.view.recent'				=> 'Recent Reports',
     
+    /* Events */
+    'event.post.new'                    => 'New upcoming event %desc',
     
     /* Activity Feed Language strings, you can fill 
         in the $<column name> from the PIREP table */

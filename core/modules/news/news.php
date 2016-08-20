@@ -52,18 +52,20 @@ class News extends CodonModule
 		}*/
 	}
 
-  public function ShowNewsPreview($count=5) {
+  public function ShowNewsPreview($count=10) {
     $sql='SELECT id, subject, body, postedby, UNIX_TIMESTAMP(postdate) AS postdate
 				FROM ' . TABLE_PREFIX .'news
 				ORDER BY postdate DESC
 				LIMIT '.$count;
 
 		$res = DB::get_results($sql);
+    if (!$res) $res = [];
 
-		if(!$res)
-			return;
+    $activity_data = ActivityData::getActivity();
+    if (!$activity_data) $activity_data = [];
 
     $this->set('allnews', $res);
+    $this->set('allactivities', $activity_data);
     $this->show('news_newspreview.tpl');
 
 		/*foreach($res as $row)

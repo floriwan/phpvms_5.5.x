@@ -51,7 +51,7 @@ class EventsData extends CodonData
         $query = "INSERT INTO " . TABLE_PREFIX . "events (date, time, title, description, image, dep, arr, schedule, slot_limit, slot_interval, active)
                 VALUES ('$date', '$time', '$title', '$description', '$image', '$dep', '$arr', '$schedule', '$slot_limit', '$slot_interval', '$active')";
 
-        DB::query($query);
+        return DB::query($query);
     }
      public static function save_edit_event($date, $time, $title, $description, $image, $dep, $arr, $schedule, $slot_limit, $slot_interval, $active, $id)
     {

@@ -83,7 +83,7 @@ class Events_admin extends CodonModule
 
         $event['date'] = $event['year'].'-'.$event['month'].'-'.$event['day'];
 
-        EventsData::save_new_event($event['date'],
+        $event_id = EventsData::save_new_event($event['date'],
                                     $event['time'],
                                     $event['title'],
                                     $event['description'],
@@ -95,8 +95,21 @@ class Events_admin extends CodonModule
                                     $event['interval'],
                                     $event['active']);
 
+        // post the event on the news page
         if($event['postnews'] == '1')
             {SiteData::AddNewsItem($event['title'], $event['description']);}
+
+        // post the event in the activity feed
+        $message = Lang::get('event.post.new');
+        $message = str_replace('%desc', $event['description'], $message);
+
+        # Add it to the activity feed
+        ActivityData::addActivity(array(
+            'pilotid' => '0',
+            'type' => ACTIVITY_NEW_EVENT,
+            'refid' => $event_id,
+            'message' => htmlentities($message),
+        ));
 
         $this->set('events', EventsData::get_upcoming_events());
         $this->set('history', EventsData::get_past_events());

@@ -16,27 +16,27 @@
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 
-class Activity extends CodonModule 
+class Activity extends CodonModule
 {
     /**
      * Activity::index()
-     * 
+     *
      * @return void
      */
     public function index() {
-        
+
         $activities = ActivityData::getActivity(array(), $count);
         if(!$activities) {
             $activities = array();
         }
-        
+
         $this->set('allactivities', $activities);
         $this->render('activity_list.tpl');
     }
-    
+
     /**
      * Activity::frontpage()
-     * 
+     *
      * @param integer $count
      * @return void
      */
@@ -46,7 +46,7 @@ class Activity extends CodonModule
         if(!$activities) {
             $activities = array();
         }
-        
+
         $this->set('allactivities', $activities);
         $this->render('activity_list.tpl');
     }
