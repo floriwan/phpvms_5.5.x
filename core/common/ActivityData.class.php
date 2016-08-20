@@ -83,9 +83,9 @@
 
         $ret = DB::query($sql);
 
-        /*if(Config::get('TWITTER_ENABLE_PUSH') == true) {
+        if(Config::get('TWITTER_ENABLE_PUSH') == true) {
             self::pushToTwitter($params);
-        }*/
+        }
 
     }
 

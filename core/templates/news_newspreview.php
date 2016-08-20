@@ -1,9 +1,8 @@
 <?php if(!defined('IN_PHPVMS') && IN_PHPVMS !== true) { die(); } ?>
 
-<div class="row">
-<div class="6u 12u(mobilep)">
+<p><div id="activity_line">test</div></p>
 
-<table class="news_table">
+<table>
   <thead><td colspan="3">latest News</td></thead>
 
     <?php foreach ($allnews as $news) {
@@ -11,13 +10,7 @@
       echo "<td>" . date('Y-m-d h:i:s', $news->postdate) . " - " . $news->postedby . "</td>";
       //echo "<td>" . $news->postedby . "</td>";
 
-      if (strlen($news->subject) > 35)
-        $news_subject = substr($news->subject, 0, 35) . "...";
-      else
-        $news_subject = $news->subject;
-
-
-      echo "<td><strong>" . $news_subject . "</strong></td>";
+      echo "<td><strong>" . $news->subject . "</strong></td>";
       echo "<td><a href=\"". url('/news') ."#news_" . $news->id . "\"><i class=\"fa fa-external-link\" aria-hidden=\"true\"></i></a></td>";
       //echo "<td>" . preg_replace('/\s+/', '', $news->body) . "</td>";
       echo "</tr>";
@@ -25,23 +18,39 @@
 
 
 </table>
-</div>
 
+<script type="text/javascript">
 
-<div class="6u 12u(mobilep)">
-<table class="news_table">
-  <thead><td colspan="3">latest Activities</td></thead>
+  var activities = [];
 
-  <?php foreach ($allactivities as $activity) {
+  <?php foreach($allactivities as $activity) {
+      if ($activity->pilotid == 0) $pilot_code = "";
+      else $pilot_code = PilotData::getPilotCode($activity->code, $activity->pilotid) . ' '; ?>
+      activities.push('<?php echo $activity->submitdate . " - " . $pilot_code  . $activity->message ?>');
+  <?php } ?>
 
-    if ($activity->pilotid == 0) $pilot_code = "";
-    else $pilot_code = PilotData::getPilotCode($activity->code, $activity->pilotid);
+  //var elem = $('#activity_line');
+  var elem = document.getElementById("activity_line");
+  var counter = 0;
 
-    echo "<tr>";
-    echo "<td>" . $activity->submitdate . "</td>";
-    echo "<td>" . $pilot_code . " " . $activity->message . "</td>";
-    echo "</tr>";
-  } ?>
-</table>
-</div>
-</div>
+  setInterval(nextMessage, 10000);
+
+  window.onload = function() {
+      elem.innerHTML = activities[counter];
+      counter++;
+  };
+
+  function nextMessage() {
+      //elem.innerHTML = activities[counter];
+      $('#activity_line').fadeOut(500, function() {
+        $('#activity_line').html(activities[counter]).fadeIn(500);
+      });
+
+      counter++;
+      if(counter >= activities.length-1) { counter = 0; }
+  }
+
+  function setEmpty() {
+    $('#activity_line').html("&nbsp;");
+  }
+</script>
