@@ -110,15 +110,15 @@ class PIREPAdmin extends CodonModule {
 
     public function approveall() {
         $this->checkPermission(MODERATE_PIREPS);
-        
+
         echo '<h3>Approve All</h3>';
 
         $allpireps = PIREPData::findPIREPS(array('p.accepted' => PIREP_PENDING));
-        
+
         $total = count($allpireps);
         $count = 0;
         foreach ($allpireps as $pirep_details) {
-            
+
             if ($pirep_details->aircraft == '') {
                 continue;
             }
@@ -203,14 +203,14 @@ class PIREPAdmin extends CodonModule {
 
     public function viewcomments() {
         $this->checkPermission(MODERATE_PIREPS);
-        
+
         $this->set('comments', PIREPData::GetComments($this->get->pirepid));
         $this->render('pireps_comments.php');
     }
 
     public function deletecomment() {
         $this->checkPermission(MODERATE_PIREPS);
-        
+
         if (!isset($this->post)) {
             return;
         }
@@ -225,14 +225,14 @@ class PIREPAdmin extends CodonModule {
 
     public function viewlog() {
         $this->checkPermission(MODERATE_PIREPS);
-        
+
         $this->set('report', PIREPData::GetReportDetails($this->get->pirepid));
         $this->render('pirep_log.php');
     }
 
     public function addcomment() {
         $this->checkPermission(MODERATE_PIREPS);
-        
+
         if (isset($this->post->submit)) {
             $this->add_comment_post();
 
@@ -250,7 +250,7 @@ class PIREPAdmin extends CodonModule {
 
     protected function add_comment_post() {
         $this->checkPermission(MODERATE_PIREPS);
-        
+
         $comment = $this->post->comment;
         $commenter = Auth::$userinfo->pilotid;
         $pirepid = $this->post->pirepid;
@@ -269,13 +269,13 @@ class PIREPAdmin extends CodonModule {
 
         LogData::addLog(Auth::$userinfo->pilotid, 'Added a comment to PIREP #' . $pirepid);
     }
-    
+
     public function approvepirep($pirepid) {
         $this->checkPermission(MODERATE_PIREPS);
         $this->post->id = $pirepid;
         $this->approve_pirep_post();
-        
-        $this->render('pirepadmin_approved.php');       
+
+        $this->render('pirepadmin_approved.php');
     }
 
     /**
@@ -283,22 +283,22 @@ class PIREPAdmin extends CodonModule {
      * the pilot's data
      */
     protected function approve_pirep_post() {
-        
+
         $pirepid = $this->post->id;
-        
+
         if ($pirepid == '')
             return;
 
         $pirep_details = PIREPData::getReportDetails($pirepid);
-        
+
         $this->set('pirep', $pirep_details);
-        
+
         # See if it's already been accepted
         if (intval($pirep_details->accepted) == PIREP_ACCEPTED)
             return;
 
         # Update pilot stats
-        
+
         PIREPData::ChangePIREPStatus($pirepid, PIREP_ACCEPTED); // 1 is accepted
         LogData::addLog(Auth::$userinfo->pilotid, 'Approved PIREP #' . $pirepid);
 
@@ -357,11 +357,11 @@ class PIREPAdmin extends CodonModule {
     }
 
     protected function edit_pirep_post() {
-        if ($this->post->code == '' || $this->post->flightnum == '' 
-                || $this->post->depicao == '' || $this->post->arricao == '' 
+        if ($this->post->code == '' || $this->post->flightnum == ''
+                || $this->post->depicao == '' || $this->post->arricao == ''
                 || $this->post->aircraft == '' || $this->post->flighttime == ''
             ) {
-                
+
             $this->set('message', 'You must fill out all of the required fields!');
             $this->render('core_error.php');
             return false;
@@ -380,19 +380,19 @@ class PIREPAdmin extends CodonModule {
 
         # form the fields to submit
         $data = array(
-            'pirepid' => $this->post->pirepid, 
-            'code' => $this->post->code, 
-            'flightnum' => $this->post->flightnum, 
-            'depicao' => $this->post->depicao, 
-            'arricao' => $this->post->arricao, 
-            'aircraft' => $this->post->aircraft, 
-            'flighttime' => $this->post->flighttime, 
-            'load' => $this->post->load, 
-            'price' => $this->post->price, 
-            'pilotpay' => $this->post->pilotpay, 
-            'fuelused' => $this->post->fuelused, 
-            'fuelunitcost' => $this->post->fuelunitcost, 
-            'fuelprice' => $fuelcost, 
+            'pirepid' => $this->post->pirepid,
+            'code' => $this->post->code,
+            'flightnum' => $this->post->flightnum,
+            'depicao' => $this->post->depicao,
+            'arricao' => $this->post->arricao,
+            'aircraft' => $this->post->aircraft,
+            'flighttime' => $this->post->flighttime,
+            'load' => $this->post->load,
+            'price' => $this->post->price,
+            'pilotpay' => $this->post->pilotpay,
+            'fuelused' => $this->post->fuelused,
+            'fuelunitcost' => $this->post->fuelunitcost,
+            'fuelprice' => $fuelcost,
             'expenses' => $this->post->expenses
         );
 

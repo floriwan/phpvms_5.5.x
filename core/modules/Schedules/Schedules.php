@@ -51,7 +51,7 @@ class Schedules extends CodonModule {
       }
 
       $this->showSchedules();
-      
+
     }
 
     /**

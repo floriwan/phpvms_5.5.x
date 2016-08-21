@@ -71,6 +71,7 @@ if(!$schedule_list)
     <th>Departure</th>
     <th>Arrival</th>
     <th>Flight</th>
+    <th>Aircraft</th>
     <th>Flight Info</th>
     <th>Options</th>
   </tr>
@@ -79,6 +80,7 @@ if(!$schedule_list)
     <th id="searchcol">Departure</th>
     <th id="searchcol">Arrival</th>
     <th id="searchcol">Flight</th>
+    <th id="searchcol">Aircraft</th>
     <th></th>
     <th></th>
   </tr>
@@ -89,6 +91,7 @@ if(!$schedule_list)
     <th id="searchcol">Departure</th>
     <th id="searchcol">Arrival</th>
     <th id="searchcol">Flight</th>
+    <th id="searchcol">Aircraft</th>
     <th>Flight Info</th>
     <th>Options</th>
   </tr>
@@ -101,8 +104,9 @@ if(!$schedule_list)
         <td><?php echo $schedule->depicao ?></td>
         <td><?php echo $schedule->arricao ?></td>
         <td><a href="<?php echo url('/schedules/details/'.$schedule->id);?>"><?php echo $schedule->code . $schedule->flightnum ?></a></td>
+        <td><a href="<?php echo url('/vFleetTracker/view/'.$schedule->registration) ?>"><?php echo $schedule->aircraft; ?> (<?php echo $schedule->registration;?>)</a></td>
         <td><strong>Departure: </strong><?php echo $schedule->deptime;?> &nbsp;&nbsp;&nbsp; <strong>Arrival: </strong><?php echo $schedule->arrtime;?><br />
-          <strong>Equipment: </strong><a href="<?php echo url('/vFleetTracker/view/'.$schedule->registration) ?>"><?php echo $schedule->aircraft; ?> (<?php echo $schedule->registration;?>)</a> &nbsp;&nbsp; <strong>Distance: </strong><?php echo $schedule->distance . Config::Get('UNITS');?><br />
+          <strong>Distance: </strong><?php echo $schedule->distance . Config::Get('UNITS');?><br />
           <strong>Days Flown: </strong><?php echo Util::GetDaysCompact($schedule->daysofweek); ?><br />
         </td>
         <td><a href="<?php echo url('/schedules/details/'.$schedule->id);?>">View Details</a><br />
