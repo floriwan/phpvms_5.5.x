@@ -1,13 +1,13 @@
 <?php if(!defined('IN_PHPVMS') && IN_PHPVMS !== true) { die(); } ?>
 
-<p><div id="activity_line">test</div></p>
+<p class="activity_line"><div id="activity_line">test</div></p>
 
 <table>
   <thead><td colspan="3">latest News</td></thead>
 
     <?php foreach ($allnews as $news) {
       echo "<tr>";
-      echo "<td>" . date('Y-m-d h:i:s', $news->postdate) . " - " . $news->postedby . "</td>";
+      echo "<td><strong>" . date('Y-m-d h:i:s', $news->postdate) . "</strong> " . $news->postedby . "</td>";
       //echo "<td>" . $news->postedby . "</td>";
 
       echo "<td><strong>" . $news->subject . "</strong></td>";
@@ -37,11 +37,12 @@
 
   window.onload = function() {
       elem.innerHTML = activities[counter];
+      $('#activity_line').animate({backgroundColor: '#f8f8f8'},  'slow');
       counter++;
   };
 
   function nextMessage() {
-      //elem.innerHTML = activities[counter];
+
       $('#activity_line').fadeOut(500, function() {
         $('#activity_line').html(activities[counter]).fadeIn(500);
       });

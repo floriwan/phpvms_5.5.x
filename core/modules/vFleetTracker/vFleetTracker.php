@@ -19,6 +19,10 @@ class vFleetTracker extends CodonModule
 		$this->render('vFleetTrack/index.tpl');
 	}
 
+  public function test_table()
+  {
+    $this->render('vFleetTrack/index_test.tpl');
+  }
   /*public function planesByAirline($airlineid)
   {
     $this->set('allaircrafts', vFleetTrackData::getAircraftsByAirline($airlineid));

@@ -31,6 +31,14 @@ class vFleetTrackData extends CodonData
 		return DB::get_results("SELECT * FROM ".TABLE_PREFIX."aircraft");
 	}
 
+  public static function getAllAircraftsAirlines() {
+      $sql = "SELECT aircraft.*, airline.name as aname, airline.code as acode, airline.logo as alogo
+          FROM ".TABLE_PREFIX."aircraft AS aircraft
+          LEFT JOIN ".TABLE_PREFIX."airlines AS airline
+          ON aircraft.airlineid = airline.id ORDER BY aname";
+      return DB::get_results($sql);
+  }
+
 	public static function CargoAircraft($id)
 	{
 		return DB::get_results("SELECT a.*, s.*
