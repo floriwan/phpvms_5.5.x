@@ -252,6 +252,19 @@
             }
           }
 
+          // If there is no log send with the pirep, the rules can not be checked.
+          // In that case, do not accept the pirep and send email to admin.
+
+          if (empty($pirepdetails->log)) {
+            $sub = "PIREP {$pirepdetails->pirepid} by {$pilotid} ({$pirepdetails->depicao} - {$pirepdetails->arricao}) can not be validated ";
+            $message="PIREP {$pirepdetails->pirepid} has been submitted by {$pilotid} {$pirepdetails->firstname} {$pirepdetails->lastname } but there is no flight log available to check. Please take a look into the pending pireps. \n\n -- your autoaccept plugin -- \n\n";
+
+            $email = Config::Get('EMAIL_REJECTED_PIREP');
+            if(empty($email)) $email = ADMIN_EMAIL;
+            Util::SendEmail($email, $sub, $message);
+            return;
+          }
+
           if ($reject_pirep == true) {
             // do not autoreject, inform the admin only
             //self::reject_pirep_post($id);
@@ -261,7 +274,8 @@
           }
 
           // send email to admin
-          if ($settings->sendmail_to_admin == '1' && $reject_pirep == true) {
+          //if ($settings->sendmail_to_admin == '1' && $reject_pirep == true) {
+          if ($reject_pirep == true) {
 
             $sub = "PIREP {$pirepdetails->pirepid} by {$pilotid} ({$pirepdetails->depicao} - {$pirepdetails->arricao}) has been rejected ";
             $message="PIREP {$pirepdetails->pirepid} has been submitted by {$pilotid} {$pirepdetails->firstname} {$pirepdetails->lastname } and has been rejected, please take a look into the pirep comments.\n\n -- your autoaccept plugin -- \n\n" ;
@@ -272,7 +286,7 @@
             }
 
             //echo "<p>send eamil : " . $message . "</p>";
-            Util::SendEmail("florian@goeldenitz.org", $sub, $message);
+            Util::SendEmail($email, $sub, $message);
 
           }
 

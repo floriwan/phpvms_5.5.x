@@ -101,7 +101,6 @@
 
   // PIREP per month
   $pirepByMonth = PIREPData::getIntervalCurrentYear();
-  print_r($pirepByMonth);
 
   $pirepArrayStats = array();
   $pirepArrayStats[] = array('month', 'pireps');
@@ -111,8 +110,7 @@
   }
   $jsonPirepStats = json_encode($pirepArrayStats, true);
 
-  echo "<p></p>";
-  print_r($jsonPirepStats);
+
 ?>
 
 <script type="text/javascript">
