@@ -99,7 +99,20 @@
 
   $jsonpilotflights = json_encode($pilotflights, true);
 
+  // PIREP per month
+  $pirepByMonth = PIREPData::getIntervalCurrentYear();
+  print_r($pirepByMonth);
 
+  $pirepArrayStats = array();
+  $pirepArrayStats[] = array('month', 'pireps');
+
+  foreach ($pirepByMonth as $pirepStat) {
+    $pirepArrayStats[] = array((string)$pirepStat->ym, (int)$pirepStat->total );
+  }
+  $jsonPirepStats = json_encode($pirepArrayStats, true);
+
+  echo "<p></p>";
+  print_r($jsonPirepStats);
 ?>
 
 <script type="text/javascript">
@@ -178,6 +191,20 @@
         var chart = new google.visualization.ColumnChart(document.getElementById('pilot_flights'));
         chart.draw(data, options);
 
+        // PIREP stats
+        var data = new google.visualization.arrayToDataTable(<?=$jsonPirepStats?>);
+
+        var options = {
+          title: 'PIREPS per month',
+          curveType: 'function',
+          width: 500,
+          height: 400
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('pireps'));
+        chart.draw(data, options);
+
+
       }
     </script>
 
@@ -199,6 +226,7 @@
       <div id="routes"></div>
     </section>
     <section>
+      <div id="pireps"></div>
     </section>
 
   </div>

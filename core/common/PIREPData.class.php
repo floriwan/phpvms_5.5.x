@@ -107,6 +107,23 @@ class PIREPData extends CodonData {
         return $data;
     }
 
+    public static function getIntervalCurrentYear() {
+
+      $date_clause = "DATE_SUB( STR_TO_DATE( CONCAT( 12, 31, YEAR( CURDATE( ) ) ) ,  '%m%d%Y' ),
+            INTERVAL 12 MONTH ) <= p.submitdate";
+
+      $where_params[] = $date_clause;
+
+      $data = self::getIntervalData($where_params);
+
+      if (!$data) {
+          return array();
+      }
+
+      return $data;
+
+    }
+
     /**
      * Get internal data for the past $interval days, including the
      * total number of PIREPS and revenue
@@ -174,6 +191,8 @@ class PIREPData extends CodonData {
 
         $sql .= DB::build_where($where_params);
         $sql .= ' GROUP BY `ym` ORDER BY `timestamp` ASC';
+
+        //print_r($sql);
 
         $results = DB::get_results($sql);
 
