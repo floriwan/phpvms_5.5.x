@@ -8,16 +8,41 @@
 
 <center>
   <img width="100%" src="<?php echo SITE_URL?>/lib/images/fleet.jpg" alt="FlyCaribbean Fleet">
-  <h3><?php echo SITE_NAME?>'s Fleet Tracker</h3>
+  <h3>Search in <?php echo SITE_NAME?>'s Fleet</h3>
 </center>
 
 <script type="text/javascript">
 
+    // add search input fields
+
     $(document).ready(function() {
 
+        $('#fleettable tfoot #searchcol').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="Search" />' );
+        } );
+
         $('#fleettable').DataTable( {
-          "paging":   false,
-          "order": [[ 1, "asc" ]]
+          "paging":   true,
+          "order": [[ 1, "asc" ]],
+          "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        } );
+
+
+        // DataTable
+        var table = $('#fleettable').DataTable();
+
+        // search function
+        table.columns().every( function () {
+          var that = this;
+
+          $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+          } );
         } );
 
     } );
@@ -47,16 +72,16 @@
     <th>Total Miles</th>
   </tr></thead>
 
-  <tfoot><tr><th>Airline</th>
-    <th id="searchcol"></th>
+  <tfoot><tr><th></th>
+    <th id="searchcol">Airline</th>
     <th id="searchcol">Name</th>
     <th id="searchcol">Full Name</th>
     <th id="searchcol">Registration</th>
-    <th>Last Flight</th>
-    <th>Location</th>
-    <th>Total Flights</th>
-    <th>Total Hours</th>
-    <th>Total Miles</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr></tfoot>
 
   <tbody>

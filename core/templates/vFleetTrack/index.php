@@ -20,6 +20,10 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
   <h3><?php echo SITE_NAME?>'s Fleet Tracker</h3>
 </center>
 
+<form action="<?php echo SITE_URL?>/index.php/vFleetTracker/search"><input style="width:100%" type="submit" value="search in fleet">
+</form>
+
+
 <?php
 	if(!$allaircrafts)
 	{
