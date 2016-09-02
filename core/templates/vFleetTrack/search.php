@@ -4,8 +4,6 @@
 **/
 ?>
 
-
-
 <center>
   <img width="100%" src="<?php echo SITE_URL?>/lib/images/fleet.jpg" alt="FlyCaribbean Fleet">
   <h3>Search in <?php echo SITE_NAME?>'s Fleet</h3>
