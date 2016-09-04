@@ -2,19 +2,17 @@
 
 <h2>Airline News</h2>
 
-<table>
+<ul class="dates">
 
-    <?php foreach ($allnews as $news) {
-      echo "<tr><a name=\"news_".$news->id."\"></a>";
-      echo "<th>" . date(DATE_FORMAT, $news->postdate) . "</th>";
-      echo "<th>From : " . $news->postedby . "</th>";
-      echo "<th>Subject : " . $news->subject . "</th>";
-      echo "</tr>";
+  <?php foreach ($allnews as $news) { ?>
 
-      echo "<tr>";
-      echo "<td colspan=\"3\">" . $news->body . "</td>";
-      echo "</tr>";
-    } ?>
+    <li>
+      <?php echo "<a name=\"news_".$news->id."\"></a>"; ?>
+      <span class="date"><?php echo date('M',  $news->postdate)?><strong><?php echo date('d',  $news->postdate)?></strong></span>
+      <h3><?php echo($news->postedby)?> / <?php echo($news->subject)?></h3>
+      <p><?php echo($news->body);?>
+    </li>
 
+  <?php } ?>
 
-</table>
+</ul>

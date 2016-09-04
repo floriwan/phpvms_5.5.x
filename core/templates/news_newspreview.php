@@ -2,22 +2,21 @@
 
 <p class="activity_line"><div id="activity_line">test</div></p>
 
-<table>
-  <thead><td colspan="3">latest News</td></thead>
 
-    <?php foreach ($allnews as $news) {
-      echo "<tr>";
-      echo "<td><strong>" . date('Y-m-d h:i:s', $news->postdate) . "</strong> " . $news->postedby . "</td>";
-      //echo "<td>" . $news->postedby . "</td>";
+<ul class="dates">
 
-      echo "<td><strong>" . $news->subject . "</strong></td>";
-      echo "<td><a href=\"". url('/news') ."#news_" . $news->id . "\"><i class=\"fa fa-external-link\" aria-hidden=\"true\"></i></a></td>";
-      //echo "<td>" . preg_replace('/\s+/', '', $news->body) . "</td>";
-      echo "</tr>";
-    } ?>
+  <?php foreach ($allnews as $news) { ?>
 
+    <li>
+      <span class="date"><?php echo date('M',  $news->postdate)?><strong><?php echo date('d',  $news->postdate)?></strong></span>
+      <h3><?php echo($news->postedby)?> / <?php echo($news->subject)?></h3>
+      <p><?php echo substr(strip_tags($news->body), 0, 100);?> ...
+        <?php echo "<td><a href=\"". url('/news') ."#news_" . $news->id . "\"><i class=\"fa fa-external-link\" aria-hidden=\"true\"></i></a></td>"; ?></p>
+    </li>
 
-</table>
+  <?php } ?>
+
+</ul>
 
 <script type="text/javascript">
 

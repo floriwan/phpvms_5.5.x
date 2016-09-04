@@ -10,6 +10,12 @@
   <!-- Scripts for the layout template -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!--[if lte IE 8]><script src="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/js/ie/html5shiv.js"></script><![endif]-->
+  <link rel="stylesheet" href="<?php echo fileurl('lib/skins/alpha/assets/css/main.css')?>" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/css/ie8.css" /><![endif]-->
+  <link rel="stylesheet" href="<?php echo fileurl('lib/skins/alpha/assets/css/animation.css')?>" />
+
   <!--[if lte IE 8]><script src="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/js/ie/html5shiv.js"></script><![endif]-->
   <link rel="stylesheet" href="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/css/main.css" />
   <!--[if lte IE 8]><link rel="stylesheet" href="http://www.flycaribbeanva.com/phpvms/lib/skins/alpha/assets/css/ie8.css" /><![endif]-->
