@@ -51,9 +51,9 @@
 
     <header id="header" class="alt">
       <?php if(Auth::LoggedIn() == false) { ?>
-        <h1><a href="<?php echo url('/'); ?>"><i class="icon fa-home"></i> <?php echo SITE_NAME; ?></a></h1>
+        <h1><a href="<?php echo url('/'); ?>"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_icon_small.png" alt="FCB" /> <i class="icon fa-home"></i> <?php echo SITE_NAME; ?></a></h1>
       <?php } else { ?>
-        <h1><a href="<?php echo url('/'); ?>"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_icon_small.png" alt="FCB" /> <?php echo SITE_NAME; ?></a></h1>
+        <h1><a href="<?php echo url('/'); ?>"><img src="<?php echo SITE_URL?>/lib/images/flycaribbean_icon_small.png" alt="FCB" /> <i class="icon fa-home"></i> <?php echo SITE_NAME; ?></a></h1>
       <?php } ?>
 
       <!-- <h1><a href="<?php echo url('/'); ?>"><img src="<?php echo SITE_URL?>/lib/skins/alpha/images/flycaribbean_icon.png"> FlyCaribbean</a></h1> -->
@@ -153,7 +153,7 @@
 
         <a name="airline_news"></a>
           <section class="box feature">
-            <h2>Airline News</h2>
+            <!--<h2>Airline News</h2>-->
             <?php MainController::Run('News', 'ShowNewsPreview', 5); ?>
           </section>
 
@@ -199,7 +199,7 @@
         } else {
           /*echo "true";*/
           echo '<section class="box feature">';
-          echo '<h3>Airline News</h3>';
+          /*echo '<h3>Airline News</h3>';*/
           MainController::Run('News', 'ShowNewsPreview', 5);
           echo '</section>';
 
