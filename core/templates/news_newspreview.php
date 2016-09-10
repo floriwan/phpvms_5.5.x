@@ -40,7 +40,7 @@
     complete_message = activities[counter_two];
     //console.log($("#activity_line").width());
     //console.log($(window).width());
-    max_char = Math.floor($("#activity_line").width() / (50*0.3));
+    max_char = Math.floor($(".terminal_message").width() / (50*0.3));
 
     if (complete_message.length < max_char) {
       complete_message = activities[counter_two].concat(' '.repeat(max_char - activities[counter_two].length));
