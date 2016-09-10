@@ -1,6 +1,6 @@
 <?php if(!defined('IN_PHPVMS') && IN_PHPVMS !== true) { die(); } ?>
 
-<p class="activity_line"><div id="activity_line"></div></p>
+<!--<p class="activity_line"><div id="activity_line"></div></p>-->
 
 <p><div class="terminal_message"></div></p>
 
