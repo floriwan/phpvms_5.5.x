@@ -79,11 +79,13 @@ class SiteData extends CodonData {
      * @param mixed $body
      * @return
      */
-    public static function AddNewsItem($subject, $body) {
+    public static function AddNewsItem($subject, $body, $postedby="") {
 
         $subject = DB::escape($subject);
         $body = DB::escape($body);
-        $postedby = Auth::$userinfo->firstname . ' ' . Auth::$userinfo->lastname;
+
+        if (empty($postedby))
+          $postedby = Auth::$userinfo->firstname . ' ' . Auth::$userinfo->lastname;
 
         //added to combat pilot names with apostrophes
         $postedby = addslashes($postedby);
@@ -97,6 +99,7 @@ class SiteData extends CodonData {
 
         return true;
     }
+
 
 	/**
 	 * Set the last modified date of the news item to now

@@ -52,7 +52,54 @@ class News extends CodonModule
 		}*/
 	}
 
+  /**
+   * remove bbcode from the string
+   */
+  public function remove_bbcode($string) {
+    $pattern = '|[[\/\!]*?[^\[\]]*?]|si';
+    $replace = '';
+    return preg_replace($pattern, $replace, $string);
+  }
+
+  /**
+   * search smf forum table for new news items and
+   * insert them into the phpvms news table.
+   */
+  public function read_smf_news() {
+
+    /* get the latest posting date */
+    $sql = 'SELECT MAX( postdate ) as lastdate FROM ' . TABLE_PREFIX .'news';
+
+    $res = DB::get_results($sql);
+    //print_r($res);
+    //echo "<p>latest phpvms news date " . $res[0]->lastdate . "</p>";
+
+    //$sql = 'SELECT * FROM `smf_messages` WHERE id_board = 6';
+    $sql = 'SELECT FROM_UNIXTIME(poster_time) as post_time, id_topic, subject, body FROM `smf_messages` WHERE id_board = 6 AND FROM_UNIXTIME(poster_time) > \'' . $res[0]->lastdate . '\'';
+    //echo "<p>sql " . $sql . "</p>";
+    $res = DB::get_results($sql);
+
+    if ($res) {
+      foreach ($res as $row) {
+
+        // check if id_topic only exists once in the table.
+        // Than we have the first posting.
+        $sql = 'SELECT * FROM `smf_messages` WHERE id_topic = \'' . $row->id_topic . '\'';
+        $res = DB::get_results($sql);
+
+        // add only the first posting
+        if (sizeof($res) == 1) {
+          SiteData::AddNewsItem($row->subject, $this->remove_bbcode($row->body), "FCB Forum");
+        }
+      }
+    }
+
+  }
+
   public function ShowNewsPreview($count=10) {
+
+    $this->read_smf_news();
+
     $sql='SELECT id, subject, body, postedby, UNIX_TIMESTAMP(postdate) AS postdate
 				FROM ' . TABLE_PREFIX .'news
 				ORDER BY postdate DESC
