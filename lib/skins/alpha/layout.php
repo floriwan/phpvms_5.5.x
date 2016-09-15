@@ -233,7 +233,7 @@
       <ul class="icons">
         <li><a href="https://twitter.com/flycaribbeanva" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
         <li><a href="https://www.facebook.com/flycaribbeanVirtual/" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-        <li><a href="" class="icon fa-youtube"><span class="label">Youtube</span></a></li>
+        <li><a href="https://www.youtube.com/channel/UCFzd-kBC5SADPMBijNZeP9Q" class="icon fa-youtube"><span class="label">Youtube</span></a></li>
         <!--<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>-->
         <!--<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
         <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
