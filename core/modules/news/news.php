@@ -89,7 +89,23 @@ class News extends CodonModule
 
         // add only the first posting
         if (sizeof($res) == 1) {
+          // add a link into the forum thread
+          $row->body .= "<br><a href=\"http://www.flycaribbeanva.com/smf/index.php?topic=". $row->id_topic . "\"><i class=\"fa fa-external-link\" aria-hidden=\"true\"></i> FlyCaribbeanVA Forum</a>";
           SiteData::AddNewsItem($row->subject, $this->remove_bbcode($row->body), "FCB Forum");
+
+/*
+          LogData::addLog("FCB Froum", 'Added news "'.$this->post->subject.'"');
+
+          $message = "FCB Forum " . Lang::get('activity.new.news');
+
+          ActivityData::addActivity(array(
+              'pilotid' => "FCB Froum",
+              'type' => ACTIVITY_NEW_NEWS,
+              'refid' => SiteData::getLastNewsItemID(),
+              'message' => htmlentities($message),
+          ));
+*/
+
         }
       }
     }

@@ -12,7 +12,7 @@
 
     <li>
       <span class="date"><?php echo date('M',  $news->postdate)?><strong><?php echo date('d',  $news->postdate)?></strong></span>
-      <h3><?php echo($news->postedby)?> / <?php echo($news->subject)?></h3>
+      <h3><strong><?php echo($news->postedby)?> / <?php echo($news->subject)?></strong></h3>
       <p><?php echo substr(strip_tags($news->body), 0, 100);?> ...
         <?php echo "<td><a href=\"". url('/news') ."#news_" . $news->id . "\"><i class=\"fa fa-external-link\" aria-hidden=\"true\"></i></a></td>"; ?></p>
     </li>

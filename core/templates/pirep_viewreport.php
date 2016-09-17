@@ -42,7 +42,7 @@
 		<td align="" colspan="2">Flight Details</td>
 	</tr>
 	<tr>
-		<td align="right">Gross Revenue: <br /> 
+		<td align="right">Gross Revenue: <br />
 			(<?php echo $pirep->load;?> load / <?php echo FinanceData::FormatMoney($pirep->price);?> per unit  <br />
 		<td align="right" valign="top"><?php echo FinanceData::FormatMoney($pirep->load * $pirep->price);?></td>
 	</tr>
@@ -60,7 +60,7 @@
 if($fields)
 {
 ?>
-<h3>Flight Details</h3>			
+<h3>Flight Details</h3>
 <ul>
 	<?php
 	foreach ($fields as $field)
@@ -69,12 +69,12 @@ if($fields)
 		{
 			$field->value = '-';
 		}
-	?>		
+	?>
 		<li><strong><?php echo $field->title ?>: </strong><?php echo $field->value ?></li>
 <?php
 	}
 	?>
-</ul>	
+</ul>
 <?php
 }
 ?>
@@ -100,17 +100,17 @@ if($pirep->log != '')
 		echo '<p>';
 	}
 	?>
-		<div>
+		<div><pre>
 		<?php
 		# Simple, each line of the log ends with *
 		# Just explode and loop.
 		$log = explode('*', $pirep->log);
 		foreach($log as $line)
 		{
-			echo $line .'<br />';
+      echo $line .'<br />';
 		}
 		?>
-		</div>
+  </pre></div>
 	</p>
 </p>
 <?php
