@@ -187,7 +187,7 @@
 
         /* check the url and add the special feature box for
            pilot profile and homepage */
-        $regex = "/(.+index\.php\/*$|.+\/statistic$|.+\/profile$)/";
+        $regex = "/(.+index\.php\/*$|.+\/statistic$|.+\/profile_detail$|.+\/profile$)/";
         $server_url = $_SERVER['PHP_SELF'];
         $result = preg_match($regex, $server_url);
 
@@ -197,11 +197,18 @@
             echo $page_content;
             echo '</section>';
         } else {
-          /*echo "true";*/
-          echo '<section class="box feature">';
-          /*echo '<h3>Airline News</h3>';*/
-          MainController::Run('News', 'ShowNewsPreview', 5);
-          echo '</section>';
+
+          $server_url = $_SERVER['PHP_SELF'];
+          $regex = "/^.+index.php(\/|)$/";
+          $result = preg_match($regex, $server_url);
+
+          if ($result) {
+            echo '<section class="box feature">';
+            /*echo '<h3>Airline News</h3>';*/
+            MainController::Run('News', 'ShowNewsPreview', 5);
+            echo '</section>';
+
+          }
 
           echo '<section class="box special features">';
           echo $page_content;

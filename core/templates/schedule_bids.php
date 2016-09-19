@@ -35,7 +35,7 @@ foreach($bids as $bid)
 		<a id="<?php echo $bid->bidid; ?>" class="deleteitem" href="<?php echo url('/schedules/removebid');?>">Remove Bid *</a><br />
 		<a href="<?php echo url('/schedules/brief/'.$bid->id);?>">Pilot Brief</a><br />
 		<a href="<?php echo url('/schedules/boardingpass/'.$bid->id);?>" />Boarding Pass</a>
-		
+
 	</td>
 </tr>
 <?php

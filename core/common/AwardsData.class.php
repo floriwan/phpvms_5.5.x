@@ -11,7 +11,7 @@
  *   Creative Commons Attribution Non-commercial Share Alike (by-nc-sa)
  *   View license.txt in the root, or visit http://creativecommons.org/licenses/by-nc-sa/3.0/
  *
- * @author Nabeel Shahzad 
+ * @author Nabeel Shahzad
  * @copyright Copyright (c) 2008, Nabeel Shahzad
  * @link http://www.phpvms.net
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/
@@ -161,11 +161,11 @@ class AwardsData extends CodonData {
      *
      */
     public static function DeleteAward($awardid) {
-        $sql = "DELETE FROM " . TABLE_PREFIX . "awards 
+        $sql = "DELETE FROM " . TABLE_PREFIX . "awards
 					WHERE `awardid`=$awardid";
         DB::query($sql);
 
-        $sql = "DELETE FROM " . TABLE_PREFIX . "awardsgranted 
+        $sql = "DELETE FROM " . TABLE_PREFIX . "awardsgranted
 					WHERE `awardid`=$awardid";
         DB::query($sql);
     }

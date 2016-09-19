@@ -68,6 +68,52 @@ class Profile extends CodonModule
 		CodonEvent::Dispatch('profile_viewed', 'Profile');
 	}
 
+  public function profile_detail()
+  {
+    if(!Auth::LoggedIn()) {
+			$this->set('message', 'You must be logged in to access this feature!');
+			$this->render('core_error.tpl');
+			return;
+		}
+
+		/*
+		 * This is from /profile/editprofile
+		 */
+		 if(isset($this->post->action)) {
+			if($this->post->action == 'saveprofile') {
+				$this->save_profile_post();
+			}
+
+			/* this comes from /profile/changepassword
+			*/
+			if($this->post->action == 'changepassword') {
+				$this->change_password_post();
+			}
+		}
+
+        $pilot = PilotData::getPilotData(Auth::$pilot->pilotid);
+
+		if(Config::Get('TRANSFER_HOURS_IN_RANKS') == true) {
+			$totalhours = $pilot->totalhours + $pilot->transferhours;
+		} else {
+			$totalhours = $pilot->totalhours;
+		}
+
+		$this->set('pilotcode', PilotData::getPilotCode($pilot->code, $pilot->pilotid));
+		$this->set('report', PIREPData::getLastReports($pilot->pilotid));
+		$this->set('nextrank', RanksData::getNextRank($totalhours));
+		$this->set('allawards', AwardsData::getPilotAwards($pilot->pilotid));
+		$this->set('userinfo', $pilot);
+        $this->set('pilot', $pilot);
+		$this->set('pilot_hours', $totalhours);
+
+		$this->render('pilots_profile.php');
+
+		CodonEvent::Dispatch('profile_viewed', 'Profile');
+
+  }
+
+
 	/**
 	 * This is the public profile for the pilot
 	 */
@@ -139,6 +185,22 @@ class Profile extends CodonModule
 		$this->set('pilotcode', PilotData::getPilotCode(Auth::$pilot->code, Auth::$pilot->pilotid));
 		$this->render('profile_badge.tpl');
 	}
+
+  /**
+   * show pilots awards
+   */
+   public function award()
+   {
+     if(!Auth::LoggedIn()) {
+       $this->set('message', 'You must be logged in to access this feature!');
+       $this->render('core_error.tpl');
+       return;
+    }
+
+    $this->set('allawards', AwardsData::GetPilotAwards(Auth::$pilot->pilotid));
+    $this->render('profile_awards.tpl');
+
+   }
 
 	/**
 	 * Profile::editprofile()
