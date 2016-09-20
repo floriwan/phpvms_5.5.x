@@ -16,7 +16,8 @@
 	<th>Rank</th>
 	<th>Flights</th>
 	<th>Hours</th>
-  <th> </th>
+  <th>IVAO ID </th>
+  <th>VATSIM ID</th>
 </tr>
 </thead>
 <tbody>
@@ -53,6 +54,7 @@ foreach($allpilots as $pilot)
 	<td><?php echo $pilot->totalflights?></td>
 	<td><?php echo Util::AddTime($pilot->totalhours, $pilot->transferhours); ?></td>
 
+<?php /* to get the ivao registration, the ivao id must be visible ...
   <td><?php if (!empty($pilot->ivao_id) && $pilot->ivao_status == 0) { ?> <img alt="offline" src="<?php echo SITE_URL?>/lib/images/ivao_offline.png" alt="ivao" />
     <?php } else if (!empty($pilot->ivao_id) && $pilot->ivao_status == 1) { ?> <img alt="online" src="<?php echo SITE_URL?>/lib/images/ivao_online.png" alt="ivao" />
     <?php } ?>
@@ -62,6 +64,18 @@ foreach($allpilots as $pilot)
     <?php } else if (!empty($pilot->vatsim_id) && $pilot->vatsim_status == 1) { ?> <img alt="online" src="<?php echo SITE_URL?>/lib/images/vatsim_online.png" alt="vatsim" />
     <?php } ?>
   </td>
+*/ ?>
+
+<td><?php if (!empty($pilot->ivao_id) && $pilot->ivao_status == 0) { ?> <a href="http://www.ivao.aero/members/person/details.asp?ID=<?php echo $pilot->ivao_id ?>"><?php echo $pilot->ivao_id ?></a>
+  <?php } else if (!empty($pilot->ivao_id) && $pilot->ivao_status == 1) { ?> <a href="http://www.ivao.aero/members/person/details.asp?ID=<?php echo $pilot->ivao_id ?>"><?php echo $pilot->ivao_id ?></a> <i class="fa fa-plane" aria-hidden="true"></i>
+  <?php } ?>
+</td>
+
+<td><?php if (!empty($pilot->vatsim_id) && $pilot->vatsim_status == 0) { echo $pilot->vatsim_id ?>
+  <?php } else if (!empty($pilot->vatsim_id) && $pilot->vatsim_status == 1) { echo $pilot->vatsim_id ?>
+  <?php } ?>
+</td>
+
 
 <?php
 }
