@@ -24,7 +24,7 @@ foreach ($plts as $plt)
   <li style="border-radius: 10px;"><a style="text-decoration: none;" href="#se">Send Email</a></li>
   <li style="border-radius: 10px;"><a style="text-decoration: none;" href="#dp">Edit Pilots</a></li>
  </ul>
- 
+
  <div style="height: 100%; border-radius: 10px;" class="content_holder">
   <div id="pi"><?php Template::show('pm/pilot_information.php');?></div>
   <div id="se"><?php Template::show('pm/send_email.php');?></div>

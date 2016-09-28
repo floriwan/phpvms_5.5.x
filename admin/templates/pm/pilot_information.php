@@ -52,6 +52,17 @@ foreach($pilots as $pilot)
 			if($pilot->lastpirep == 0)
 			{
 				echo '<font color="red">No Reports Since Registration</font>';
+
+        if ($param->datesent == 0)
+        {
+          echo '<br>no email send since registration';
+        }
+        else {
+          $now = date_create();
+          $email_date = date_create($param->datesent);
+          echo '<br>email send before ' . date_diff($email_date, $now)->format('%a days') . '</p>';
+
+        }
 			}
 			elseif($pilot->retired == "1")
 			{

@@ -107,12 +107,17 @@ class PIREPData extends CodonData {
         return $data;
     }
 
-    public static function getIntervalCurrentYear() {
+    public static function getIntervalCurrentYear($where_params = '') {
 
       $date_clause = "DATE_SUB( STR_TO_DATE( CONCAT( 12, 31, YEAR( CURDATE( ) ) ) ,  '%m%d%Y' ),
             INTERVAL 12 MONTH ) <= p.submitdate";
 
-      $where_params[] = $date_clause;
+      /* See if this array already exists */
+      if (!is_array($where_params)) {
+        $where_params = array($date_clause);
+      } else {
+        $where_params[] = $date_clause;
+      }
 
       $data = self::getIntervalData($where_params);
 
@@ -134,7 +139,7 @@ class PIREPData extends CodonData {
      *
      */
     public static function getIntervalDataByDays($where_params, $interval = '7') {
-
+      
         $date_clause = "DATE_SUB(CURDATE(), INTERVAL {$interval} DAY)  <= p.submitdate";
 
         /* See if this array already exists */
@@ -178,6 +183,7 @@ class PIREPData extends CodonData {
 					UNIX_TIMESTAMP(p.submitdate) AS timestamp,
 					COUNT(p.pirepid) AS total,
 					SUM(p.revenue) as revenue,
+          SUM(p.flighttime) as flighttime,
 					SUM(p.gross) as gross,
 					SUM(p.fuelprice) as fuelprice,
 					SUM(p.price) as price,

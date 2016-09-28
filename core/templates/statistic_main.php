@@ -111,6 +111,31 @@
   $jsonPirepStats = json_encode($pirepArrayStats, true);
 
 
+  // light time per month in hours
+  $hoursPerMonth = PIREPData::getIntervalCurrentYear($where_params);
+  $where_params[] = ' p.log LIKE \'%IVAO%\'';
+  $hoursIvaoPerMonth = PIREPData::getIntervalCurrentYear($where_params);
+  //print_r($hoursIvaoPerMonth);
+
+  $onlineHours = array();
+  $onlineHours[] = array('month', 'overall', 'ivao');
+
+  foreach ($hoursPerMonth as $stat_line) {
+
+    $ivao_hours = 0;
+
+    foreach ($hoursIvaoPerMonth as $ivaoh) {
+      if ($ivaoh->ym == $stat_line->ym)
+        $ivao_hours = $ivaoh->flighttime;
+    }
+
+    $onlineHours[] = array((string)$stat_line->ym, (int)$stat_line->flighttime, (int)$ivao_hours);
+
+  }
+  $jsonOnlineHoursStats = json_encode($onlineHours, true);
+  //print_r($jsonOnlineHoursStats);
+
+
 ?>
 
 <script type="text/javascript">
@@ -194,12 +219,29 @@
 
         var options = {
           title: 'PIREPS per month',
+          hAxis: { title: 'month' },
+          vAxis: { title: 'hours' },
           curveType: 'function',
           width: 500,
           height: 400
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('pireps'));
+        chart.draw(data, options);
+
+        // online hours
+        var data = new google.visualization.arrayToDataTable(<?=$jsonOnlineHoursStats?>);
+
+        var options = {
+          title: 'hours per month',
+          hAxis: { title: 'month' },
+          vAxis: { title: 'hours' },
+          curveType: 'function',
+          width: 500,
+          height: 400
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('online_hours'));
         chart.draw(data, options);
 
 
@@ -224,9 +266,16 @@
       <div id="routes"></div>
     </section>
     <section>
+    </section>
+  </div>
+
+  <div class="features-row">
+    <section>
       <div id="pireps"></div>
     </section>
-
+    <section>
+      <div id="online_hours"></div>
+    </section>
   </div>
 
   <div class="features-row">

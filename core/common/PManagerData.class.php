@@ -47,8 +47,8 @@ class PManagerData extends CodonData
 		{
 			$sent = self::param($pilot);
 			$sen = $sent->warning;
+      $message = DB::escape($message);
 			$sql = "UPDATE " . TABLE_PREFIX . "pilot_manager SET warning='$sen' + '1', message='$message', datesent=NOW() WHERE pid='$pilot'";
-
 			DB::query($sql);
 		}
 
@@ -56,6 +56,7 @@ class PManagerData extends CodonData
 		{
 			$sent = self::param($pilot);
 			$sen = $sent->welcome;
+      $message = DB::escape($message);
 			$sql = "UPDATE " . TABLE_PREFIX . "pilot_manager SET welcome='$sen' + '1', message='$message', datesent=NOW() WHERE pid='$pilot'";
 			DB::query($sql);
 		}
@@ -64,6 +65,7 @@ class PManagerData extends CodonData
 		{
 			$sent = self::param($pilot);
 			$sen = $sent->blank;
+      $message = DB::escape($message);
 			$sql = "UPDATE " . TABLE_PREFIX . "pilot_manager SET blank='$sen' + '1', message='$message', datesent=NOW() WHERE pid='$pilot'";
 			DB::query($sql);
 		}

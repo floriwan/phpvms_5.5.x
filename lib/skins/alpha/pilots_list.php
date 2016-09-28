@@ -66,8 +66,8 @@ foreach($allpilots as $pilot)
   </td>
 */ ?>
 
-<td><?php if (!empty($pilot->ivao_id) && $pilot->ivao_status == 0) { ?> <a href="http://www.ivao.aero/members/person/details.asp?ID=<?php echo $pilot->ivao_id ?>"><?php echo $pilot->ivao_id ?></a>
-  <?php } else if (!empty($pilot->ivao_id) && $pilot->ivao_status == 1) { ?> <a href="http://www.ivao.aero/members/person/details.asp?ID=<?php echo $pilot->ivao_id ?>"><?php echo $pilot->ivao_id ?></a> <i class="fa fa-plane" aria-hidden="true"></i>
+<td><?php if (!empty($pilot->ivao_id) && $pilot->ivao_status == 0) { ?> <a target="_blank" href="http://www.ivao.aero/members/person/details.asp?ID=<?php echo $pilot->ivao_id ?>"><?php echo $pilot->ivao_id ?></a>
+  <?php } else if (!empty($pilot->ivao_id) && $pilot->ivao_status == 1) { ?> <a target="_blank" href="http://www.ivao.aero/members/person/details.asp?ID=<?php echo $pilot->ivao_id ?>"><?php echo $pilot->ivao_id ?></a> <i class="fa fa-plane" aria-hidden="true"></i>
   <?php } ?>
 </td>
 
