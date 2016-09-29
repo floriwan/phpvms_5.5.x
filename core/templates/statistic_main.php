@@ -179,7 +179,7 @@
 
         var options = {
           title: ' Routes',
-          sliceVisibilityThreshold: 0.015,
+          sliceVisibilityThreshold: 0.01,
           pieHole: 0.4,
           width: 500,
           height: 400

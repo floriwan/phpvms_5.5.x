@@ -108,12 +108,16 @@
 
           <p>FlyCaribbeanVA is a Virtual Alliance by and for
           virtual pilots who like to fly in the Caribbean area.
-          It is founded in 2016. The idea is to offer the
+          It is founded in 2016 and become an
+          <a target="_blank" href="https://www.ivao.aero//db/airline/airline.asp?Id=19790">official IVAO airline</a>
+           in the same year.
+          The idea is to offer the
           possibility to simulate real world flights flown in the
           Caribbean, from small private aircrafts to large passenger
           and cargo jets. </p>
 
-          <p>We have two hubs: St. Maarten (TNCM) and Curacao (TNCC).</p>
+          <p>We have two hubs: <a target="_blank" href="https://skyvector.com/airport/TNCM/Princess-Juliana-International-Airport">St. Maarten (TNCM)</a>
+             and <a target="_blank" href="https://skyvector.com/airport/TNCC/Curacao-Airport">Curacao (TNCC)</a>.</p>
 
   				</div>
 
@@ -145,6 +149,7 @@
 
           <ul class="icons">
             <li><a target="_blank" href="http://www.ivao.aero"><img src="<?php echo SITE_URL?>/lib/images/ivao_logo.png" alt="" /></a></li>
+            <li><a target="_blank" href="http://an.ivao.aero/"><img src="<?php echo SITE_URL?>/lib/images/ivao_an_logo.png" alt="" /></a></li>
             <li><a target="_blank" href="http://www.vatsim.net"><img src="<?php echo SITE_URL?>/lib/images/vatsim_logo.png" alt="" /></a></li>
             <li><a target="_blank"  href="http://www.simbrief.com/"><img src="<?php echo SITE_URL?>/lib/images/simbrief_logo.png" alt="" /></li>
           </ul>
@@ -234,7 +239,8 @@
     <!-- footer -->
     <footer id="footer">
       <ul class="icons">
-        <li><a target="_blank" href="http://an.ivao.aero/"><img border="0" height="150" width="150" src="http://an.ivao.aero/public/images/an.svg"></a></li>
+        <li><a target="_blank" href="http://an.ivao.aero/"><img border="0" height="75" width="100" src="http://an.ivao.aero/public/images/an.svg"></a></li>
+        <li><a target="_blank" href="https://www.ivao.aero//db/airline/airline.asp?Id=19790"><img border="0" height="75" width="300" src="http://status.ivao.aero/CVA/19790.png"></a></li>
       </ul>
 
       <ul class="icons">
