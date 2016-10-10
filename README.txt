@@ -3,6 +3,7 @@ flycaribbeanva integration
 
 use the latest phpvms version and integrate every plugin and new feature we need for our airline.
 
++ IPS integration
 + twitter feed for news and activities
 + events addon
 + statistics page with google charts
@@ -17,6 +18,9 @@ use the latest phpvms version and integrate every plugin and new feature we need
 + new html5 design
 + airline staff integration
 + create smf forum users for every new pilot
+
+IPS system must be installed and running. Some information, like the
+pilots online state, is comming from the IPS table.
 
 ---------------------------------------------------------------------------------
 
