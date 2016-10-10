@@ -46,6 +46,7 @@ class IvaoData extends CodonData {
 
   public static function updatePilotStatus($service) {
 
+    PilotData::resetAllIvaoStates();
     $all_ids = PilotData::getAllIvaoIds();
 
     foreach($all_ids as $id) {
