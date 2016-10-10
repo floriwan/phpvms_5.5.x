@@ -22,15 +22,40 @@ class IvaoData extends CodonData {
 
   public static function updatePilotsOnlineState() {
 
-    self::updateStatus("IVAO");
+    //self::updateStatus("IVAO");
     self::updatePilotStatus("IVAO");
 
     return;
 
   }
 
+  public static function checkPilotOnline($vid, $network) {
+
+    // check the pilots status in the ips table.
+    // No need to track the status in phpvms.
+    if ($network == "IVAO") {
+      $sql = "SELECT * from IPS_IVAOData WHERE `VID`=\"" . $vid . "\"";
+      $ret = DB::get_results($sql);
+
+      if (!empty($ret)) {
+        PilotData::setIvaoOnline($vid);
+      }
+
+    }
+  }
+
   public static function updatePilotStatus($service) {
 
+    $all_ids = PilotData::getAllIvaoIds();
+
+    foreach($all_ids as $id) {
+      self::checkPilotOnline($id->ivao_id, $service);
+    }
+
+    return;
+
+    // following code is only for ivao status update if
+    // the pilots page is requested.
     $array[] = $ivao_ids;
 
     if (self::pilotUpdateNeeded($service) == false) return;
