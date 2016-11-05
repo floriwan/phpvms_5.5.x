@@ -1,3 +1,5 @@
+<?php if(!defined('IN_PHPVMS') && IN_PHPVMS !== true) { die(); } ?>
+
 <?php
 
 //@author F. Goeldenitz
@@ -13,32 +15,45 @@ if (!joblist) {
 
 <center>
   <table border="1px" width="80%">
-    <tr>
-      <td><b>start date</b></td>
+    <th>
+      <td><b>start_date</b></td>
       <td><b>end date</b></td>
       <td><b>flight</b></td>
       <td><b>aircraft</b></td>
       <td><b>departure</b></td>
+      <td></td>
       <td><b>arrival</b></td>
       <td><b>distance</b></td>
       <td><b>status</b></td>
-      <td><b></b></td>
-    </tr>
+      <td><b>booked by<b></td>
+    </th>
 
     <?php foreach ($joblist as $job) {
 
       if ($job->pilot_id != "") $pilot = PilotData::getPilotData($job->pilot_id);
 
       echo "<tr>";
+      echo "<td> </td>";
       echo "<td>".$job->valid_from."</td>";
       echo "<td>".$job->valid_to."</td>";
       echo "<td>".$job->code . $job->flightnum."</td>";
       echo "<td>".$job->aircraft_registration . " (" . $job->aircraft_name.")</td>";
       echo "<td>".$job->depicao."</br>";
+      echo "<td><i class=\"fa fa-angle-right\" aria-hidden=\"true\"></i></td>";
       echo "<td>".$job->arricao."</br>";
       echo "<td>".$job->distance."nm</br>";
-      echo "<td>".$job->status."</br>";
-      if ($job->status === "N") echo "<td><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i></td>";
+
+      if((Auth::LoggedIn() == true) && ($job->status === "N")) {
+        echo "<td><a href=\"" . SITE_URL . "/index.php/RandomFlights/bookJob?jobid=".$job->id."\"><i class=\"fa fa-paper-plane\" aria-hidden=\"true\"></i></a></td>";
+      } else if ((Auth::LoggedIn() == true) && (Auth::$userinfo->pilotid == $job->pilot_id)) {
+        echo "<td><a href=\"" . SITE_URL . "/index.php/RandomFlights/removeBooking?jobid=".$job->id."\"><i class=\"fa fa-eraser\" aria-hidden=\"true\"></i></td>";
+      } else if (($job->status === "B")) {
+        echo "<td>-</td>";
+      }
+
+//echo '<td><a href="'.SITE_URL.'/index.php/events/get_event?id='.$event->id.'">Details/Signups</a></td></tr>';
+      //echo "<td>".$job->status."</br>";
+      //if ($job->status === "N") echo "<td><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i></td>";
       if ($job->status === "B") echo "<td>". PilotData::getPilotCode($pilot->code, $pilot->pilotid) . "</td>";
 
       echo "</tr>";

@@ -35,7 +35,10 @@
    /**
     * get a detailed list of open and booked jobs
     */
-  public static function getDetailedJobList() {
+  public static function getDetailedJobList($jobid) {
+
+    if ($jobid != null)
+      $where_statement = " AND joblist.id = ".$jobid." ";
 
     $sql = "SELECT joblist.*,
         schedules.code as code, schedules.flightnum as flightnum, schedules.distance as distance,
@@ -46,13 +49,39 @@
         LEFT JOIN phpvms_airports AS dep_airport ON dep_airport.icao = schedules.depicao
         LEFT JOIN phpvms_airports AS arr_airport ON arr_airport.icao = schedules.arricao
         LEFT JOIN phpvms_aircraft AS aircraft ON aircraft.id = schedules.aircraft
-        WHERE (joblist.status = 'N' OR joblist.status = 'B')
+        WHERE (joblist.status = 'N' OR joblist.status = 'B') " . $where_statement . "
         ORDER BY joblist.valid_from, joblist.valid_to";
 
         //echo "sql : " . $sql . "<br>";
 
       $res = DB::get_results($sql);
-      return $res;
+
+      if ($jobid != null)
+        return $res[0];
+      else
+        return $res;
+  }
+
+  /**
+   * book a single job for a pilots
+   * @param jobid book this job
+   * @param pilotid this pilot wnat to book the flight
+   */
+  public static function bookJob($jobid, $pilotid) {
+
+    $sql = "UPDATE `" . TABLE_PREFIX . "joblist` SET `pilot_id`=".$pilotid.", `status`='B' WHERE id = ".$jobid;
+    DB::query($sql);
+
+  }
+
+  /**
+  *
+  */
+  public static function removeBooking($jobid, $pilotid) {
+
+    $sql = "UPDATE `" . TABLE_PREFIX . "joblist` SET `pilot_id`=NULL, `status`='N' WHERE id = ".$jobid;
+    DB::query($sql);
+
   }
 
    /**

@@ -12,13 +12,43 @@ class RandomFlights extends CodonModule {
 
     echo "<p>index</p>";
 
-    $this->set('joblist', JobList::getDetailedJobList());
+    $this->set('joblist', JobList::getDetailedJobList(null));
     $this->show('joblist/joblist_index.php');
 
 	}
 
+  public function removeBooking() {
+    echo "<p>removeBooking</p>";
+
+    $jobid = $_GET[jobid];
+
+    JobList::removeBooking($jobid, Auth::$userinfo->pilotid);
+
+    $booked_job = JobList::getDetailedJobList($jobid);
+    echo "<p> removed booking of flight " . $booked_job->code . $booked_job->flightnum . " from " . $booked_job->depicao . " to " . $booked_job->arricao . " </p>";
+
+    $this->set('joblist', JobList::getDetailedJobList(null));
+    $this->show('joblist/joblist_index.php');
+
+  }
+
+  public function bookJob() {
+    echo "<p>bookJob</p>";
+
+    $jobid = $_GET[jobid];
+
+    JobList::bookJob($jobid, Auth::$userinfo->pilotid);
+
+    $booked_job = JobList::getDetailedJobList($jobid);
+    echo "<p> booked flight " . $booked_job->code . $booked_job->flightnum . " from " . $booked_job->depicao . " to " . $booked_job->arricao . " </p>";
+
+    $this->set('joblist', JobList::getDetailedJobList(null));
+    $this->show('joblist/joblist_index.php');
+
+  }
+
   public function generateJob() {
-    
+
     echo "<p>generateJob</p>";
     $start_string = $_GET[start];
     $duration_string = $_GET[duration];
