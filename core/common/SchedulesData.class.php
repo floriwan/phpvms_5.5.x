@@ -74,6 +74,12 @@ class SchedulesData extends CodonData {
         return $ret;
     }
 
+    public static function getRandomFlightNumber() {
+      $sql = 'SELECT flightnum FROM ' . TABLE_PREFIX . 'schedules ORDER BY RAND() LIMIT 1';
+      $res = DB::get_row($sql);
+      return $res->flightnum;
+
+    }
 
     /**
      * Get the total number of schedules based on criterea
@@ -101,7 +107,6 @@ class SchedulesData extends CodonData {
     public static function getSchedule($id) {
         return self::getScheduleDetailed($id);
     }
-
 
     /**
      * Return a flight given the airline code and flight number

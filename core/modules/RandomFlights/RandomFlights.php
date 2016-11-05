@@ -4,12 +4,22 @@
  * @license http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 
-class RandomFlights extends CodonModule
-{
-	public function index()
-	{
-    echo "<p>create random flight</p>";
+class RandomFlights extends CodonModule {
 
+
+	public function index() {
+
+
+    echo "<p>index</p>";
+
+    $this->set('joblist', JobList::getDetailedJobList());
+    $this->show('joblist/joblist_index.php');
+
+	}
+
+  public function generateJob() {
+    
+    echo "<p>generateJob</p>";
     $start_string = $_GET[start];
     $duration_string = $_GET[duration];
 
@@ -39,12 +49,20 @@ class RandomFlights extends CodonModule
     echo "new flight is valid from $start_date until $end_date</p>";
 
     $random_flightnumber = SchedulesData::getRandomFlightNumber();
-    echo "random flight number: " . $random_flightnumber . "<br>";
+    //echo "random flight number: " . $random_flightnumber . "<br>";
 
     $selected_flight = SchedulesData::findFlight($random_flightnumber);
-    echo "flight ".$selected_flight->code . $selected_flight->flightnum." departure: " . $selected_flight->depicao . " arrival: " .  $selected_flight->arricao . "<br>";
+    //print_r($selected_flight);
+    echo "<br>";
+    echo "selected flight is:<br>";
+    echo "flightnumber [".$selected_flight->code . $selected_flight->flightnum."]
+      aircraft: " . $selected_flight->registration . "(" . $selected_flight->aircraft . ") departure: " .
+       $selected_flight->depicao . " arrival: " .  $selected_flight->arricao . " distance: " . $selected_flight->distance . "<br>";
 
-	}
+    JobList::addNewJob($selected_flight->id, $start_date, $end_date);
+
+    //$job_list = JobList::getDetailedJobList();
+  }
 
 }
 
