@@ -14,10 +14,15 @@
     */
    public static function addNewJob($schedule_id, $valid_from, $valid_to) {
 
+     // first remove the old jobs
+     JobList::removeOldJobs();
+
+     // now get the amount of valid jobs
      $count = JobList::getJobsCount();
 
      echo "job list size:" .$count ." config list size: " . JOB_LISTSIZE . "<br";
 
+     // and add a job if there are not enough jobs in the db
      if ($count < JOB_LISTSIZE) {
        $sql = "INSERT INTO " . TABLE_PREFIX . "joblist (schedule_id, status, valid_from, valid_to) VALUES (".$schedule_id.", 'N', '".$valid_from."','".$valid_to."')";
        //echo "sql : " . $sql . "<br>";
@@ -34,6 +39,7 @@
 
    /**
     * get a detailed list of open and booked jobs
+    * @param a valid jobid
     */
   public static function getDetailedJobList($jobid) {
 
@@ -52,8 +58,6 @@
         WHERE (joblist.status = 'N' OR joblist.status = 'B') " . $where_statement . "
         ORDER BY joblist.valid_from, joblist.valid_to";
 
-        //echo "sql : " . $sql . "<br>";
-
       $res = DB::get_results($sql);
 
       if ($jobid != null)
@@ -63,24 +67,145 @@
   }
 
   /**
-   * book a single job for a pilots
+  * get a single job
+  * @param a valid jobid
+  */
+  public static function getJob($jobid) {
+    $sql = "SELECT * FROM ". TABLE_PREFIX . "joblist WHERE id = " . $jobid;
+    $res = DB::get_results($sql);
+
+    if (!$res) {
+      echo "no valid job found with jobid " . $jobid . "!";
+      return;
+    }
+    return $res[0];
+
+  }
+
+  /**
+  * remove jobs that are not booked and no longer valid
+  * todo remove the bid from booked flights
+  */
+  public static function removeOldJobs() {
+    $sql = "DELETE FROM `" . TABLE_PREFIX . "joblist` WHERE (status = 'N' OR status = 'B') AND valid_from < NOW()-INTERVAL 1 DAY";
+    DB::query($sql);
+  }
+
+  /**
+   * book a single job for a pilots and set a bid for this flight
    * @param jobid book this job
    * @param pilotid this pilot wnat to book the flight
    */
   public static function bookJob($jobid, $pilotid) {
 
-    $sql = "UPDATE `" . TABLE_PREFIX . "joblist` SET `pilot_id`=".$pilotid.", `status`='B' WHERE id = ".$jobid;
-    DB::query($sql);
+    // is the jobid a valid id
+    $job = JobList::getJob($jobid);
+
+    if (!$job) {
+
+      echo "the jobid " . $jobid . " is not a valid id!";
+      return false;
+
+    } else {
+
+      echo "add a new bid on " . $job->schedule_id;
+      SchedulesData::addBid($pilotid, $job->schedule_id);
+
+      $latest_bid = SchedulesData::getLatestBid($pilotid);
+
+      $sql = "UPDATE `" . TABLE_PREFIX . "joblist` SET `pilot_id`=".$pilotid.", `status`='B', `bid_id`=".$latest_bid->bidid." WHERE id = ".$jobid;
+      DB::query($sql);
+
+      return true;
+    }
 
   }
 
   /**
-  *
+  * remove the booking of the flight and delete the bid
+  * @param delete thje job with this id
+  * @param the pilot id
   */
   public static function removeBooking($jobid, $pilotid) {
 
-    $sql = "UPDATE `" . TABLE_PREFIX . "joblist` SET `pilot_id`=NULL, `status`='N' WHERE id = ".$jobid;
+    // is the jobid a valid id
+    $job = JobList::getJob($jobid);
+
+    // check the pilot id
+    if ($job->pilot_id != Auth::$userinfo->pilotid) {
+      echo "<p><b>you can only remove your own jobs!!</b></p>";
+      return false;
+    }
+
+    if ($job) {
+
+      // remove the id
+      echo "<p>remove bid on " . $job->schedule_id . "<br>";
+      SchedulesData::removeBid($job->bid_id);
+
+      // and update the job table
+      $sql = "UPDATE `" . TABLE_PREFIX . "joblist` SET `pilot_id`=NULL, `status`='N', `bid_id`=NULL WHERE id = ".$jobid;
+      DB::query($sql);
+
+    } else {
+      echo "<p>no job found jobid " . $jobid . "</p>";
+      return false;
+    }
+
+
+
+    return true;
+
+  }
+
+  /**
+  * Try to find a job in the joblist that matches the given pirep
+  */
+  public static function search($pirepid) {
+
+    echo "<p>search pirepid: " . $pirepid . "</p>";
+    // get pirep details
+    $pirepdetails = PIREPData::getReportDetails($pirepid);
+
+    if (!$pirepdetails) {
+      echo "<p>no pirep with id " . $pirepid . " found, can not book flight</p>";
+      return false;
+    }
+
+    // get the important information and
+    // search with arrival and departure and submitdate a job in the database
+    $pilot_id = $pirepdetails->pilotid;
+    $depicao = $pirepdetails->depicao;
+    $arricao = $pirepdetails->arricao;
+    $submitdate = date("Y-m-d", $pirepdetails->submitdate);
+
+    echo "<p>found pirep pilot_id:" . $pilot_id . " depicao:" . $depicao . " arricao:" . $arricao . " submitdate:" . $submitdate . "</p>";
+
+    $sql = "SELECT j.* FROM " . TABLE_PREFIX . "joblist AS j
+      LEFT JOIN " . TABLE_PREFIX . "schedules AS s ON s.id = j.schedule_id
+      WHERE j.status = 'B' AND
+      j.pilot_id = " . $pilot_id . " AND
+      s.arricao = '" . $arricao . "' AND
+      s.depicao = '" . $depicao . "' AND
+      j.valid_from <= '" . $submitdate . "' AND
+      j.valid_to >= '" . $submitdate . "'";
+
+    $res = DB::get_results($sql);
+
+    if (!is_array($res)) {
+      echo "<p>" . $sql . "</p>";
+      echo "<p>no valid job found for pilotid " . $pilot_id . " and departure " . $depicao . " arrival " . $arricao . " submitdate " . $submitdate . "</p>";
+      return false;
+    }
+
+    // update the found job and set the status to 'F'
+    $jobid = $res[0]->id;
+    echo "update jobid:" . $jobid . "</p>";
+    $sql = "UPDATE `" . TABLE_PREFIX . "joblist` SET status='F' WHERE id =" . $jobid;
     DB::query($sql);
+
+    // update the pilots job counter
+    PilotData::updateJobCounter($pilot_id);
 
   }
 

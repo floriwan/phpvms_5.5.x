@@ -22,10 +22,14 @@ class RandomFlights extends CodonModule {
 
     $jobid = $_GET[jobid];
 
-    JobList::removeBooking($jobid, Auth::$userinfo->pilotid);
+    $ret = JobList::removeBooking($jobid, Auth::$userinfo->pilotid);
 
-    $booked_job = JobList::getDetailedJobList($jobid);
-    echo "<p> removed booking of flight " . $booked_job->code . $booked_job->flightnum . " from " . $booked_job->depicao . " to " . $booked_job->arricao . " </p>";
+    if ($ret) {
+      $booked_job = JobList::getDetailedJobList($jobid);
+      echo "<p> removed booking of flight " . $booked_job->code . $booked_job->flightnum . " from " . $booked_job->depicao . " to " . $booked_job->arricao . " </p>";
+    } else {
+      echo "<p>can not remove this job from the booked list";
+    }
 
     $this->set('joblist', JobList::getDetailedJobList(null));
     $this->show('joblist/joblist_index.php');
@@ -45,6 +49,14 @@ class RandomFlights extends CodonModule {
     $this->set('joblist', JobList::getDetailedJobList(null));
     $this->show('joblist/joblist_index.php');
 
+  }
+
+  /**
+   * !! test function !!
+  */
+  public function testSend() {
+    $pirepid = $_GET[pirepid];
+    JobList::search($pirepid);
   }
 
   public function generateJob() {

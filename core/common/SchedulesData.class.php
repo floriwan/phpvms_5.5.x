@@ -682,7 +682,7 @@ class SchedulesData extends CodonData {
         return DB::get_results($sql);
     }
 
-    public function getLatestBid($pilotid) {
+    public static function getLatestBid($pilotid) {
         $pilotid = DB::escape($pilotid);
 
         $sql = 'SELECT s.*, b.bidid, a.id as aircraftid, a.name as aircraft, a.registration, a.maxpax, a.maxcargo

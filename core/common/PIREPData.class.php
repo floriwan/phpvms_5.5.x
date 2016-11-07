@@ -139,7 +139,7 @@ class PIREPData extends CodonData {
      *
      */
     public static function getIntervalDataByDays($where_params, $interval = '7') {
-      
+
         $date_clause = "DATE_SUB(CURDATE(), INTERVAL {$interval} DAY)  <= p.submitdate";
 
         /* See if this array already exists */
@@ -779,6 +779,9 @@ class PIREPData extends CodonData {
 
         # call the auto accept pirep module
         PirepAcData::search($pirepid);
+
+        # search the random job list for the flight
+        RandomFlights::search($pirepid);
 
         if (Config::Get('EMAIL_SEND_PIREP') === true) {
 

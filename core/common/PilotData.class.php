@@ -683,6 +683,25 @@ class PilotData extends CodonData {
     }
 
     /**
+     * update the jobcounter.
+     * @param the valid pilotid
+     */
+    public static function updateJobCounter($pilotid) {
+
+      $sql = "SELECT count(*) as jobcount FROM " . TABLE_PREFIX . "joblist
+        WHERE pilot_id=$pilotid AND status='F'";
+
+      $res = DB::get_row($sql);
+      echo "<p>jobcount : " . $res->jobcount . "</p>";
+
+      $sql = "UPDATE " . TABLE_PREFIX . "pilots
+        SET job_count=" . $res->jobcount . " WHERE pilotid=" . $pilotid;
+      echo $sql;  
+      DB::query($sql);
+
+    }
+
+    /**
      * Update stats for a pilot, reset it based on current data
      *
      * @param int $pilotid

@@ -8,6 +8,11 @@
 
 <h3><?php echo SITE_NAME; ?> Joblist</h3>
 
+<?php if (!Auth::LoggedIn()) {
+  echo '<p>You must login to access this page</p>';
+  return;
+  } ?>
+
 <?php
 if (!joblist) {
   echo 'no open jobs';
@@ -55,11 +60,17 @@ if (!joblist) {
       //echo "<td>".$job->status."</br>";
       //if ($job->status === "N") echo "<td><i class=\"fa fa-address-card-o\" aria-hidden=\"true\"></i></td>";
       if ($job->status === "B") echo "<td>". PilotData::getPilotCode($pilot->code, $pilot->pilotid) . "</td>";
+      else echo "<td>&nbsp;</td>";
 
       echo "</tr>";
     } ?>
   </table>
 </center>
+
+<p><i class="fa fa-paper-plane" aria-hidden="true"></i> - you can book this flight. This action will also set a bid for this flight.</br>
+  <i class="fa fa-eraser" aria-hidden="true"></i> - you can remove the reservation of this flight.</p>
+
+
 
 
 
