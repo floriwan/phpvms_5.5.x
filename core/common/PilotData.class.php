@@ -696,8 +696,11 @@ class PilotData extends CodonData {
 
       $sql = "UPDATE " . TABLE_PREFIX . "pilots
         SET job_count=" . $res->jobcount . " WHERE pilotid=" . $pilotid;
-      echo $sql;  
+      echo $sql;
       DB::query($sql);
+
+      // return the current jobcounter
+      return $res->jobcount;
 
     }
 

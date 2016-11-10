@@ -781,7 +781,7 @@ class PIREPData extends CodonData {
         PirepAcData::search($pirepid);
 
         # search the random job list for the flight
-        RandomFlights::search($pirepid);
+        JobList::search($pirepid);
 
         if (Config::Get('EMAIL_SEND_PIREP') === true) {
 

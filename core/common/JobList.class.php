@@ -204,8 +204,42 @@
     $sql = "UPDATE `" . TABLE_PREFIX . "joblist` SET status='F' WHERE id =" . $jobid;
     DB::query($sql);
 
+    JobList::updatePilotData($pilot_id);
+
+  }
+
+  /**
+  * update the pilot data, increase jobcounter and grand awards
+  * @param update pilot with this id
+  */
+  public static function updatePilotData($pilot_id) {
+
     // update the pilots job counter
-    PilotData::updateJobCounter($pilot_id);
+    $jobcount = PilotData::updateJobCounter($pilot_id);
+
+    // grand the 1st award
+    if ($jobcount == 1) {
+
+      echo "<p>check pilots awards</p>";
+      $award_list = AwardsData::GetPilotAwards($pilot_id);
+
+      if (!is_array($award_list)) {
+        AwardsData::AddAwardToPilot($pilot_id, JOB_1STAWARD_ID);
+      } else {
+
+        $found = false;
+        foreach ($award_list as $award) {
+          if ($award->awardid == JOB_1STAWARD_ID)
+            $found = true;
+        }
+
+        if (!$found) {
+          AwardsData::AddAwardToPilot($pilot_id, JOB_1STAWARD_ID);
+        }
+
+      }
+
+    }
 
   }
 

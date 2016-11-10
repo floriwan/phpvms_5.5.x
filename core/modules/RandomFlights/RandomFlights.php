@@ -57,6 +57,8 @@ class RandomFlights extends CodonModule {
   public function testSend() {
     $pirepid = $_GET[pirepid];
     JobList::search($pirepid);
+
+    JobList::updatePilotData(5);
   }
 
   public function generateJob() {
