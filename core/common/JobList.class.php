@@ -159,7 +159,10 @@
   }
 
   /**
-  * Try to find a job in the joblist that matches the given pirep
+  * Try to find a job in the joblist that matches the given pirep.
+  * If there is no job found in the job list send e informational email to the pilot.
+  *
+  * @param load the pirep with the give id and try to find a job in the job list.
   */
   public static function search($pirepid) {
 
@@ -175,6 +178,7 @@
     // get the important information and
     // search with arrival and departure and submitdate a job in the database
     $pilot_id = $pirepdetails->pilotid;
+    $pilot_data = PilotData::getPilotData($pilot_id);
     $depicao = $pirepdetails->depicao;
     $arricao = $pirepdetails->arricao;
     $submitdate = date("Y-m-d", $pirepdetails->submitdate);
@@ -195,6 +199,14 @@
     if (!is_array($res)) {
       echo "<p>" . $sql . "</p>";
       echo "<p>no valid job found for pilotid " . $pilot_id . " and departure " . $depicao . " arrival " . $arricao . " submitdate " . $submitdate . "</p>";
+
+      // send information email to the pilot
+      /*$email_subject = "no job from " . $depicao . " to " . $arricao . " found";
+      $email_text = "No FCB job found at " . $submitdate . " from " . $depicao . " to " . $arricao . " in the job list.\n"
+        ."Please check the availabity of you reserved job and book the job again.\n\n"
+        ."Your FCB airline";
+      Util::SendEmail($pilot_data->email, $email_subject, $mail_text);*/
+
       return false;
     }
 
@@ -245,6 +257,7 @@
 
    /**
     * count the open jobs in the database
+    * @return the amount of open jobs in the database.
     */
    public static function getJobsCount() {
      $sql = "SELECT count(*) as jobsize FROM " . TABLE_PREFIX . "joblist WHERE status = 'N'";
