@@ -252,12 +252,10 @@
             }
           }
 
-          // If there is no log send with the pirep, or the pirep is not send with smartCARS
-          // the rules can not be checked.
+          // If there is no log send with the pirep, the rules can not be checked.
           // In that case, do not accept the pirep and send email to admin.
 
-          if (empty($pirepdetails->log) ||
-            (strpos($pirepdetails->log, 'smartCARS') === false)) {
+          if (empty($pirepdetails->log)) {
             $sub = "PIREP {$pirepdetails->pirepid} by {$pilotid} ({$pirepdetails->depicao} - {$pirepdetails->arricao}) can not be validated ";
             $message="PIREP {$pirepdetails->pirepid} has been submitted by {$pilotid} {$pirepdetails->firstname} {$pirepdetails->lastname } but there is no flight log available to check. Please take a look into the pending pireps. \n\n -- your autoaccept plugin -- \n\n";
 
