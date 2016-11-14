@@ -25,16 +25,56 @@
      // and add a job if there are not enough jobs in the db
      if ($count < JOB_LISTSIZE) {
        $sql = "INSERT INTO " . TABLE_PREFIX . "joblist (schedule_id, status, valid_from, valid_to) VALUES (".$schedule_id.", 'N', '".$valid_from."','".$valid_to."')";
-       //echo "sql : " . $sql . "<br>";
+       echo "sql : " . $sql . "<br>";
 
        $res = DB::query($sql);
        if (DB::errno() != 0) return false;
+
+       $latest_job = JobList::getLatestJob();
+       JobList::addJobDescription($latest_job->id);
+
      } else {
        echo "<br><br>job list is full<br>";
      }
 
      return true;
 
+   }
+
+   /**
+    * add some fancy job description
+    * @param the jobid where the discrition is added
+    */
+   public static function addJobDescription($job_id) {
+     echo "<p>generate job description for job : " . $job_id;
+     $job = JobList::getJob($job_id);
+
+     $schedule = SchedulesData::getSchedule($job->schedule_id);
+     $aircraft_info = OperationsData::getAircraftInfo($schedule->aircraftid);
+
+     $max_pax = $aircraft_info->maxpax;
+     $pax = rand($max_pax, $max_pax / 2);
+     $max_cargo = $aircraft_info->maxcargo;
+     $cargo = rand($max_cargo, $max_cargo / 2);
+
+     echo "<p>aircraft with pax:" . $pax . " and cargo:".  $cargo. "</p>";
+
+     $job_description = "charter flight with " . $pax . " persons and " . $cargo . "lbs cargo on board";
+
+     $sql = "UPDATE " . TABLE_PREFIX . "joblist SET `description`='".$job_description."' WHERE id = " . $job_id;
+     DB::query($sql);
+
+   }
+
+   /**
+    * get the latest job in the list
+    * @return the latest job row
+    */
+   public static function getLatestJob() {
+
+      $sql = "SELECT * FROM " . TABLE_PREFIX . "joblist WHERE 1 ORDER BY id DESC LIMIT 1";
+      $res = DB::get_results($sql);
+      return $res[0];
    }
 
    /**
