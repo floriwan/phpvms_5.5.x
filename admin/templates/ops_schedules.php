@@ -37,22 +37,22 @@ $("#grid").jqGrid({
     height: '100%'
 });
 
-jQuery("#grid").jqGrid('navGrid','#pager', 
+jQuery("#grid").jqGrid('navGrid','#pager',
 	{edit:false,add:false,del:false,search:true,refresh:true},
-	{}, // edit 
-	{}, // add 
-	{}, //del 
-	{multipleSearch:true} // search options 
-); 
+	{}, // edit
+	{}, // add
+	{}, //del
+	{multipleSearch:true} // search options
+);
 
 function deleteschedule(id)
 {
 	var answer = confirm("Are you sure you want to delete?")
 	if (answer) {
 		$.post("<?php echo adminaction('/operations/schedules');?>", { action: "deleteschedule", id: id },
-			function() 
-			{ 
-				$("#grid").trigger("reloadGrid"); 
+			function()
+			{
+				$("#grid").trigger("reloadGrid");
 			}
 		);
 	}

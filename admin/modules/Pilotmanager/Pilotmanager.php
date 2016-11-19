@@ -76,7 +76,7 @@ class Pilotmanager extends CodonModule
                                 .' '.$pilot->firstname.' '.$pilot->lastname);
 
                 return;
-                break;
+                
         }
 
 	public function emails()

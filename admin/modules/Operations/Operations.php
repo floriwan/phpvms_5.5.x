@@ -461,6 +461,13 @@ class Operations extends CodonModule {
         $this->set('title', 'Add Schedule');
         $this->set('action', 'addschedule');
 
+        if ($this->get->copy == '1') {
+          $schedule = SchedulesData::GetSchedule($this->get->id);
+          unset($schedule->id);
+          $schedule->flightnum = $schedule->flightnum . "-C";
+          $this->set('schedule', $schedule);
+        }
+
         if ($this->get->reverse == '1') {
             $schedule = SchedulesData::GetSchedule($this->get->id);
 
@@ -602,9 +609,15 @@ class Operations extends CodonModule {
                 $route = '-';
             }
 
+            $edit = '<a href="' . adminurl('/operations/editschedule?id=' . $row->id).'">Edit</a>
+              <a href="' . adminurl('/operations/addschedule?copy=1&id=' . $row->id).'">Copy</a>
+              <a href="' . adminurl('/operations/addschedule?reverse=1&id=' . $row->id).'">Reverse</a>';
+
+/*
             $edit = '<a href="' . adminurl('/operations/editschedule?id=' . $row->id) .
                 '">Edit</a> <a href="' . adminurl('/operations/addschedule?reverse=1&id=' . $row->id) .
                 '">Reverse</a>';
+                */
             $delete = '<a href="#" onclick="deleteschedule(' . $row->id .
                 '); return false;">Delete</a>';
 
@@ -1141,6 +1154,7 @@ class Operations extends CodonModule {
             'depicao' => $this->post->depicao,
             'arricao' => $this->post->arricao,
             'route' => $this->post->route,
+            'route_details' => "N/A",
             'aircraft' => $this->post->aircraft,
             'flightlevel' => $this->post->flightlevel,
             'distance' => $this->post->distance,
@@ -1158,7 +1172,7 @@ class Operations extends CodonModule {
 
         # Add it in
         $ret = SchedulesData::AddSchedule($data);
-
+        
         if (DB::errno() != 0 && $ret == false) {
             $this->set('message',
                 'There was an error adding the schedule, already exists DB error: ' . DB::error
@@ -1173,6 +1187,23 @@ class Operations extends CodonModule {
 
         LogData::addLog(Auth::$userinfo->pilotid, 'Added schedule "' . $this->post->code .
             $this->post->flightnum . '"');
+    }
+
+    /**
+     * operations : copy schdule
+     */
+    protected function copy_schedule_post() {
+      $this->checkPermission(EDIT_SCHEDULES);
+      if ($this->post->code == '' || $this->post->flightnum == '' || $this->post->deptime ==
+          '' || $this->post->arrtime == '' || $this->post->depicao == '' || $this->post->arricao ==
+          '') {
+          $this->set('message', 'All of the fields must be filled out');
+          $this->render('core_error.php');
+
+          return;
+      }
+
+
     }
 
     /**

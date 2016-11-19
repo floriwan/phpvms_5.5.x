@@ -463,7 +463,7 @@ class SchedulesData extends CodonData {
             self::getRouteDetails(DB::$insert_id, $data['route']);
         }
 
-        if (DB::errno() != 0) return false;
+        if (DB::errno() != 0 || $res == -1) return false;
 
         return true;
     }
