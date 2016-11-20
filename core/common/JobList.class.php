@@ -23,7 +23,7 @@
      echo "job list size:" .$count ." config list size: " . JOB_LISTSIZE . "<br";
 
      // and add a job if there are not enough jobs in the db
-     if ($count < JOB_LISTSIZE) {
+     while ($count < JOB_LISTSIZE) {
        $sql = "INSERT INTO " . TABLE_PREFIX . "joblist (schedule_id, status, valid_from, valid_to) VALUES (".$schedule_id.", 'N', '".$valid_from."','".$valid_to."')";
        echo "sql : " . $sql . "<br>";
 
@@ -33,8 +33,7 @@
        $latest_job = JobList::getLatestJob();
        JobList::addJobDescription($latest_job->id);
 
-     } else {
-       echo "<br><br>job list is full<br>";
+       $count = JobList::getJobsCount();   
      }
 
      return true;
