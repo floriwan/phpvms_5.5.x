@@ -6,6 +6,49 @@
 
  class JobList extends CodonData {
 
+
+   /**
+    * add new jobs into the joblist until the LISTSIZE is reached.
+    * The startdate will be between current date plus start_min and start_max.
+    * @param start_min minimum delta to start the job
+    * @param start_max maximum dalte to start the job
+    * @param duration_min
+    * @param duration_max
+    */
+   public static function fillJobList($start_min, $start_max, $duration_min, $duration_max) {
+
+     $current_joblist_size = JobList::getJobsCount();
+     echo "<p>fill joblist current list size:" . $current_joblist_size . "</p>";
+     while ($current_joblist_size < JOB_LISTSIZE) {
+
+       // get some random start and duration values
+       $start_value = rand($start_min, $start_max);
+       $duration_value = rand($duration_min, $duration_max);
+       echo "<p>start in $start_value days and duration is $duration_value<br>";
+
+       // calculate the specific start and end date
+       $start_date = date('Y-m-d', strtotime('+'.$start_value.' Days'));
+       $end_date = date('Y-m-d', strtotime('+'.$start_value+$duration_value.' Days'));
+       echo "new flight is valid from $start_date until $end_date</p>";
+
+       // get a random job from the schedule table
+       $random_flightnumber = SchedulesData::getRandomFlightNumber();
+       $selected_flight = SchedulesData::findFlight($random_flightnumber);
+
+       echo "<br>";
+       echo "selected flight is:<br>";
+       echo "flightnumber [".$selected_flight->code . $selected_flight->flightnum."]
+        aircraft: " . $selected_flight->registration . "(" . $selected_flight->aircraft . ") departure: " .
+          $selected_flight->depicao . " arrival: " .  $selected_flight->arricao . " distance: " . $selected_flight->distance . "<br>";
+
+        // add a new job into the joblist
+        JobList::addNewJob($selected_flight->id, $start_date, $end_date);
+
+        $current_joblist_size = JobList::getJobsCount();
+      }
+
+   }
+
    /**
     * add a new job into the database
     * @param schedule_id the reference into the schedule table
@@ -23,7 +66,7 @@
      echo "job list size:" .$count ." config list size: " . JOB_LISTSIZE . "<br";
 
      // and add a job if there are not enough jobs in the db
-     while ($count < JOB_LISTSIZE) {
+     if ($count < JOB_LISTSIZE) {
        $sql = "INSERT INTO " . TABLE_PREFIX . "joblist (schedule_id, status, valid_from, valid_to) VALUES (".$schedule_id.", 'N', '".$valid_from."','".$valid_to."')";
        echo "sql : " . $sql . "<br>";
 
@@ -33,7 +76,8 @@
        $latest_job = JobList::getLatestJob();
        JobList::addJobDescription($latest_job->id);
 
-       $count = JobList::getJobsCount();   
+     } else {
+       echo "<br><br>job list is full<br>";
      }
 
      return true;
