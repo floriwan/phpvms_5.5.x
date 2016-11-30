@@ -95,10 +95,13 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
         $location = vFleetTrackData::getLastFlightAircraft($aircraft->id);
       	if($location)
       	{
+          $lastairport = OperationsData::getAirportInfo($location->arricao);
+          $flag = "<img src='" . Countries::getCountryImage($lastairport->country)."' alt='".Countries::getCountryName($lastairport->country)."'/>";
       		$lastlocation = $location->arricao;
       	}
       	else
       	{
+          $flag = "";
       		$lastlocation = 'N/A';
       	}
 
@@ -107,7 +110,7 @@ This module is only use for phpVMS (www.phpvms.net) - (A Virtual Airline Admin S
         echo "<td>".$aircraft->fullname."</td>";
         echo "<td><a href='".url('/vFleetTracker/view/'.$aircraft->registration)."'>".$aircraft->registration."</a></td>";
         echo "<td>".$last."</td>";
-        echo "<td>".$lastlocation."</td>";
+        echo "<td>".$flag . $lastlocation."</td>";
         echo "<td>".vFleetTrackData::countFlights($aircraft->id)."</td>";
         echo "<td>".round(vFleetTrackData::countHours($aircraft->id))."</td>";
         echo "<td>".round(vFleetTrackData::countMiles($aircraft->id))."</td></tr>";

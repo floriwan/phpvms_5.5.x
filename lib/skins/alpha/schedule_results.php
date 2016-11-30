@@ -101,8 +101,16 @@ if(!$schedule_list)
 
   <?php foreach($schedule_list as $schedule) { ?>
     <tr>
-        <td><?php echo $schedule->depicao ?></td>
-        <td><?php echo $schedule->arricao ?></td>
+        <?php
+          $depairport = OperationsData::getAirportInfo($schedule->depicao);
+          $arrairport = OperationsData::getAirportInfo($schedule->arricao);
+         ?>
+        <td><img src="<?php echo Countries::getCountryImage($depairport->country);?>"
+          alt="<?php echo Countries::getCountryName($depairport->country);?>" />
+          <?php echo $schedule->depicao ?></td>
+        <td><img src="<?php echo Countries::getCountryImage($arrairport->country);?>"
+          alt="<?php echo Countries::getCountryName($arrairport->country);?>" />
+          <?php echo $schedule->arricao ?></td>
         <td><a href="<?php echo url('/schedules/details/'.$schedule->id);?>"><?php echo $schedule->code . $schedule->flightnum ?></a></td>
         <td><a href="<?php echo url('/vFleetTracker/view/'.$schedule->registration) ?>"><?php echo $schedule->aircraft; ?> (<?php echo $schedule->registration;?>)</a></td>
         <td><strong>Departure: </strong><?php echo $schedule->deptime;?> &nbsp;&nbsp;&nbsp; <strong>Arrival: </strong><?php echo $schedule->arrtime;?><br />
