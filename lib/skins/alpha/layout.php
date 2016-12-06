@@ -197,10 +197,15 @@
         $result = preg_match($regex, $server_url);
 
         if ($result == 0) {
-            /*echo "false";*/
-            echo '<section class="box feature">';
-            echo $page_content;
-            echo '</section>';
+            /* special layout for all the tour pages */
+            $result = preg_match("/.+Tours.*$/", $server_url);
+            if ($result == 0) {
+              echo '<section class="box feature">';
+              echo $page_content;
+              echo '</section>';
+            } else {
+              echo $page_content;
+            }
         } else {
 
           $server_url = $_SERVER['PHP_SELF'];

@@ -70,7 +70,8 @@ class PIREPData extends CodonData {
         if (strlen($start) != 0) {
             $sql .= ' OFFSET ' . $start;
         }
-
+        echo $sql;
+        echo "<br>";
         return DB::get_results($sql);
     }
 
@@ -238,6 +239,27 @@ class PIREPData extends CodonData {
      */
     public static function getAllReportsFromHub($hub, $accepted = 0) {
         return self::findPIREPS(array('p.accepted' => $accepted, 'u.hub' => $hub));
+    }
+
+    /**
+     * Get all reports for a pilot which matches the regular expression
+     * in the flightnumber.
+     * If valid_from and valid_to is set, search all reports within this timespan.
+     *
+     * @param pilotid
+     * @param the flightnumber regular expresseion
+     * @param valid_from
+     * @param valid_to
+     * @return array of all found reports
+     */
+    public static function getAllPilotsReportForTour($pilotid, $flightnumRegex, $valid_from, $valid_to) {
+      if ($valid_from == '2010-01-01' && $valid_to == '2999-01-01')
+        return self::findPIREPS(array('p.pilotid' => $pilotid, 'p.flightnum' => $flightnumRegex, 'p.accepted' => 1));
+      else
+        return self::findPIREPS(array('p.pilotid' => $pilotid, 'p.flightnum' => $flightnumRegex, 'p.accepted' => 1,
+            "'".$valid_from."'" => '<= p.submitdate', "'".$valid_to."'" => '>= p.submitdate'));
+
+      // submitdate
     }
 
     /**

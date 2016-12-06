@@ -21,7 +21,7 @@ if(!$schedule_list)
 			<?php echo '('.$schedule->depicao.' - '.$schedule->arricao.')'?>
 		</a>
 		<br />
-		
+
 		<strong>Departure: </strong><?php echo $schedule->deptime;?> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Arrival: </strong><?php echo $schedule->arrtime;?><br />
 		<strong>Equipment: </strong><?php echo $schedule->aircraft; ?> (<?php echo $schedule->registration;?>)  <strong>Distance: </strong><?php echo $schedule->distance . Config::Get('UNITS');?>
 		<br />
@@ -39,22 +39,22 @@ if(!$schedule_list)
 	<td nowrap>
 		<a href="<?php echo url('/schedules/details/'.$schedule->id);?>">View Details</a><br />
 		<a href="<?php echo url('/schedules/brief/'.$schedule->id);?>">Pilot Brief</a><br />
-		
-		<?php 
+
+		<?php
 		# Don't allow overlapping bids and a bid exists
 		if(Config::Get('DISABLE_SCHED_ON_BID') == true && $schedule->bidid != 0) {
 		?>
-			<a id="<?php echo $schedule->id; ?>" class="addbid" 
+			<a id="<?php echo $schedule->id; ?>" class="addbid"
 				href="<?php echo actionurl('/schedules/addbid/?id='.$schedule->id);?>">Add to Bid</a>
 		<?php
 		} else {
 			if(Auth::LoggedIn()) {
 			 ?>
-				<a id="<?php echo $schedule->id; ?>" class="addbid" 
+				<a id="<?php echo $schedule->id; ?>" class="addbid"
 					href="<?php echo url('/schedules/addbid');?>">Add to Bid</a>
-			<?php			 
+			<?php
 			}
-		}		
+		}
 		?>
 	</td>
 </tr>

@@ -43,23 +43,24 @@ if(!$pilot) {
 
 			<p>
 			<strong>Awards</strong>
-			<?php
-			if(is_array($allawards)) {
-			?>
-			<ul>
-				<?php
-                foreach($allawards as $award) {
-					/* To show the image:
 
-						<img src="<?php echo $award->image?>" alt="<?php echo $award->descrip?>" />
-					*/
-				?>
-					<li><?php echo $award->name ?></li>
-				<?php } ?>
-			</ul>
-			<?php
+      <?php
+      if(is_array($allawards)) {
+      ?>
+
+      <table>
+
+      <?php foreach($allawards as $award){ ?>
+      <tr><td><img src="<?php echo $award->image?>" alt="<?php echo $award->descrip?>" /></td>
+        <td><?php echo $award->name ?></td></tr>
+      <?php } ?>
+
+      </table>
+
+      <?php
 			}
 			?>
+      
 		</p>
 		</td>
 

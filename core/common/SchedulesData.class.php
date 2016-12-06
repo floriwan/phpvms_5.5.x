@@ -102,6 +102,26 @@ class SchedulesData extends CodonData {
     }
 
     /**
+     * get all schedules where the regular expression match the flightnumber
+     *
+     * @param search with this regular expression the flightnumber
+     * @return array with all found schedules
+     */
+    public static function getScheduleFlightnumRegex($regex) {
+      //echo "<p>getScheduleFlightnumRegex ".$regex."</p>";
+      $sql = 'SELECT * FROM ' . TABLE_PREFIX . 'schedules WHERE flightnum REGEXP  \'' . $regex . '\'';
+      //echo "<p>getScheduleFlightnumRegex ".$sql."</p>";
+      $ret = DB::get_results($sql);
+      //print_r($ret);
+      // now schedule found, return empty array
+      if(!$ret) return array();
+
+      return $ret;
+
+    }
+
+
+    /**
      * Return information about a schedule (pass the ID)
      */
     public static function getSchedule($id) {
