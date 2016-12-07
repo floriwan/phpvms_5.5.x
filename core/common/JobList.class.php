@@ -249,12 +249,12 @@
   */
   public static function search($pirepid) {
 
-    echo "<p>search pirepid: " . $pirepid . "</p>";
+    //echo "<p>search pirepid: " . $pirepid . "</p>";
     // get pirep details
     $pirepdetails = PIREPData::getReportDetails($pirepid);
 
     if (!$pirepdetails) {
-      echo "<p>no pirep with id " . $pirepid . " found, can not book flight</p>";
+      //echo "<p>no pirep with id " . $pirepid . " found, can not book flight</p>";
       return false;
     }
 
@@ -266,7 +266,7 @@
     $arricao = $pirepdetails->arricao;
     $submitdate = date("Y-m-d", $pirepdetails->submitdate);
 
-    echo "<p>found pirep pilot_id:" . $pilot_id . " depicao:" . $depicao . " arricao:" . $arricao . " submitdate:" . $submitdate . "</p>";
+    //echo "<p>found pirep pilot_id:" . $pilot_id . " depicao:" . $depicao . " arricao:" . $arricao . " submitdate:" . $submitdate . "</p>";
 
     $sql = "SELECT j.* FROM " . TABLE_PREFIX . "joblist AS j
       LEFT JOIN " . TABLE_PREFIX . "schedules AS s ON s.id = j.schedule_id
@@ -280,8 +280,8 @@
     $res = DB::get_results($sql);
 
     if (!is_array($res)) {
-      echo "<p>" . $sql . "</p>";
-      echo "<p>no valid job found for pilotid " . $pilot_id . " and departure " . $depicao . " arrival " . $arricao . " submitdate " . $submitdate . "</p>";
+      //echo "<p>" . $sql . "</p>";
+      //echo "<p>no valid job found for pilotid " . $pilot_id . " and departure " . $depicao . " arrival " . $arricao . " submitdate " . $submitdate . "</p>";
 
       // send information email to the pilot
       /*$email_subject = "no job from " . $depicao . " to " . $arricao . " found";
@@ -295,7 +295,7 @@
 
     // update the found job and set the status to 'F'
     $jobid = $res[0]->id;
-    echo "update jobid:" . $jobid . "</p>";
+    //echo "update jobid:" . $jobid . "</p>";
     $sql = "UPDATE `" . TABLE_PREFIX . "joblist` SET status='F' WHERE id =" . $jobid;
     DB::query($sql);
 
