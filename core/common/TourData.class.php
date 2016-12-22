@@ -27,6 +27,30 @@
      }
    }
 
+   /**
+    * Generate a regular expression that matches all tours
+   */
+  public static function getAllToursRegexp() {
+
+    $allTours = TourData::getTourList("2010-01-01");
+
+    if (count($allTours) > 0) {
+      if (count($allTours) == 1) {
+        $regexp = $allTours[0]->flightnum_regex;
+      } else {
+        $regexp = "(";
+        foreach ($allTours as $tour) {
+          $regexp .= $tour->flightnum_regex . "|";
+        }
+        $regexp = rtrim($regexp, "|");
+        $regexp .= ")";
+      }
+    }
+
+    return $regexp;
+
+  }
+
    public static function getPilotStatus($tour, $pilot) {
 
      $pilotStatus = array();

@@ -221,7 +221,6 @@ class Schedules extends CodonModule {
         $this->render('schedule_searchform.tpl');
 
         # Show the routes. Remote this to not show them.
-
         $schedules = SchedulesData::getSchedules();
 
         # Do some filtering and whatnots, take it out of the template...
@@ -328,8 +327,7 @@ class Schedules extends CodonModule {
         }
 
         $params['s.enabled'] = 1;
-
-        $schedule_list = SchedulesData::findSchedules($params);
+        $schedule_list = SchedulesData::findSchedules($params, '', '', false);
         $this->set('allroutes', $schedule_list); #deprecated
         $this->set('schedule_list', $schedule_list);
 

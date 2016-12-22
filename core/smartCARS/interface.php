@@ -7,21 +7,21 @@
 
  * This interface script is provided by TFDi Design for the purposes of creating a web-interface between the smartCARS Virtual Flight Tracking Software and virtual airline databases.
  * This interface script is originally property of TFDi Design.
- 
+
  * This file is originally governed by the TFDi Design smartCARS Virtual Airline Operations License, https://tfdidesign.com/legal.php?request=vaol, and the TFDi Design General License, https://tfdidesign.com/legal.php?request=gl
 
  * This file may be edited and redistributed by third party developers, but TFDi Design assumes no responsibility for support or maintenance on any modified scripts.
  * All third party developers who modify and/or redistribute this file should add their copyright information as well, but are prohibited from removing the original disclaimers.
  * Any third party developers who modify and/or redistribute this file must modify the version number to indicate that this is not an official distribution of the file.
- 
+
  * If you are unsure if you are using an original, unmodified copy of the smartCARS web interface, we recommend obtaining new copies of the files from the TFDi Design website.
  */
- 
+
  /* Interface Information for phpVMS
   *
   * General Information
   * -------------------
-  * This file can be modified at will to adapt and customize the function of smartCARS to fit your website. Additional information is below to assist in understanding and customizing this file.  
+  * This file can be modified at will to adapt and customize the function of smartCARS to fit your website. Additional information is below to assist in understanding and customizing this file.
   *
   * How Does This System Work?
   * --------------------------
@@ -40,9 +40,9 @@
   * Functions that require logins/security before they can be accessed have already been accounted for by the frame - no need to authenticate requests here.
   */
 
-require_once('../codon.config.php'); 
+require_once('../codon.config.php');
 require_once('../local.config.php');
-require_once("../common/NavData.class.php"); 
+require_once("../common/NavData.class.php");
 require_once("../common/ACARSData.class.php");
 
 define('skip_retired_check', false); //should 'retired' (inactive) pilots be able to log in?
@@ -58,7 +58,7 @@ class smartCARS {
 		$ret['server'] = DBASE_SERVER;
 		return $ret;
 	}
-	
+
 	static function manuallogin($userid, $password, $sessionid) {
 		global $dbConnection;
 		$ret = array();
@@ -75,7 +75,7 @@ class smartCARS {
 		$stmt->execute(array($user));
 		$res = $stmt->fetch();
 		$stmt->closeCursor();
-		if($res['pilotid'] != "") {			
+		if($res['pilotid'] != "") {
 			if(skip_retired_check == false) {
 				if($res['retired'] != "0") {
 					$ret['result'] = "inactive";
@@ -84,20 +84,20 @@ class smartCARS {
 			}
 			if($res['confirmed'] == "0") {
 				$ret['result'] = "unconfirmed";
-				return $ret;					
+				return $ret;
 			}
-			
+
 			$hash = md5($password.$res['salt']);
 			if($hash == $res['password']) {
 				$ret['dbid'] = $res['pilotid'];
 				$ret['code'] = $res['code'];
-				
+
 				$newpltid = $res['pilotid'] + PILOTID_OFFSET;
 				$var = "";
 				for($i = strlen($newpltid); $i < PILOTID_LENGTH; $i++)
-					$var .= "0";				
+					$var .= "0";
 				$ret['pilotid'] = $var . $newpltid;
-				
+
 				$ret['pilotid'] = $res['pilotid'] + PILOTID_OFFSET;
 				$ret['firstname'] = $res['firstname'];
 				$ret['lastname'] = $res['lastname'];
@@ -105,15 +105,15 @@ class smartCARS {
 				$ret['ranklevel'] = $res['ranklevel'];
 				$ret['rankstring'] = $res['rank'];
 				$ret['result'] = "ok";
-			}                 
+			}
 			else
 				$ret['result'] = "failed";
-		}	
+		}
 		else
 			$ret['result'] = "failed";
 		return $ret;
 	}
-	
+
 	static function automaticlogin($dbid, $oldsessionid, $sessionid) {
 		$ret = array();
 		global $dbConnection;
@@ -138,18 +138,18 @@ class smartCARS {
 				}
 				if($res['confirmed'] == "0") {
 					$ret['result'] = "unconfirmed";
-					return $ret;					
+					return $ret;
 				}
-				
+
 				$ret['dbid'] = $res['pilotid'];
 				$ret['code'] = $res['code'];
-				
+
 				$newpltid = $res['pilotid'] + PILOTID_OFFSET;
 				$var = "";
 				for($i = strlen($newpltid); $i < PILOTID_LENGTH; $i++)
-					$var .= "0";				
+					$var .= "0";
 				$ret['pilotid'] = $var . $newpltid;
-				
+
 				$ret['pilotid'] = $res['pilotid'] + PILOTID_OFFSET;
 				$ret['firstname'] = $res['firstname'];
 				$ret['lastname'] = $res['lastname'];
@@ -165,7 +165,7 @@ class smartCARS {
 			$ret['result'] = "failed";
 		return $ret;
 	}
-	
+
 	static function verifysession($dbid, $sessionid) {
 		$ret = array();
 
@@ -191,14 +191,14 @@ class smartCARS {
 			else {
 				$ret['result'] = "FAILED";
 				return $ret;
-			}			
+			}
 		}
 		else {
 			$ret['result'] = "FAILED";
 			return $ret;
 		}
 	}
-	
+
 	static function getpilotcenterdata($dbid) {
 		global $dbConnection;
 		$ret = array();
@@ -209,12 +209,12 @@ class smartCARS {
 		$ret = array();
 		if($res['pilotid'] != "") {
 			$ret['totalhours'] = $res['totalhours'];
-			$ret['totalflights'] = $res['totalflights'];			
+			$ret['totalflights'] = $res['totalflights'];
 			if($res['totalflights'] > 0) {
 				$stmt = $dbConnection->prepare("SELECT landingrate FROM " . TABLE_PREFIX . "pireps WHERE pilotid = ?" . (include_pending_flights_in_stats == false ? "AND accepted = 1" : "AND accepted != 2") . " ORDER BY submitdate");
 				$stmt->execute(array($dbid));
 				$pireps = $stmt->fetchAll();
-				$stmt->closeCursor();				
+				$stmt->closeCursor();
 				$total_landing = 0;
 				$sizeofpireps = sizeof($pireps);
 				foreach($pireps as $pirep) {
@@ -227,13 +227,13 @@ class smartCARS {
 				$ret['totalpireps'] = $sizeofpireps;
 			}
 			else {
-				$ret['averagelandingrate'] = "N/A";			
+				$ret['averagelandingrate'] = "N/A";
 				$ret['totalpireps'] = "0";
 			}
 		}
 		return $ret;
 	}
-	
+
 	static function getairports($dbid) {
 		global $dbConnection;
 		$ret = array();
@@ -250,7 +250,7 @@ class smartCARS {
 		$ret['format']['country'] = 'lng';
 		return $ret;
 	}
-	
+
 	static function getaircraft($dbid) {
 		global $dbConnection;
 		$res = array();
@@ -268,7 +268,7 @@ class smartCARS {
 		$res['format']['requiredranklevel'] = 'ranklevel';
 		return $res;
 	}
-	
+
 	static function getbidflights($dbid) {
 		global $dbConnection;
 		$stmt = $dbConnection->prepare("SELECT * FROM " . TABLE_PREFIX . "bids WHERE pilotid = ?");
@@ -299,13 +299,13 @@ class smartCARS {
 			$stmt->execute(array($bid['routeid']));
 			$schedule = $stmt->fetch();
 			$stmt->closeCursor();
-			
+
 			if($schedule['id'] != "") {
 				$schedule['bidid'] = $bid['bidid'];
 				//How the 'load' value works:
 				//You can give a number that will be used as the passenger or cargo number in the client and it will not be editable by the user.
 				//You can specify LOAD_TYPE_RANDOM_LOCKED that will generate a random number on the client side but will not allow editing.
-				//You can specify LOAD_TYPE_RANDOM_EDITABLE that will function like smartCARS 1.X - generate a random number and allow the user to change it.				
+				//You can specify LOAD_TYPE_RANDOM_EDITABLE that will function like smartCARS 1.X - generate a random number and allow the user to change it.
 				$continue = false;
 				if($schedule['enabled'] != "0")
 					$continue = true;
@@ -317,14 +317,14 @@ class smartCARS {
 					if($cschedule['routeid'] != "")
 						$continue = true;
 				}
-				
+
 				$schedule['load'] = LOAD_TYPE_RANDOM_EDITABLE;
 				array_push($ret['schedules'],$schedule);
 			}
 		}
 		return $ret;
 	}
-	
+
 	static function bidonflight($dbid, $routeid) {
 		global $dbConnection;
 		$stmt = $dbConnection->prepare("SELECT * FROM " . TABLE_PREFIX . "schedules WHERE id = ? AND enabled != 0");
@@ -347,13 +347,13 @@ class smartCARS {
 		}
 		return 2;
 	}
-	
+
 	static function deletebidflight($dbid, $bidid) {
 		global $dbConnection;
 		$stmt = $dbConnection->prepare("DELETE FROM " . TABLE_PREFIX . "bids WHERE bidid = ? LIMIT 1");
 		$stmt->execute(array($bidid));
 		$stmt->closeCursor();
-		
+
 		$stmt = $dbConnection->prepare("SELECT * FROM smartCARS_charteredflights WHERE bidid = ? AND dbid = ?");
 		$stmt->execute(array($bidid, $dbid));
 		$crow = $stmt->fetch();
@@ -362,20 +362,20 @@ class smartCARS {
 			$stmt = $dbConnection->prepare("DELETE FROM smartCARS_charteredflights WHERE bidid = ? AND dbid = ?");
 			$stmt->execute(array($bidid, $dbid));
 			$stmt->closeCursor();
-			
+
 			$stmt = $dbConnection->prepare("DELETE FROM " . TABLE_PREFIX . "schedules WHERE id = ?");
 			$stmt->execute(array($crow['routeid']));
 			$stmt->closeCursor();
 		}
 	}
-	
+
 	static function _helper_reorder_date_to_mmddyyyy($source) {
 		$source = substr($source, 0, 10);
 		$yyyymmdd = explode("-", $source);
 		$mmddyyyy = $yyyymmdd[1] . "/" . $yyyymmdd[2] . "/" . $yyyymmdd[0];
 		return $mmddyyyy;
 	}
-	
+
 	static function searchpireps($dbid, $departureicao, $arrivalicao, $startdate, $enddate, $aircraft, $status) {
 		global $dbConnection;
 		$param = "SELECT pirepid, code, submitdate, flightnum, depicao, arricao, aircraft FROM " . TABLE_PREFIX . "pireps WHERE pilotid = :pilotid";
@@ -405,7 +405,7 @@ class smartCARS {
                 $arg[':date2'] = $enddate;
             }
 		}
-		
+
 		if($status != "" && ($status == "1" || $status == "2" || $status == "3")) {
 			$param .= " AND accepted = :status";
 			if($status == "1") //accepted
@@ -414,23 +414,23 @@ class smartCARS {
 				$arg[':status'] = "0";
 			else if($status == "3") //rejected
 				$arg[':status'] = "2";
-		}		
-		
+		}
+
 		$use_ac = false;
         $valid_aircraft = array();
-        if($aircraft != "") {			
+        if($aircraft != "") {
             $stmt = $dbConnection->prepare("SELECT * FROM " . TABLE_PREFIX . "aircraft WHERE fullname = ?");
             $stmt->execute(array($aircraft));
 			$acdatar = $stmt->fetchAll();
-			$stmt->closeCursor();		
+			$stmt->closeCursor();
 			if(sizeof($acdatar) > 0) {
 				$use_ac = true;
 				foreach($acdatar as $row) {
 					array_push($valid_aircraft, $row['id']);
-	            }  
+	            }
 			}
         }
-		
+
 		if($use_ac == true) {
 			$first = true;
 			$acc = 0;
@@ -444,16 +444,16 @@ class smartCARS {
 					$param .= " OR aircraft = :ac" . $acc;
 					$arg[':ac' . $acc] = $ac;
 					$acc++;
-				}					
+				}
 				$first = false;
 			}
-		}		
-		
+		}
+
 		$stmt = $dbConnection->prepare($param);
         $stmt->execute($arg);
         $pireps = $stmt->fetchAll();
         $stmt->closeCursor();
-		
+
 		$ret = array();
 		$ret['format'] = array();
 		$ret['pireps'] = array();
@@ -464,37 +464,37 @@ class smartCARS {
 		$ret['format']['date'] = "submitdate";
 		$ret['format']['arrivalicao'] = "arricao";
 		$ret['format']['arrivalicao'] = "arricao";
-		$ret['format']['aircraft'] = "aircraft";		
+		$ret['format']['aircraft'] = "aircraft";
 		foreach($pireps as $key => $pirep) {
 			$pireps[$key]['submitdate'] = smartCARS::_helper_reorder_date_to_mmddyyyy($pirep['submitdate']);
 		}
 		$ret['pireps'] = $pireps;
 		return $ret;
-				
+
 	}
-	
+
 	static function getpirepdata($dbid, $pirepid) {
 		global $dbConnection;
 		$stmt = $dbConnection->prepare("SELECT * FROM " . TABLE_PREFIX . "pireps WHERE pirepid = ?");
 		$stmt->execute(array($pirepid));
 		$res = $stmt->fetch();
-		$stmt->closeCursor();		
+		$stmt->closeCursor();
 
 		$ret = array();
 		$ret['duration'] = $res['flighttime'];
 		$ret['landingrate'] = $res['landingrate'];
-		$ret['fuelused'] = $res['fuelused'];		
+		$ret['fuelused'] = $res['fuelused'];
 		$status = "0";
 		if($res['accepted'] == "1")
 			$status = "1";
 		else if($res['accepted'] == "2")
-			$status = "2";			
+			$status = "2";
 		$ret['status'] = $status;
 		$ret['log'] = $res['log'];
-		
+
 		return $ret;
 	}
-	
+
 	static function searchflights($dbid, $departureicao, $mintime, $maxtime, $arrivalicao, $aircraft) {
 		global $dbConnection;
         if ($departureicao != "" || $arrivalicao != "" || $mintime != "" || $maxtime != "") {
@@ -530,22 +530,22 @@ class smartCARS {
 			$param .= " AND enabled != 0";
         }
         else
-            $param = "SELECT * FROM " . TABLE_PREFIX . "schedules WHERE enabled != 0";		
+            $param = "SELECT * FROM " . TABLE_PREFIX . "schedules WHERE enabled != 0";
 		$use_ac = false;
         $valid_aircraft = array();
-        if($aircraft != "") {			
+        if($aircraft != "") {
             $stmt = $dbConnection->prepare("SELECT * FROM " . TABLE_PREFIX . "aircraft WHERE fullname = ?");
             $stmt->execute(array($aircraft));
 			$acdatar = $stmt->fetchAll();
-			$stmt->closeCursor();		
+			$stmt->closeCursor();
 			if(sizeof($acdatar) > 0) {
 				$use_ac = true;
 				foreach($acdatar as $row) {
 					array_push($valid_aircraft, $row['id']);
-	            }  
+	            }
 			}
         }
-		
+
 		if($use_ac == true) {
 			$first = true;
 			$acc = 0;
@@ -559,19 +559,19 @@ class smartCARS {
 					$param .= " OR aircraft = :ac" . $acc;
 					$arg[':ac' . $acc] = $ac;
 					$acc++;
-				}					
+				}
 				$first = false;
 			}
             if($acc > 0)
                 $param .= ")";
 		}
-			
+
 		$param .= " ORDER BY code, flightnum LIMIT 1001";
         $stmt = $dbConnection->prepare($param);
         $stmt->execute($arg);
         $flights = $stmt->fetchAll();
         $stmt->closeCursor();
-		
+
 		$ret = array();
 		$ret['format'] = array();
 		$ret['format']['routeid'] = 'id';
@@ -589,25 +589,25 @@ class smartCARS {
 		$ret['format']['daysofweek'] = 'daysofweek';
 		$ret['schedules'] = $flights;
 		return $ret;
-	}	
-	
+	}
+
 	static function createflight($dbid, $flightcode, $flightnumber, $ticketprice, $depicao, $arricao, $aircraft, $flighttype, $deptime, $arrtime, $flighttime, $route, $cruisealtitude, $distance) {
 		global $dbConnection;
-	
+
 		$type = "P";
 		if($flighttype == "1")
 			$type = "C";
-			
+
 		if($flightcode == '')
 			$flightcode = 'SCC';
-			
-		$stmt = $dbConnection->prepare("SELECT * " . TABLE_PREFIX . "airlines WHERE code = ?");		
+
+		$stmt = $dbConnection->prepare("SELECT * " . TABLE_PREFIX . "airlines WHERE code = ?");
 		$stmt->execute(array(
 			$flightcode
 		));
 		$res = $stmt->fetch();
 		$stmt->closeCursor();
-		
+
 		if($res['id'] == "") {
 			$stmt = $dbConnection->prepare("INSERT INTO " . TABLE_PREFIX . "airlines (id, code, name, enabled) VALUES (NULL, ?, 'Charter', 0)");
 			$stmt->execute(array(
@@ -615,8 +615,8 @@ class smartCARS {
 			));
 			$stmt->closeCursor();
 		}
-		
-		$stmt = $dbConnection->prepare("INSERT INTO " . TABLE_PREFIX . "schedules (id, code, flightnum, depicao, arricao, route, aircraft, flightlevel, distance, deptime, arrtime, flighttime, price, flighttype, enabled) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)");		
+
+		$stmt = $dbConnection->prepare("INSERT INTO " . TABLE_PREFIX . "schedules (id, code, flightnum, depicao, arricao, route, aircraft, flightlevel, distance, deptime, arrtime, flighttime, price, flighttype, enabled) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)");
 		$stmt->execute(array(
 			$flightcode,
 			$flightnumber,
@@ -631,36 +631,36 @@ class smartCARS {
 			$flighttime,
 			$ticketprice,
 			$type
-		));		
+		));
 		$routeid = $dbConnection->lastInsertID();
 		$stmt->closeCursor();
-		
+
 		$stmt = $dbConnection->prepare("INSERT INTO " . TABLE_PREFIX . "bids (bidid, pilotid, routeid, dateadded) VALUES (NULL, ?, ?, NOW())");
 		$stmt->execute(array(
 			$dbid,
 			$routeid
-		));		
+		));
 		$bidid = $dbConnection->lastInsertID();
 		$stmt->closeCursor();
-		
+
 		$stmt = $dbConnection->prepare("INSERT INTO smartCARS_charteredflights (routeid, dbid, bidid) VALUES (?, ?, ?)");
 		$stmt->execute(array(
 			$routeid,
 			$dbid,
 			$bidid
-		));		
+		));
 		$stmt->closeCursor();
-		
-		return true;		
+
+		return true;
 	}
-	
+
 	static function positionreport($dbid, $flightnumber, $latitude, $longitude, $magneticheading, $trueheading, $altitude, $groundspeed, $departureicao, $arrivalicao, $phase, $arrivaltime, $departuretime, $distanceremaining, $route, $timeremaining, $aircraft, $onlinenetwork) {
         global $dbConnection;
         $stmt = $dbConnection->prepare("SELECT * FROM " . TABLE_PREFIX . "pilots WHERE pilotid = ?");
 		$stmt->execute(array($dbid));
 		$pilotdet = $stmt->fetch();
 		$stmt->closeCursor();
-        
+
         $phases = array(
 			"Preflight",
 			"Pushing Back",
@@ -676,19 +676,19 @@ class smartCARS {
             "Awaiting Arrival", /* An intermediary state when smartCARS has detected the aircraft is ready to arrive but the pilot hasn't clicked "End Flight" yet. */
 			"Arrived"
 		);
-        
+
         $lat = str_replace(",", ".", $latitude);
         $lon = str_replace(",", ".", $longitude);
-        
+
         $lat = doubleval($lat);
         $lon = doubleval($lon);
-        
+
         if($lon < 0.005 && $lon > -0.005)
             $lon = 0;
-            
+
         if($lat < 0.005 && $lat > -0.005)
-            $lat = 0;        
-        
+            $lat = 0;
+
         $fields = array(
             'pilotid' =>$dbid,
             'flightnum' =>$flightnumber,
@@ -710,9 +710,9 @@ class smartCARS {
             'online' => $onlinenetwork,
             'client' =>'smartCARS',
         );
-        
+
         return(ACARSData::UpdateFlightData($dbid, $fields));
-	}	
+	}
 	static function filepirep($dbid, $code, $flightnumber, $routeid, $bidid, $departureicao, $arrivalicao, $route, $aircraft, $load, $flighttime, $landingrate, $comments, $fuelused, $log) {
 		global $dbConnection;
 		$log = str_replace('[', '*[', $log);
@@ -735,12 +735,12 @@ class smartCARS {
             'source' => 'smartCARS',
             'log' => $log
         );
-		
+
 		$ret = ACARSData::FilePIREP($dbid, $pirepdata);		
-		
+
         if(!$ret)
             return false;
-		
+
 		$stmt = $dbConnection->prepare("SELECT * FROM smartCARS_charteredflights WHERE bidid = ? AND dbid = ?");
 		$stmt->execute(array($bidid, $dbid));
 		$crow = $stmt->fetch();
@@ -749,22 +749,22 @@ class smartCARS {
 			$stmt = $dbConnection->prepare("DELETE FROM smartCARS_charteredflights WHERE bidid = ? AND dbid = ?");
 			$stmt->execute(array($bidid, $dbid));
 			$stmt->closeCursor();
-			
+
 			$stmt = $dbConnection->prepare("DELETE FROM " . TABLE_PREFIX . "schedules WHERE id = ?");
 			$stmt->execute(array($crow['routeid']));
 			$stmt->closeCursor();
 		}
-		
+
 		$stmt = $dbConnection->prepare("UPDATE " . TABLE_PREFIX . "pilots SET retired = 0 WHERE pilotid = ?");
-		$stmt->execute(array($dbid));		    
-		
+		$stmt->execute(array($dbid));
+
 		$stmt = $dbConnection->prepare("UPDATE " . TABLE_PREFIX . "acarsdata SET gs = 0, distremain = 0, timeremaining = '0:00', phasedetail = 'Arrived', arrtime = CURRENT_TIMESTAMP WHERE pilotid = ?");
-		$stmt->execute(array($dbid));		    
+		$stmt->execute(array($dbid));
 
 		$stmt = $dbConnection->prepare("DELETE FROM " . TABLE_PREFIX . "bids WHERE pilotid = ? AND bidid = ?");
 		$stmt->execute(array($dbid, $bidid));
 		return true;
 	}
 }
- 
+
 ?>

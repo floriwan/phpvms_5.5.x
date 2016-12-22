@@ -70,8 +70,8 @@ class PIREPData extends CodonData {
         if (strlen($start) != 0) {
             $sql .= ' OFFSET ' . $start;
         }
-        echo $sql;
-        echo "<br>";
+        //echo $sql;
+        //echo "<br>";
         return DB::get_results($sql);
     }
 

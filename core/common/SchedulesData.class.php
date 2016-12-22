@@ -38,7 +38,8 @@ class SchedulesData extends CodonData {
      *
      * @tutorial http://docs.phpvms.net/media/development/searching_and_retriving_schedules
      */
-    public static function findSchedules($params, $count = '', $start = '') {
+    public static function findAllSchedules($params, $count = '', $start = '', $tourData = false) {
+
         $sql = 'SELECT s.*,
 					a.id as aircraftid, a.name as aircraft, a.registration,
 					a.minrank as aircraft_minrank, a.ranklevel as aircraftlevel,
@@ -51,6 +52,19 @@ class SchedulesData extends CodonData {
 
         /* Build the select "WHERE" based on the columns passed, this is a generic function */
         $sql .= DB::build_where($params);
+
+        /* ignore all tour legs with regular expression */
+        if($tourData === false) {
+          $tourRegexp = TourData::getAllToursRegexp();
+          //echo "<p>" . $tourRegexp . "</p>";
+
+          if (count($params) === 0 || empty($params) === true) {
+              $sql .= " WHERE flightnum NOT REGEXP '" . $tourRegexp . "'";
+          } else {
+            $sql .= " AND flightnum NOT REGEXP '" . $tourRegexp . "'";
+          }
+          //echo "<p>" . $sql . "</p>";
+        }
 
         // Order matters
         if (Config::Get('SCHEDULES_ORDER_BY') != '') {
@@ -72,6 +86,10 @@ class SchedulesData extends CodonData {
         }
 
         return $ret;
+    }
+
+    public static function findSchedules($params, $count = '', $start = '') {
+      return SchedulesData::findAllSchedules($params, $count, $start, true);
     }
 
     public static function getRandomFlightNumber() {
@@ -324,7 +342,7 @@ class SchedulesData extends CodonData {
         $params = array();
         if ($onlyenabled) $params['s.enabled'] = '1';
 
-        return self::findSchedules($params, $limit, $start);
+        return self::findAllSchedules($params, $limit, $start, false);
     }
 
     /**

@@ -1172,7 +1172,7 @@ class Operations extends CodonModule {
 
         # Add it in
         $ret = SchedulesData::AddSchedule($data);
-        
+
         if (DB::errno() != 0 && $ret == false) {
             $this->set('message',
                 'There was an error adding the schedule, already exists DB error: ' . DB::error
