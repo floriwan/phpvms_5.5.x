@@ -10,8 +10,13 @@ class Tours extends CodonModule {
     //echo "<p>index</p>";
 
 		$allTours = TourData::getTourList(date("Y-m-d"));
+    //$allTours = TourData::getTourList();
     //print_r($allTours);
     $allPilots = PilotData::getAllPilots();
+
+    if (count($allTours) == 0) {
+      echo "<div class=\"box\"><p>There is no tour active at the moment.</p></div>";
+    }
 
     // show all tours
     foreach ($allTours as $tour) {
@@ -30,29 +35,6 @@ class Tours extends CodonModule {
       $this->set('numberLegs', count($schedules));
 
       $this->render('tours.php');
-
-/*
-      foreach ($allPilots as $pilot) {
-
-        $pilotLegs = PIREPData::getAllPilotsReportForTour($pilot->pilotid,
-          $tour->flightnum_regex, $tour->valid_from, $tour->valid_to);
-
-        if ($tour->random == 0) {
-          $this->set('nextLeg', self::getNextTourLeg($pilotLegs, $schedules));
-        } else {
-          $this->set('nextLeg', "unknown");
-        }
-
-        if (count($pilotsLegs) == count($schedules))
-          $this->set('tourFinished', '1');
-        else
-          $this->set('tourFinished', '0');
-
-        $this->set('pilotdata', $pilot);
-        $this->set('legdata', $pilotLegs);
-        $this->render('toursPilot.php');
-
-      } */
 
     }
 
@@ -85,6 +67,34 @@ class Tours extends CodonModule {
 
 
     $this->render('toursDetail.php');
+  }
+
+  public function pilotTours() {
+    if (Auth::LoggedIn() == true) {
+      $pilot = PilotData::getPilotData(Auth::$pilot->pilotid);
+      $pilotTours = TourData::getPilotTourList($pilot);
+
+      foreach ($pilotTours as $tour) {
+
+        $schedules = SchedulesData::getScheduleFlightnumRegex($tour->flightnum_regex);
+
+        $distance = 0;
+
+        foreach ($schedules as $schedule) {
+          $distance += $schedule->distance;
+        }
+
+        $this->set('tour', $tour);
+        $this->set('schedules', $schedules);
+        $this->set('distance', $distance);
+        $this->set('numberLegs', count($schedules));
+
+        $this->render('tours.php');
+
+      }
+
+
+    }
   }
 
   public function pilotDetails() {

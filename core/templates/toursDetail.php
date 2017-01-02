@@ -14,7 +14,7 @@
   <table>
     <thtead>
       <tr>
-        <th>start date</th><th>end date</th><th>num. Legs</th><th>distance</th><th></th><th>tour details</th>
+        <th>start date</th><th>end date</th><th>num. Legs</th><th>distance</th><th></th><!--<th>tour details</th>-->
       </tr>
     </thead>
 
@@ -36,14 +36,20 @@
             Legs must be flown in the given order
           <?php } ?>
         </td>
-        <td><a href="<?php echo url('/Tours/toursDetail/'.$tour->id);?>">
-        <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+        <!--<td><a href="<?php echo url('/Tours/toursDetail/'.$tour->id);?>">
+        <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>-->
       </tr>
     </tbody>
 
   </table>
 
 <hr>
+
+  <?php
+    $tourActive = 0;
+    if (strtotime($tour->valid_from) < time() && strtotime($tour->valid_to) > time())
+      $tourActive = 1;
+  ?>
 
   <table>
     <thead>
@@ -73,15 +79,17 @@
 
 
         <td>
-          <?php if (!Auth::LoggedIn())
+          <?php
+
+          if (!Auth::LoggedIn())
               continue;
-            if ($key == 0 && $pilotLegs[$schedule->flightnum] == 0) { ?>
+            if ($tourActive == 1 && $key == 0 && $pilotLegs[$schedule->flightnum] == 0) { ?>
             <a href="<?php echo SITE_URL . "/index.php/Tours/bookSchedule?scheduleid=" . $schedule->id ?>"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
             <!--<a href="<?php echo actionurl('/schedules/addbid/?id='.$schedule->id);?>"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>-->
-          <?php } elseif ($oldState == 1 && $pilotLegs[$schedule->flightnum] == 0 && $tour->random == 0) { ?>
+          <?php } elseif ($tourActive == 1 && $oldState == 1 && $pilotLegs[$schedule->flightnum] == 0 && $tour->random == 0) { ?>
             <a href="<?php echo SITE_URL . "/index.php/Tours/bookSchedule?scheduleid=" . $schedule->id ?>"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
             <!--<a href="<?php echo actionurl('/schedules/addbid/?id='.$schedule->id);?>"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>-->
-          <?php } elseif ($pilotLegs[$schedule->flightnum] == 0 && $tour->random == 1) { ?>
+          <?php } elseif ($tourActive == 1 && $pilotLegs[$schedule->flightnum] == 0 && $tour->random == 1) { ?>
             <a href="<?php echo SITE_URL . "/index.php/Tours/bookSchedule?scheduleid=" . $schedule->id ?>"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
             <!--<a href="<?php echo actionurl('/schedules/addbid/?id='.$schedule->id);?>"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>-->
           <?php } elseif ($pilotLegs[$schedule->flightnum] == 1) { ?>

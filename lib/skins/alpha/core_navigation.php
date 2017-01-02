@@ -55,8 +55,9 @@ if(Auth::LoggedIn())
 	<li><a href="#" class="icon fa-plane">Flight Operations <i class="icon fa-angle-down"></i></a>
 	<ul>
     <li><a href="<?php echo url('/schedules/view');?>">Flight Schedules</a></li>
+    <li><a href="<?php echo url('/Tours');?>">View active Tours</a></li>
     <li><a href="<?php echo url('/schedules/bids');?>">My Flight Bids</a></li>
-		<li><a href="<?php echo url('/pireps/mine');?>">View my PIREPs</a></li>
+		<li><a href="<?php echo url('/pireps/mine');?>">View My PIREPs</a></li>
     <li><a href="<?php echo url('/pireps/filepirep');?>">File a Pilot Report</a></li>
 		<li><a href="<?php echo url('/pireps/routesmap');?>">A Map Of All My Flights</a></li>
 		<li><a href="<?php echo url('/finances');?>">VA Finances</a></li>
@@ -67,8 +68,9 @@ if(Auth::LoggedIn())
 <li><a href="#" class="icon fa-user">Profile <i class="icon fa-angle-down"></i></a>
 <ul>
   <li><a href="<?php echo url('/profile/profile_detail'); ?>">View My Profile</a></li>
+  <li><a href="<?php echo url('/Tours/pilotTours'); ?>">View My Tours</a></li>
 	<!--<li><a href="<?php echo url('/profile/editprofile'); ?>">Edit My Profile</a></li>-->
-	<li><a href="<?php echo url('/profile/changepassword'); ?>">Change my Password</a></li>
+	<li><a href="<?php echo url('/profile/changepassword'); ?>">Change My Password</a></li>
 	<li><a href="<?php echo url('/profile/stats'); ?>">View My Stats</a></li>
   <li><a href="<?php echo url('/downloads/dl/7') ?>">smartCARS Tutorial</a></li>
 	<li><a href="<?php echo url('/downloads'); ?>">View Downloads</a></li>

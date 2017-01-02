@@ -8,6 +8,8 @@
 
    /**
     * return a list of all valid tours
+    * @param currentDate  all tours active at the give date.
+    *                     If no date set, return all tours.
     */
    public static function getTourList($currentDate = "2010-01-01") {
 
@@ -25,6 +27,26 @@
      } else {
        return $res;
      }
+   }
+
+   /*
+    * return a list of tours which started by the given pilot
+    */
+   public static function getPilotTourList($pilot) {
+
+     $pilotTours = array();
+
+     $allTours = TourData::getTourList();
+
+     foreach ($allTours as $tour) {
+       $pilotStatus = TourData::getPilotStatus($tour, $pilot);
+       if (count($pilotStatus != 0)) {
+         $pilotTours[] = $tour;
+       }
+     }
+
+     return $pilotTours;
+
    }
 
    /**
@@ -99,7 +121,7 @@
        }
      }
 
-     print_r($pilotStatus);
+     //print_r($pilotStatus);
      return $pilotStatus;
 
    }
