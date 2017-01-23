@@ -1825,7 +1825,7 @@ dd {
 		-ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		/*border-bottom: dotted 1px;*/
-		color: #e89980;
+		color: #e88668;
 		text-decoration: none;
 	}
 
@@ -2066,8 +2066,8 @@ dd {
 		input[type="email"]:focus,
 		select:focus,
 		textarea:focus {
-			border-color: #e89980;
-			box-shadow: 0 0 0 2px #e89980;
+			border-color: #e88668;
+			box-shadow: 0 0 0 2px #e88668;
 		}
 
 	.select-wrapper {
@@ -2177,8 +2177,8 @@ dd {
 
 		input[type="checkbox"]:focus + label:before,
 		input[type="radio"]:focus + label:before {
-			border-color: #e89980;
-			box-shadow: 0 0 0 1px #e89980;
+			border-color: #e88668;
+			box-shadow: 0 0 0 1px #e88668;
 		}
 
 	input[type="checkbox"] + label:before {
@@ -2386,7 +2386,7 @@ dd {
 			}
 
 			.icon.major.accent2 {
-				background: #e89980;
+				background: #e88668;
 				color: #ffffff;
 			}
 
@@ -2411,7 +2411,7 @@ dd {
 			}
 
 			.icon.minor.accent2 {
-				background: #e89980;
+				background: #e88668;
 				color: #ffffff;
 			}
 
@@ -2481,7 +2481,7 @@ ul.dates .date {
   position: absolute;
   left: 0;
   top: 1.3em;
-  background-color: #e89980;
+  background-color: #e88668;
   height: 3.5em;
   text-align: center;
   color: #fff;
@@ -2496,7 +2496,7 @@ ul.dates .date {
     position: absolute;
     bottom: 0;
     right: -1.2em;
-    border-left: solid 1.25em #e89980;
+    border-left: solid 1.25em #e88668;
     border-top: solid 1.8em transparent;
     border-bottom: solid 1.8em transparent;
   }
@@ -2843,7 +2843,7 @@ ul.dates li:first-child {
 		input[type="reset"].special,
 		input[type="button"].special,
 		.button.special {
-			background-color: #e89980;
+			background-color: #e88668;
 			color: #ffffff !important;
 		}
 
@@ -3128,7 +3128,7 @@ ul.dates li:first-child {
 			}
 
 			.dropotron li.active > a, .dropotron li.active > span, .dropotron li:hover > a, .dropotron li:hover > span {
-				background: #e89980;
+				background: #e88668;
 				color: #ffffff;
 			}
 
@@ -3303,7 +3303,7 @@ ul.dates li:first-child {
 /* CTA */
 
 	#cta {
-		background: #e89980;
+		background: #e88668;
 		color: #f9e5df;
 		padding: 3.5em 0 4em 0;
 		text-align: center;
@@ -3325,7 +3325,7 @@ ul.dates li:first-child {
 		#cta .button {
 			box-shadow: none;
 			background: #fff;
-			color: #e89980;
+			color: #e88668;
 		}
 
 		#cta input[type="text"],

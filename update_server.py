@@ -3,9 +3,9 @@ import subprocess
 import sys, os
 import ftplib
 
-FTP_SERVER = 'xxx'
-FTP_USER = 'xxx'
-FTP_PASS = 'xxx'
+FTP_SERVER = 'ftp.flycaribbeanva.com'
+FTP_USER = 'flycaribbeanva.com'
+FTP_PASS = 'FlyCaribbean2016'
 
 #------------------------------------------------------------------------------
 def main(argv):
@@ -19,7 +19,10 @@ def main(argv):
     # take only care of the modified file, line start with 'M'
     for line in output.split("\n"):
         print line
-        if line[:3] == ' M ':
+        if line[:3] == 'M  ':
+            modified_files.append(line[3:])
+        # new files
+        if line[:3] == 'A  ':
             modified_files.append(line[3:])
 
     upload_files(modified_files)
@@ -27,16 +30,18 @@ def main(argv):
 #------------------------------------------------------------------------------
 def upload_files(file_list):
 
+    print "upload files ..."
     ftp = ftplib.FTP(FTP_SERVER)
     ftp.login(FTP_USER, FTP_PASS)
     ftp.cwd('phpvms')
-
+    print "logged in " + FTP_SERVER
+    
     # save the start directories to go back there
     remote_dir = ftp.pwd()
     local_dir = os.getcwd()
 
     for filename in file_list:
-
+        print filename
         if os.path.isfile(filename):
 
             # extract directory only and file name

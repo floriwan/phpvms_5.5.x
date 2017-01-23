@@ -88,6 +88,12 @@ if(PilotGroups::group_has_perm(Auth::$usergroups, EDIT_AIRLINES)
 			<li><a href="<?php echo adminurl('/import/export');?>">Export Schedules</a></li>
 		<?php
 		}
+    if(PilotGroups::group_has_perm(Auth::$usergroups, EDIT_SCHEDULES))
+    {
+    ?>
+      <li><a href="<?php echo adminurl('/Tours/listtours');?>">Edit Tours</a></li>
+    <?php
+    }
 		?>
 	</ul>
 </li>

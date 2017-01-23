@@ -108,6 +108,26 @@ class PIREPData extends CodonData {
         return $data;
     }
 
+    public static function getIntervalYear($year, $where_params = '') {
+      $date_clause = "DATE_SUB( STR_TO_DATE( CONCAT( 12, 31, " . $year . " ) ,  '%m%d%Y' ),
+            INTERVAL 12 MONTH ) <= p.submitdate";
+
+      /* See if this array already exists */
+      if (!is_array($where_params)) {
+        $where_params = array($date_clause);
+      } else {
+        $where_params[] = $date_clause;
+      }
+
+      $data = self::getIntervalData($where_params);
+
+      if (!$data) {
+          return array();
+      }
+
+      return $data;
+    }
+
     public static function getIntervalCurrentYear($where_params = '') {
 
       $date_clause = "DATE_SUB( STR_TO_DATE( CONCAT( 12, 31, YEAR( CURDATE( ) ) ) ,  '%m%d%Y' ),
