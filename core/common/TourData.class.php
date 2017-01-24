@@ -40,9 +40,12 @@
 
      foreach ($allTours as $tour) {
        $pilotStatus = TourData::getPilotStatus($tour, $pilot);
-       if (count($pilotStatus != 0)) {
+
+       // get the first key and the first element in array
+       if ($pilotStatus[array_keys($pilotStatus)[0]] == 1) {
          $pilotTours[] = $tour;
        }
+
      }
 
      return $pilotTours;
