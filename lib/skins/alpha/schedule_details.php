@@ -1,8 +1,8 @@
 <h3>Schedule Details</h3>
 <div class="indent">
 <strong>Flight Number: </strong> <?php echo $schedule->code.$schedule->flightnum ?><br />
-<!--<strong>Departure: </strong><?php echo $schedule->depname ?> (<?php echo $schedule->depicao ?>) at <?php echo $schedule->deptime ?><br />
-<strong>Arrival: </strong><?php echo $schedule->arrname ?> (<?php echo $schedule->arricao ?>) at <?php echo $schedule->arrtime ?><br />-->
+<strong>Departure: </strong><?php echo $schedule->depname ?> (<?php echo $schedule->depicao ?>) at <?php echo $schedule->deptime ?><br />
+<strong>Arrival: </strong><?php echo $schedule->arrname ?> (<?php echo $schedule->arricao ?>) at <?php echo $schedule->arrtime ?><br />
 <?php
 if($schedule->route!='')
 { ?>
@@ -10,26 +10,14 @@ if($schedule->route!='')
 <?php
 }?>
 <br />
+<strong>Weather Information</strong>
 
-<table>
-  <tr><td><strong>Departure</strong></td><td><strong>Arrival</strong></td></tr>
 
-  <tr><td><?php echo $schedule->depname ?> (<?php echo $schedule->depicao ?>) at <?php echo $schedule->deptime ?></td>
-    <td><?php echo $schedule->arrname ?> (<?php echo $schedule->arricao ?>) at <?php echo $schedule->arrtime ?></td>
-  </tr>
+<?php include 'include.php';?>
 
-  <tr><td colspan="2"><strong>Weather Information</strong></td></tr>
 
-<tr>
-<td>
-  <?php MainController::Run('Weather', 'request_metar', $schedule->depicao);?>
-</td>
-<td>
-  <?php MainController::Run('Weather', 'request_metar', $schedule->arricao);?>
-</td>
-</tr>
-</table>
-
+<div id="<?php echo $schedule->depicao ?>" class="metar"><?php get_metar($schedule->depicao);?></div>
+<div id="<?php echo $schedule->arricao ?>" class="metar"><?php get_metar($schedule->arricao);?></div>
 <br />
 <strong>Schedule Frequency</strong>
 <div align="center">

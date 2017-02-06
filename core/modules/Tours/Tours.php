@@ -18,8 +18,6 @@ class Tours extends CodonModule {
       echo "<div class=\"box\"><p>There is no tour active at the moment.</p></div>";
     }
 
-    $this->render('tours_template.php');
-
     // show all tours
     foreach ($allTours as $tour) {
 
@@ -139,9 +137,8 @@ class Tours extends CodonModule {
 
   public function bookSchedule() {
     $scheduleid = $_GET[scheduleid];
+    echo "<p>book schedule " . $scheduleid . "</p>";
     TourData::bookSchedule($scheduleid, Auth::$userinfo->pilotid);
-    echo "<p>schedule " . $scheduleid . " is booked.</p>";
-    $this->index();
   }
 
   function getNextTourLeg($pilotLegs, $schedules) {

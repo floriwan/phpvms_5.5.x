@@ -32,9 +32,9 @@ $chart_height = '170';
 
 <script type="text/javascript" src="<?php echo fileurl('/lib/js/ofc/js/swfobject.js')?>"></script>
 <script type="text/javascript">
-swfobject.embedSWF("<?php echo fileurl('/lib/js/ofc/open-flash-chart.swf');?>",
-	"pireps_chart", "<?php echo $chart_width;?>", "<?php echo $chart_height;?>",
-	"9.0.0", "expressInstall.swf",
+swfobject.embedSWF("<?php echo fileurl('/lib/js/ofc/open-flash-chart.swf');?>", 
+	"pireps_chart", "<?php echo $chart_width;?>", "<?php echo $chart_height;?>", 
+	"9.0.0", "expressInstall.swf", 
 	{"data-file":"<?php echo actionurl('/schedules/statsdaysdata/'.$schedule->id);?>"});
 </script>
 <?php
