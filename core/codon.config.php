@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Codon PHP Framework
@@ -37,7 +36,6 @@
  * @license BSD License
  * @package codon_core
  */
- 
 session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 @ini_set('display_errors', 'on');
@@ -77,39 +75,39 @@ if(Debug::$debug_enabled == true) {
 /* Init caching engine */
 CodonCache::init($cache_settings);
 if(DBASE_NAME != '' && DBASE_SERVER != '' && DBASE_NAME != 'DBASE_NAME') {
-    
+
 	require CLASS_PATH.DS.'ezdb/ezdb.class.php';
-	
+
 	DB::$show_errors = Config::Get('DEBUG_MODE');
 	DB::$throw_exceptions = false;
-	
+
 	DB::init(DBASE_TYPE);
-	
+
 	DB::set_log_errors(Config::Get('DEBUG_MODE'));
 	DB::set_error_handler(array('Debug', 'db_error'));
-	
+
 	DB::set_caching(false);
 	DB::$table_prefix = TABLE_PREFIX;
 	DB::set_cache_dir(CACHE_PATH);
 	DB::$DB->debug_all = false;
-	
+
 	if(Config::Get('DEBUG_MODE') == true) {
 	   DB::show_errors();
 	} else {
 	   DB::hide_errors();
-	}		
-		
-	if(!DB::connect(DBASE_USER, DBASE_PASS, DBASE_NAME, DBASE_SERVER)) {	
+	}
+
+	if(!DB::connect(DBASE_USER, DBASE_PASS, DBASE_NAME, DBASE_SERVER)) {
 		Debug::showCritical(Lang::gs('database.connection.failed').' ('.DB::$errno.': '.DB::$error.')');
 		die();
 	}
-	
+
 	# Set the charset type to send to mysql
 	if(Config::Get('DB_CHARSET_NAME') !== '') {
 		DB::query('SET NAMES \''.Config::Get('DB_CHARSET_NAME').'\'');
 	}
-    
-    
+
+
     # Include ORM
     #include_once(VENDORS_PATH.DS.'orm'.DS.'idiorm.php');
     #include_once(VENDORS_PATH.DS.'orm'.DS.'paris.php');
@@ -127,4 +125,3 @@ Template::setTemplatePath(TEMPLATES_PATH);
 Template::setSkinPath(ACTIVE_SKIN_PATH);
 if(function_exists('post_module_load'))
 	post_module_load();
-	

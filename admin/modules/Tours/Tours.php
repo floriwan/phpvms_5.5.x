@@ -14,7 +14,7 @@ class Tours extends CodonModule {
    */
   public function HTMLHead() {
 
-    echo "<p>".$this->controller->function."</p>";
+    //echo "<p>".$this->controller->function."</p>";
     switch ($this->controller->function)
     {
       case 'listtours':

@@ -1,3 +1,5 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
 <?php if(!defined('IN_PHPVMS') && IN_PHPVMS !== true) { die(); } ?>
 <h3>Pilots List</h3>
 
@@ -6,6 +8,7 @@
 <br />
 
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo fileurl('/lib/js/jqgrid/css/ui.jqgrid.css');?>" />
+
 <script src="<?php echo fileurl('/lib/js/jqgrid/js/i18n/grid.locale-en.js');?>" type="text/javascript"></script>
 <script src="<?php echo fileurl('/lib/js/jqgrid/js/jquery.jqGrid.min.js');?>" type="text/javascript"></script>
 
@@ -35,11 +38,15 @@ $("#grid").jqGrid({
     height: '100%'
 });
 
-jQuery("#grid").jqGrid('navGrid','#pager', 
+jQuery("#grid").jqGrid('navGrid','#pager',
 	{edit:false,add:false,del:false,search:true,refresh:true},
-	{}, // edit 
-	{}, // add 
-	{}, //del 
-	{multipleSearch:true} // search options 
-); 
+	{}, // edit
+	{}, // add
+	{}, //del
+	{multipleSearch:true} // search options
+);
+
+
+//jQuery.noConflict(true);
+
 </script>

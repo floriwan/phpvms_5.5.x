@@ -550,12 +550,14 @@ class Operations extends CodonModule {
      * @return
      */
     public function schedulegrid() {
+
         $this->checkPermission(EDIT_SCHEDULES);
         $page = $this->get->page; // get the requested page
         $limit = $this->get->rows; // get how many rows we want to have into the grid
         $sidx = $this->get->sidx; // get index row - i.e. user click to sort
         $sord = $this->get->sord; // get the direction
         if (!$sidx) $sidx = 1;
+        if (!$limit) $limit = 20;
 
         # http://dev.phpvms.net/admin/action.php/operations/
         # ?_search=true&nd=1270940867171&rows=20&page=1&sidx=flightnum&sord=asc&searchField=code&searchString=TAY&searchOper=eq
@@ -575,6 +577,7 @@ class Operations extends CodonModule {
 
         # Do a search without the limits so we can find how many records
         $count = SchedulesData::countSchedules($where);
+        //echo $count;
         if ($count > 0) {
             $total_pages = ceil($count / $limit);
         } else {
@@ -589,9 +592,12 @@ class Operations extends CodonModule {
         if ($start < 0) {
             $start = 0;
         }
+        //echo "where".$where." limit". $limit ." start".$start;
 
         # And finally do a search with the limits
         $schedules = SchedulesData::findSchedules($where, $limit, $start);
+        //print_r($schedules);
+
         if (!$schedules) {
             $schedules = array();
         }
@@ -609,27 +615,21 @@ class Operations extends CodonModule {
                 $route = '-';
             }
 
-            $edit = '<a href="' . adminurl('/operations/editschedule?id=' . $row->id).'">Edit</a>
-              <a href="' . adminurl('/operations/addschedule?copy=1&id=' . $row->id).'">Copy</a>
-              <a href="' . adminurl('/operations/addschedule?reverse=1&id=' . $row->id).'">Reverse</a>';
-
-/*
-            $edit = '<a href="' . adminurl('/operations/editschedule?id=' . $row->id) .
-                '">Edit</a> <a href="' . adminurl('/operations/addschedule?reverse=1&id=' . $row->id) .
-                '">Reverse</a>';
-                */
-            $delete = '<a href="#" onclick="deleteschedule(' . $row->id .
-                '); return false;">Delete</a>';
+            $edit = '<a href="' . adminurl('/operations/editschedule?id=' . $row->id).'">Edit</a>';
+            $copy = '<a href="' . adminurl('/operations/editschedule?id=' . $row->id).'">Copy</a>';
+            $reverse = '<a href="' . adminurl('/operations/editschedule?id=' . $row->id).'">Reverse</a>';
+            $delete = '<a href="#" onclick="deleteschedule(' . $row->id .'); return false;">Delete</a>';
 
             $tmp = array('id' => $row->id,
                 'cell' => array( # Each column, in order
                     $row->code, $row->flightnum, $row->depicao, $row->arricao, $row->aircraft, $row->registration,
                     $route, Util::GetDaysCompact($row->daysofweek), $row->distance, $row->timesflown,
-                    $row->enabled, $edit, $delete, ), );
+                    $row->enabled, $edit, $copy, $reverse, $delete, ), );
 
             $json['rows'][] = $tmp;
         }
 
+        //print_r($json);
         header("Content-type: text/x-json");
         echo json_encode($json);
     }
@@ -641,6 +641,9 @@ class Operations extends CodonModule {
      * @return
      */
     public function schedules($type = 'activeschedules') {
+
+        //echo "<p>schedules</p>";
+
         $this->checkPermission(EDIT_SCHEDULES);
         /* These are loaded in popup box */
         if ($this->get->action == 'viewroute') {
@@ -671,6 +674,7 @@ class Operations extends CodonModule {
             }
 
             $this->set('schedules', SchedulesData::findSchedules($params));
+            //echo "<p>count " . count(SchedulesData::findSchedules($params)) . "</p>";
             $this->render('ops_schedules.php');
             return;
         }

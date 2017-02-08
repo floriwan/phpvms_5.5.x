@@ -6,9 +6,9 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo Config::Get('PAGE_ENCODING');?>">
 
-<link rel="alternate" href="<?php echo SITE_URL?>/lib/rss/latestpireps.rss" 
+<link rel="alternate" href="<?php echo SITE_URL?>/lib/rss/latestpireps.rss"
 	title="latest pilot reports" type="application/rss+xml" />
-<link rel="alternate" href="<?php echo SITE_URL?>/lib/rss/latestpilots.rss" 
+<link rel="alternate" href="<?php echo SITE_URL?>/lib/rss/latestpilots.rss"
 	title="latest pilot registrations" type="application/rss+xml" />
 
 <?php
@@ -16,7 +16,7 @@ Template::Show('core_htmlhead.php');
 ?>
 <link href="<?php echo SITE_URL?>/admin/lib/layout/styles.css" rel="stylesheet" type="text/css" />
 <!--[if IE]>
-<style type="text/css"> 
+<style type="text/css">
 #sidebar1 { padding-top: 30px; }
 #mainContent { zoom: 1; padding-top: 15px; }
 </style>
@@ -36,7 +36,7 @@ Template::Show('core_htmlreq.php');
 	Template::Show('core_sidebar.php');
 	?>
 	<h3>Options</h3>
-	
+
 	<ul class="menu">
 		<li><a href="<?php echo SITE_URL?>/admin/index.php/dashboard" class="menu">
 				<img src="<?php echo SITE_URL?>/admin/lib/layout/images/dashboard_icon.png" />Dashboard
@@ -52,7 +52,7 @@ Template::Show('core_htmlreq.php');
 		<li><a style="border-top: none" href="<?php echo SITE_URL?>/index.php">View Your Site</a></li>
 		<li><a href="<?php echo SITE_URL?>/index.php/Login/logout">Log Out</a></li>
 	</ul>
-		
+
   </div>
   <div id="mainContent">
 	<div id="results"></div>

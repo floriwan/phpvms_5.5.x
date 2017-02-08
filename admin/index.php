@@ -41,7 +41,6 @@
  * @author Nabeel Shahzad <www.phpvms.net>
  * @desc Admin panel home
  */
-	
 define('ADMIN_PANEL', true);
 include '../core/codon.config.php';
 
@@ -68,7 +67,7 @@ if(file_exists($settings_file)) {
 
 Template::setTemplatePath(SITE_ROOT.'admin'.DS.'templates');
 Template::setSkinPath(SITE_ROOT.'admin'.DS.'lib'.DS.$tplname);
-	
+
 $BaseTemplate->template_path = SITE_ROOT.'admin'.DS.'lib'.DS.$tplname;
 $BaseTemplate->skin_path = SITE_ROOT.'admin'.DS.'lib'.DS.$tplname;
 $BaseTemplate->Set('title', SITE_NAME);

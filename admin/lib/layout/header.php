@@ -16,7 +16,7 @@ Template::Show('core_htmlhead.php');
 <link href="<?php echo SITE_URL?>/admin/lib/css/flick/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo SITE_URL?>/admin/lib/layout/styles.css" rel="stylesheet" type="text/css" />
 <!--[if IE]>
-<style type="text/css"> 
+<style type="text/css">
 #sidebar1 { padding-top: 30px; }
 #mainContent { zoom: 1; padding-top: 15px; }
 </style>
@@ -31,12 +31,12 @@ Template::Show('core_htmlreq.php');
  	<div id="header">
     	<img src="<?php echo SITE_URL?>/admin/lib/layout/images/admin_logo.png" />
 	</div>
-	
+
   <div id="sidebar">
 	<?php
 	Template::Show('core_sidebar.php');
 	?>
-	
+
 	<h3 >Options</h3>
 	<ul class="menu" style="padding: 0px">
 		<li><a href="<?php echo SITE_URL?>/admin/index.php/dashboard" class="menu">
@@ -53,7 +53,7 @@ Template::Show('core_htmlreq.php');
 		<li><a style="border-top: none" href="<?php echo SITE_URL?>/index.php">View Your Site</a></li>
 		<li><a href="<?php echo SITE_URL?>/index.php/Login/logout">Log Out</a></li>
 	</ul>
-		
+
   </div>
   <div id="mainContent">
 	<div id="results"></div>

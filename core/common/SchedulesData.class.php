@@ -63,7 +63,6 @@ class SchedulesData extends CodonData {
           } else {
             $sql .= " AND flightnum NOT REGEXP '" . $tourRegexp . "'";
           }
-          //echo "<p>" . $sql . "</p>";
         }
 
         // Order matters
@@ -79,12 +78,14 @@ class SchedulesData extends CodonData {
             $sql .= ' OFFSET ' . $start;
         }
 
+        //echo "<p>" . $sql . "</p>";
         $ret = DB::get_results($sql);
 
         if(!$ret) {
             return array();
         }
 
+        //print_r($ret);
         return $ret;
     }
 

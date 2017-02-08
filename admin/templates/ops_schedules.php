@@ -1,3 +1,4 @@
+
 <?php if(!defined('IN_PHPVMS') && IN_PHPVMS !== true) { die(); } ?>
 <h3><?php echo $title?></h3>
 
@@ -10,12 +11,13 @@
 <script src="<?php echo fileurl('/lib/js/jqgrid/js/jquery.jqGrid.min.js');?>" type="text/javascript"></script>
 
 <script type="text/javascript">
+
 $("#grid").jqGrid({
    url: '<?php echo adminaction('/operations/schedulegrid');?>',
    datatype: 'json',
    mtype: 'GET',
    colNames: ['Code', 'Flight Num', 'Departure', 'Arrival', 'Aircraft', 'Registration', 'Route', 'Days',
-				'Distance', 'Flown', 'Active', 'Edit', 'Delete'],
+				'Distance', 'Flown', 'Active', 'Edit', 'Copy', 'Reverse', 'Delete'],
    colModel : [
 		{index: 'code', name : 'code', width: 40, sortable : true, align: 'center', search: 'true', searchoptions:{sopt:['eq','ne']}},
 		{index: 'flightnum', name : 'flightnum', width: 65, sortable : true, align: 'center', searchoptions:{sopt:['eq','ne']}},
@@ -29,6 +31,8 @@ $("#grid").jqGrid({
 		{index: 'timesflown', name : 'flown', width: 100, sortable : true, align: 'center', search: false},
 		{index: 's.enabled', name : 'enabled', width: 100, sortable : true, align: 'center', search: 'true',searchoptions:{sopt:['eq','ne']}},
 		{index: '', name : '', width: 100, sortable : true, align: 'center', search: false},
+    {index: '', name : '', width: 100, sortable : true, align: 'center', search: false},
+    {index: '', name : '', width: 100, sortable : true, align: 'center', search: false},
 		{index: '', name : '', width: 100, sortable : true, align: 'center', search: false}
 	],
     pager: '#pager', rowNum: 25,
@@ -64,4 +68,6 @@ function showroute(schedule_id)
 		ajax:'<?php echo adminaction('/operations/viewmap');?>?type=schedule&id='+schedule_id
 	}).jqmShow();
 }
+
+
 </script>
