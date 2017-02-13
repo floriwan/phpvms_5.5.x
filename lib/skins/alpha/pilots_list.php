@@ -16,6 +16,7 @@
 	<th>Rank</th>
 	<th>Flights</th>
 	<th>Hours</th>
+  <th>Status</th>
   <th>IVAO ID </th>
   <th>VATSIM ID</th>
 </tr>
@@ -65,6 +66,12 @@ foreach($allpilots as $pilot)
     <?php } ?>
   </td>
 */ ?>
+
+<td><?php
+
+if ($pilot->retired == 0) echo "<img height=\"18\" width=\"41\" src=\"" . SITE_URL . "/lib/images/icon_active.png\">";
+  else echo "<img height=\"18\" width=\"41\" src=\"" . SITE_URL . "/lib/images/icon_inactive.png\">";
+?></td>
 
 <td><?php if (!empty($pilot->ivao_id) && $pilot->ivao_status == 0) { ?> <a target="_blank" href="http://www.ivao.aero/members/person/details.asp?ID=<?php echo $pilot->ivao_id ?>"><?php echo $pilot->ivao_id ?></a>
   <?php } else if (!empty($pilot->ivao_id) && $pilot->ivao_status == 1) { ?> <a target="_blank" href="http://www.ivao.aero/members/person/details.asp?ID=<?php echo $pilot->ivao_id ?>"><?php echo $pilot->ivao_id ?></a> <i class="fa fa-plane" aria-hidden="true"></i>

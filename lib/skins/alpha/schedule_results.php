@@ -107,10 +107,12 @@ if(!$schedule_list)
          ?>
         <td><img src="<?php echo Countries::getCountryImage($depairport->country);?>"
           alt="<?php echo Countries::getCountryName($depairport->country);?>" />
-          <?php echo $schedule->depicao ?></td>
+          <?php echo $schedule->depicao ?><br>
+          <sup><?php echo $depairport->name ?></sup></td>
         <td><img src="<?php echo Countries::getCountryImage($arrairport->country);?>"
           alt="<?php echo Countries::getCountryName($arrairport->country);?>" />
-          <?php echo $schedule->arricao ?></td>
+          <?php echo $schedule->arricao ?><br>
+          <sup><?php echo $arrairport->name ?></sup></td>
         <td><a href="<?php echo url('/schedules/details/'.$schedule->id);?>"><?php echo $schedule->code . $schedule->flightnum ?></a></td>
         <td><a href="<?php echo url('/vFleetTracker/view/'.$schedule->registration) ?>"><?php echo $schedule->aircraft; ?> (<?php echo $schedule->registration;?>)</a></td>
         <td><strong>Departure: </strong><?php echo $schedule->deptime;?> &nbsp;&nbsp;&nbsp; <strong>Arrival: </strong><?php echo $schedule->arrtime;?><br />
