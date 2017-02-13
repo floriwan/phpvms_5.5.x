@@ -7,6 +7,9 @@
   }
 
   echo "<table>";
+  echo "<thead><tr><td><strong>Callsign</strong></td><td><img height=\"18\" width=\"18\" src=\"" . SITE_URL . "/lib/images/icon_to.png\"></td>";
+  echo "<td></td><td><img height=\"18\" width=\"18\" src=\"" . SITE_URL . "/lib/images/icon_land.png\"></td><td><strong>Pilot</strong></td></tr></thead>";
+  echo "<tbody>";
 
   foreach($reports as $report) {
     $depairport = OperationsData::getAirportInfo($report->depicao);
@@ -23,11 +26,13 @@
       </td>
       <td><img src="<?php echo Countries::getCountryImage($depairport->country);?>"
         alt="<?php echo Countries::getCountryName($depairport->country);?>" />
-        <?php echo $report->depicao?>
+        <?php echo $report->depicao?><br>
+        <font size="-1"><sup><?php echo $depairport->name ; ?></sup></font>
       </td>
       <td><i class="icon fa-angle-right"></i></td>
       <td><img src="<?php echo Countries::getCountryImage($arrairport->country);?>"
-          alt="<?php echo Countries::getCountryName($arrairport->country);?>" /> <?php echo $report->arricao?>
+          alt="<?php echo Countries::getCountryName($arrairport->country);?>" /> <?php echo $report->arricao?><br>
+          <font size="-1"><sup><?php echo $arrairport->name ; ?></sup></font>
       </td>
       <td>
         <?php if(Auth::LoggedIn() == true) { ?>
@@ -40,5 +45,5 @@
 
   <?php
   }
-  echo "</table>";
+  echo "</tbody></table>";
   ?>
