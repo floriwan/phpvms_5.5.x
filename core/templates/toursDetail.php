@@ -12,7 +12,7 @@
   <p><?php echo $tour->description ?></p>
 
   <table>
-    <thtead>
+    <thead>
       <tr>
         <th>start date</th><th>end date</th><th>num. Legs</th><th>distance</th><th></th><!--<th>tour details</th>-->
       </tr>
@@ -43,7 +43,9 @@
 
   </table>
 
-<hr>
+</div>
+<div class="box">
+
 
   <?php
     $tourActive = 0;
@@ -103,3 +105,41 @@
   </table>
 
   </div>
+
+
+  <?php
+  $tourActive = false;
+
+  $tourTable = "<div class=\"box\"><h3>Active pilots on this tour</h3><table><thead><tr><th>Pilot</th>";
+  for ($i=0; $i < count($schedules); $i++) {
+    $tourTable .= "<th>" . ($i+1) . "</th>";
+  }
+  $tourTable .= "</tr></thead>";
+  $tourTable .= "<tbody>";
+
+  foreach($allpilots as $pilot) {
+
+    $pilotStatus = TourData::getPilotStatus($tour, $pilot);
+
+    // if the first leg is accepted, the tour is active for this pilot
+    if ($pilotStatus[$schedules[0]->flightnum] == 1) {
+      $tourActive = true;
+
+      $tourTable .= "<tr><td>". PilotData::GetPilotCode($pilot->code, $pilot->pilotid) . " " . $pilot->firstname . " " . $pilot->lastname . "</td>";
+
+      foreach ($schedules as $key => $schedule) {
+        if ($pilotStatus[$schedule->flightnum] == 1)
+          $tourTable .= "<td><i class=\"fa fa-check\" aria-hidden=\"true\"></i></td>";
+        else
+          $tourTable .= "<td>&nbsp;</td>";
+      }
+
+    }
+    $tourTable .= "</tr>";
+  }
+
+  $tourTable .= "</tbody></table></div>";
+
+  echo $tourTable;
+
+  ?>

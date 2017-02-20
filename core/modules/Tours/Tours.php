@@ -58,7 +58,7 @@ class Tours extends CodonModule {
     }
 
 
-
+    $this->set('allpilots', PilotData::getAllPilots());
     $this->set('tour', $tour);
     $this->set('schedules', $schedules);
     $this->set('pilotLegs', $pilotStatus);
