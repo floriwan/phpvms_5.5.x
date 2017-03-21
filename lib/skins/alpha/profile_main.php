@@ -8,11 +8,15 @@
       <strong>Your Rank: </strong><?php echo $userinfo->rank;?><br />
       <strong>IVAO ID: </strong><?php echo $pilot->ivao_id;?><br />
       <?php
+
+      $landingrate = LandingRateData::getPilotAverageLandingRate($pilot->pilotid);
+
       if($report)
       { ?>
         <strong>Latest Flight: </strong><a href="<?php echo url('pireps/view/'.$report->pirepid); ?>">
             <?php echo $report->code . $report->flightnum; ?></a>
         <br />
+        <strong>Landing Rate: </strong><?php echo $landingrate ?><br />
       <?php
       }
       ?>

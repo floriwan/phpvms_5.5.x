@@ -99,6 +99,19 @@
 
   $jsonpilotflights = json_encode($pilotflights, true);
 
+  // landing rate
+  $stats = LandingRateData::getMonthlyLandingRate();
+  $pilotlandingrates = array();
+
+  $pilotlandingrates[] = array('pilot', 'landingrate');
+
+  foreach($stats as $stat_line) {
+    $pilotlandingrates[] = array((string) PilotData::getPilotCode($stat_line->code, $stat_line->pilotid),
+      (int) $stat_line->landingrate);
+  }
+
+  $jsonlandingrate = json_encode($pilotlandingrates, true);
+
   // PIREP per month
   $pirepByMonth = PIREPData::getIntervalCurrentYear();
 
@@ -179,7 +192,7 @@
 
         var options = {
           title: ' Routes',
-          sliceVisibilityThreshold: 0.01,
+          sliceVisibilityThreshold: 0.006,
           pieHole: 0.4,
           width: 500,
           height: 400
@@ -212,6 +225,19 @@
 
         //var chart = new google.visualization.DataView(document.getElementById('pilot_hours'));
         var chart = new google.visualization.ColumnChart(document.getElementById('pilot_flights'));
+        chart.draw(data, options);
+
+        // landing rate
+
+        var data = new google.visualization.arrayToDataTable(<?=$jsonlandingrate?>);
+
+        var options = {
+          title: 'This Month Landing Rate',
+          width: 500,
+          height: 400
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('landingrate'));
         chart.draw(data, options);
 
         // PIREP stats
@@ -266,6 +292,7 @@
       <div id="routes"></div>
     </section>
     <section>
+      <div id="landingrate"></div>
     </section>
   </div>
 

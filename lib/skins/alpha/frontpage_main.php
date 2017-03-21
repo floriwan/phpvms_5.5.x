@@ -62,6 +62,7 @@
         <table>
           <tr><td><?php echo StatsData::PilotCount(); ?></td><td>Pilots</td></tr>
           <tr><td><?php echo StatsData::TotalFlights(); ?></td><td>Total Flights</td></tr>
+          <tr><td><?php echo LandingRateData::getOverallAverageLandingRate(); ?> ft</td><td>Average Landing Rate</td></tr>
           <tr><td><?php echo StatsData::TotalHours(); ?></td><td>Total Hours</td></tr>
           <!--<tr><td><?php echo StatsData::TotalFlights(); ?></td><td>Total Flights</td></tr>-->
           <!--<?php echo StatsData::TotalHours(); ?></span>Total hr</li>-->
