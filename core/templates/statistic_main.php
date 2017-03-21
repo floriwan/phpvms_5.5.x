@@ -242,6 +242,9 @@
 
         // pilot flights1
         var data = new google.visualization.arrayToDataTable(<?=$jsonpilotflights?>);
+        var now = new Date();
+        var month = (now.getMonth()+1).toString();
+        month = month.length > 1 ? month : '0' + month;
 
         var options = {
           title: 'pilot flights',
@@ -257,7 +260,7 @@
         var data = new google.visualization.arrayToDataTable(<?=$jsonlandingrate?>);
 
         var options = {
-          title: 'Best Landing Rate (aircraft weight > 17500lb)',
+          title: 'Best Landing Rate (' + now.getFullYear() + '-' + month + ') (aircraft weight > 17500lb)',
           width: 500,
           height: 400
         };
@@ -269,7 +272,7 @@
         var data = new google.visualization.arrayToDataTable(<?=$jsonworstlandingrate?>);
 
         var options = {
-          title: 'Worst Landing Rate',
+          title: 'Worst Landing Rate (' + now.getFullYear() + '-' + month + ')',
           width: 500,
           height: 400
         };
