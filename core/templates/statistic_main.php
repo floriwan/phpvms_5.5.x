@@ -100,11 +100,11 @@
   $jsonpilotflights = json_encode($pilotflights, true);
 
   // best landing rate
-  $stats = LandingRateData::getMonthlyLandingRate();
+  //$stats = LandingRateData::getMonthlyLandingRate();
+  $stats = LandingRateData::getHeavyLandingRate();
   $pilotlandingrates = array();
 
   $pilotlandingrates[] = array('pilot', 'landingrate');
-
   foreach($stats as $stat_line) {
     $pilotlandingrates[] = array((string) PilotData::getPilotCode($stat_line->code, $stat_line->pilotid),
       (int) $stat_line->landingrate);
@@ -112,6 +112,19 @@
 
   $jsonlandingrate = json_encode($pilotlandingrates, true);
 
+  // best landing rate
+  /*$stats = LandingRateData::getLeightLandingRate();
+  $leightlandingrates = array();
+
+  $leightlandingrates[] = array('pilot', 'landingrate');
+
+  foreach($stats as $stat_line) {
+    $leightlandingrates[] = array((string) PilotData::getPilotCode($stat_line->code, $stat_line->pilotid),
+      (int) $stat_line->landingrate);
+  }
+
+  $jsonleightlandingrate = json_encode($leightlandingrates, true);
+*/
   // worst landing rate
   $stats = LandingRateData::getMonthlyWorstLandingRate();
   $pilotworstlandingrates = array();
@@ -244,7 +257,7 @@
         var data = new google.visualization.arrayToDataTable(<?=$jsonlandingrate?>);
 
         var options = {
-          title: 'Best Landing Rate',
+          title: 'Best Landing Rate (aircraft weight > 17500lb)',
           width: 500,
           height: 400
         };
@@ -270,7 +283,7 @@
         var options = {
           title: 'PIREPS per month',
           hAxis: { title: 'month' },
-          vAxis: { title: 'hours' },
+          vAxis: { title: 'pireps' },
           curveType: 'function',
           width: 500,
           height: 400

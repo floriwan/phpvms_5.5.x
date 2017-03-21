@@ -3,6 +3,25 @@
 
 class LandingRateData extends CodonData {
 
+  public static function getLeightLandingRate() {
+    return self::getMonthlyLandingRateByWeight(0, 17500, 7);
+  }
+
+  public static function getHeavyLandingRate() {
+    return self::getMonthlyLandingRateByWeight(17500, 400000, 7);
+  }
+
+  public static function getMonthlyLandingRateByWeight($weightAbove, $weightBelow, $count=7) {
+    $query = "SELECT pireps.pilotid, pireps.code, pireps.flightnum, pireps.depicao, pireps.arricao, pireps.aircraft, pireps.landingrate, pireps.submitdate
+          FROM `".TABLE_PREFIX."pireps` as pireps, `".TABLE_PREFIX."aircraft` as aircraft
+          WHERE pireps.landingrate < '0' AND pireps.accepted = '1' AND MONTH(pireps.submitdate) = MONTH(CURDATE())
+          AND $weightAbove < SUBSTRING_INDEX(aircraft.weight, ' ', 1) AND $weightBelow > SUBSTRING_INDEX(aircraft.weight, ' ', 1)
+          AND pireps.aircraft = aircraft.id
+          ORDER BY pireps.landingrate DESC
+          LIMIT $count";
+    return DB::get_results($query);
+  }
+
   public static function getMonthlyLandingRate($count=7) {
     $query = "SELECT pilotid, code, flightnum, depicao, arricao, aircraft, landingrate, submitdate
           FROM `".TABLE_PREFIX."pireps`
