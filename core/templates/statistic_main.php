@@ -99,7 +99,7 @@
 
   $jsonpilotflights = json_encode($pilotflights, true);
 
-  // landing rate
+  // best landing rate
   $stats = LandingRateData::getMonthlyLandingRate();
   $pilotlandingrates = array();
 
@@ -111,6 +111,19 @@
   }
 
   $jsonlandingrate = json_encode($pilotlandingrates, true);
+
+  // worst landing rate
+  $stats = LandingRateData::getMonthlyWorstLandingRate();
+  $pilotworstlandingrates = array();
+
+  $pilotworstlandingrates[] = array('pilot', 'landingrate');
+
+  foreach($stats as $stat_line) {
+    $pilotworstlandingrates[] = array((string) PilotData::getPilotCode($stat_line->code, $stat_line->pilotid),
+      (int) $stat_line->landingrate);
+  }
+
+  $jsonworstlandingrate = json_encode($pilotworstlandingrates, true);
 
   // PIREP per month
   $pirepByMonth = PIREPData::getIntervalCurrentYear();
@@ -228,16 +241,27 @@
         chart.draw(data, options);
 
         // landing rate
-
         var data = new google.visualization.arrayToDataTable(<?=$jsonlandingrate?>);
 
         var options = {
-          title: 'This Month Landing Rate',
+          title: 'Best Landing Rate',
           width: 500,
           height: 400
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('landingrate'));
+        chart.draw(data, options);
+
+        // landing rate
+        var data = new google.visualization.arrayToDataTable(<?=$jsonworstlandingrate?>);
+
+        var options = {
+          title: 'Worst Landing Rate',
+          width: 500,
+          height: 400
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('worstlandingrate'));
         chart.draw(data, options);
 
         // PIREP stats
@@ -292,7 +316,6 @@
       <div id="routes"></div>
     </section>
     <section>
-      <div id="landingrate"></div>
     </section>
   </div>
 
@@ -309,9 +332,19 @@
     <section>
       <div id="pilot_hours"></div>
     </section>
-
     <section>
       <div id="pilot_flights"></div>
     </section>
+  </div>
+
+  <div class="features-row">
+    <section>
+      <div id="landingrate"></div>
+    </section>
+    <section>
+      <div id="worstlandingrate"></div>
+    </section>
+
+
 
   </div>

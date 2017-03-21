@@ -6,8 +6,17 @@ class LandingRateData extends CodonData {
   public static function getMonthlyLandingRate($count=7) {
     $query = "SELECT pilotid, code, flightnum, depicao, arricao, aircraft, landingrate, submitdate
           FROM `".TABLE_PREFIX."pireps`
-          WHERE landingrate < '0' AND MONTH(submitdate) = MONTH(CURDATE())
+          WHERE landingrate < '0' AND accepted = '1' AND MONTH(submitdate) = MONTH(CURDATE())
           ORDER BY landingrate DESC
+          LIMIT $count";
+    return DB::get_results($query);
+  }
+
+  public static function getMonthlyWorstLandingRate($count=7) {
+    $query = "SELECT pilotid, code, flightnum, depicao, arricao, aircraft, landingrate, submitdate
+          FROM `".TABLE_PREFIX."pireps`
+          WHERE landingrate < '0' AND MONTH(submitdate) = MONTH(CURDATE())
+          ORDER BY landingrate ASC
           LIMIT $count";
     return DB::get_results($query);
   }
@@ -15,7 +24,7 @@ class LandingRateData extends CodonData {
   public static function getOverallLandingRate() {
     $query = "SELECT pilotid, code, flightnum, depicao, arricao, aircraft, landingrate, submitdate
         FROM `".TABLE_PREFIX."pireps`
-        WHERE landingrate < '0'
+        WHERE landingrate < '0' AND accepted = '1'
         ORDER BY landingrate DESC";
     return DB::get_results($query);
   }
