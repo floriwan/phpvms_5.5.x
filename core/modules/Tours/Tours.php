@@ -18,6 +18,8 @@ class Tours extends CodonModule {
       echo "<div class=\"box\"><p>There is no tour active at the moment.</p></div>";
     }
 
+    $this->render('toursIntro.php');
+    
     // show all tours
     foreach ($allTours as $tour) {
 
