@@ -47,6 +47,12 @@ class Maintenance extends CodonModule {
         CodonModule::checkPermission(MAINTENANCE);
         $this->render('maintenance_options.php');
     }
+    
+    public function refreshopenaip() {
+        CodonModule::checkPermission(MAINTENANCE);
+        echo '<h3>Update openAIP files ...</h3>';
+        OpenAIPData::updateOpenAIPFiles();
+    }
 
     /**
      * Maintenance::resetdistances()

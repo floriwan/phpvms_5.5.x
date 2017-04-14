@@ -18,7 +18,7 @@
 
 <div class="row">
 <div class="6u 12u(mobilep)">
-    <h3>Departure<?php echo $schedule->depname ?> (<?php echo $schedule->depicao ?>) at <?php echo $schedule->deptime ?></h3>
+    <h4>Departure <?php echo $schedule->depname ?> (<?php echo $schedule->depicao ?>) at <?php echo $schedule->deptime ?></h4>
     
     <table class="alt">
     <tbody>
@@ -37,12 +37,22 @@
     </p>
 
     <p>
+    <h4>Frequencies</h4>
     <table class="alt">
+        <thead>
+            <tr><td>Purpose</td>
+                <td>Type</td>
+                <td>Frequency</td>
+                <td>Name</td>
+            </tr>
+        </thead>
         <tbody>
         <?php foreach($depRadio as $radio) { ?>
         <tr>
-            <td><?php echo $radio->type ?> (<?php echo $radio->desc ?>)</td>
-            <td><?php echo $radio->frequency ?></td>
+            <td><?php echo $radio->category[0] . strtolower(substr($radio->category, 1)) ?></td>
+            <td><?php echo $radio->type ?></td>
+            <td><?php echo OpenAIPData::formatFrequency($radio->frequency) ?></td>
+            <td><?php echo $radio->desc ?></td>
         </tr>
         <?php } ?>
         </tbody>
@@ -50,27 +60,27 @@
     </p>
     
     <p>
+    <h4>Runways</h4>
     <table class="alt">
+        <thead>
+            <tr>
+                <td>RWY</td>
+                <td>Direction</td>
+                <td>Dimension</td>
+                <td>Surface</td>
+                <td>Operations</td>
+            </tr>
+        </thead>
         <tbody>
         <?php foreach($depRwy as $rwy) { ?>
         <tr>
-            <td colspan="2"><strong>Runway <?php echo $rwy->name ?></strong></td>
-        </tr>
-        <tr>
-            <td>Status</td>
-            <td><?php echo $rwy->operation ?></td>
-        </tr>
-        <tr>
-            <td>Surface</td>
-            <td><?php echo OpenAIPData::toSurface($rwy->sfc) ?></td>
-        </tr>
-        <tr>
-            <td>Dimension</td>
-            <td><?php echo OpenAIPData::meter2feet($rwy->length) ?> x <?php echo OpenAIPData::meter2feet($rwy->width) ?> feet / 
-                <?php echo $rwy->length ?> x <?php echo $rwy->width ?> meters</td>
-        </tr>
-
-        
+            <td><strong><?php echo $rwy->name ?></strong></td>
+            <td><?php echo $rwy->dir1 ?> <br> <?php echo $rwy->dir2 ?></td>
+            <td><?php echo OpenAIPData::meter2feet($rwy->length) ?> x <?php echo OpenAIPData::meter2feet($rwy->width) ?> feet<br> 
+                <font size="-1"><sup><?php echo $rwy->length ?> x <?php echo $rwy->width ?> meters</sup></font></td>
+            <td><?php echo OpenAIPData::toSurface($rwy->sfc) ?> (<?php echo $rwy->sfc ?>)</td>
+            <td><?php echo strtolower($rwy->operation) ?></td>
+        </tr>        
         <?php } ?>
         </tbody>
     </table>
@@ -88,7 +98,7 @@
     
 </div>
 <div class="6u 12u(mobilep)">
-    <h3>Arrival <?php echo $schedule->arrname ?> (<?php echo $schedule->arricao ?>) at <?php echo $schedule->arrtime ?></h3>
+    <h4>Arrival <?php echo $schedule->arrname ?> (<?php echo $schedule->arricao ?>) at <?php echo $schedule->arrtime ?></h4>
     
     <table class="alt">
     <tbody>
@@ -107,40 +117,51 @@
     </p>
 
     <p>
+    <h4>Frequencies</h4>
     <table class="alt">
+        <thead>
+            <tr><td>Purpose</td>
+                <td>Type</td>
+                <td>Frequency</td>
+                <td>Name</td>
+            </tr>
+        </thead>
         <tbody>
         <?php foreach($arrRadio as $radio) { ?>
         <tr>
-            <td><?php echo $radio->type ?> (<?php echo $radio->desc ?>)</td>
-            <td><?php echo $radio->frequency ?></td>
+            <td><?php echo $radio->category[0] . strtolower(substr($radio->category, 1)) ?></td>
+            <td><?php echo $radio->type ?></td>
+            <td><?php echo OpenAIPData::formatFrequency($radio->frequency) ?></td>
+            <td><?php echo $radio->desc ?></td>
         </tr>
         <?php } ?>
         </tbody>
     </table>
     </p>
+
     
     <p>
+    <h4>Runways</h4>
     <table class="alt">
+        <thead>
+            <tr>
+                <td>RWY</td>
+                <td>Direction</td>
+                <td>Dimension</td>
+                <td>Surface</td>
+                <td>Operations</td>
+            </tr>
+        </thead>
         <tbody>
-        <?php foreach($arrRunway as $rwy) { ?>
+        <?php foreach($depRwy as $rwy) { ?>
         <tr>
-            <td colspan="2"><strong>Runway <?php echo $rwy->name ?></strong></td>
-        </tr>
-        <tr>
-            <td>Status</td>
-            <td><?php echo $rwy->operation ?></td>
-        </tr>
-        <tr>
-            <td>Surface</td>
-            <td><?php echo OpenAIPData::toSurface($rwy->sfc) ?></td>
-        </tr>
-        <tr>
-            <td>Dimension</td>
-            <td><?php echo OpenAIPData::meter2feet($rwy->length) ?> x <?php echo OpenAIPData::meter2feet($rwy->width) ?> feet / 
-                <?php echo $rwy->length ?> x <?php echo $rwy->width ?> meters</td>
-        </tr>
-
-        
+            <td><strong><?php echo $rwy->name ?></strong></td>
+            <td><?php echo $rwy->dir1 ?> <br> <?php echo $rwy->dir2 ?></td>
+            <td><?php echo OpenAIPData::meter2feet($rwy->length) ?> x <?php echo OpenAIPData::meter2feet($rwy->width) ?> feet<br> 
+                <font size="-1"><sup><?php echo $rwy->length ?> x <?php echo $rwy->width ?> meters</sup></font></td>
+            <td><?php echo OpenAIPData::toSurface($rwy->sfc) ?> (<?php echo $rwy->sfc ?>)</td>
+            <td><?php echo strtolower($rwy->operation) ?></td>
+        </tr>        
         <?php } ?>
         </tbody>
     </table>
@@ -150,7 +171,7 @@
     <table class="alt">
         <tbody>
         <tr><td>Weather Information</td></tr>
-        <tr><td><?php MainController::Run('Weather', 'request_metar', $schedule->depicao); ?></td></tr>
+        <tr><td><?php MainController::Run('Weather', 'request_metar', $schedule->arricao); ?></td></tr>
         </tbody>
     </table>
     </p>
@@ -158,7 +179,11 @@
 </div>
 </div>
 
-
+<p>
+<center>Airport information is provided by<br>
+<a href="http://openaip.net/">openaip.net <img src="http://openaip.net/sites/default/themes/themeaip/logo.png"></a>
+</center>
+</p>
 
 <?php
 if($schedule->route!='')

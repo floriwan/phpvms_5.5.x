@@ -246,8 +246,9 @@
       <ul class="icons">
         <li><a target="_blank" href="http://an.ivao.aero/"><img border="0" height="75" width="100" src="http://an.ivao.aero/public/images/an.svg"></a></li>
         <li><a target="_blank" href="https://www.ivao.aero//db/airline/airline.asp?Id=19790"><img border="0" height="75" width="300" src="http://status.ivao.aero/CVA/19790.png"></a></li>
+        <li><a target="_blank" href="http://openaip.net/"><img src="<?php echo SITE_URL?>/lib/images/openAIP_logo.png" alt="openAIP"></a></li>
       </ul>
-
+      
       <ul class="icons">
         <li><a href="https://twitter.com/flycaribbeanva" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
         <li><a href="https://www.facebook.com/flycaribbeanVirtual/" class="icon fa-facebook"><span class="label">Facebook</span></a></li>

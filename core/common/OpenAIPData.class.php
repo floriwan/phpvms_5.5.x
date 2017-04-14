@@ -99,14 +99,24 @@ class OpenAIPData extends CodonData {
                     
                     // add all runways for this airport
                     foreach ($airport->RWY as $rwy) {
+                        
+                        //$directions = array();
+                        $rwCount = 0;
+                        foreach($rwy->DIRECTION as $dir) {
+                            //echo "<p>" . (string)$dir['TC'] . "</p>";
+                            $directions[$rwCount] = (string)$dir['TC'];
+                            $rwCount++;
+                        }
+                        
+                        //echo "direction : " . $directions[0] . " / " . $directions[1] . "</p>";
                         if (OpenAIPData::addRunway($airportID,
                             (string)$rwy['OPERATIONS'],
                             (string)$rwy->NAME,
                             (string)$rwy->SFC,
                             (string)$rwy->LENGTH,
                             (string)$rwy->WIDTH,
-                            (string)$rwy->DIRECTION['TC'],
-                            (string)$rwy->DIRECTION['TC']) == false) {
+                            $directions[0],
+                            $directions[1]) == false) {
                                 echo "<p>ERROR: can not add runway to airport " . (string)$airport->ICAO . "</p>";  
                             }
                                 
@@ -126,13 +136,30 @@ class OpenAIPData extends CodonData {
                 }
             }
             
-            //if ($count > 10) return;
+            //if ($count > 2) return;
             
         }
 
     }
     
-    public function toSurface($surface) {
+    /**
+     * format frequency string
+     */
+    public static function formatFrequency($freq) {
+        
+        $tmp = explode(".", $freq);
+        
+        // three digits after the .
+        if (strlen($tmp[0]) == 3) {
+            return $tmp[0] . "." . str_pad($tmp[1], 3, "0");
+        }
+        
+        if (strlen($tmp[0]) == 2) {
+            return $tmp[0] . "." . str_pad($tmp[1], 4, "0");
+        }
+    }
+    
+    public static function toSurface($surface) {
         if ($surface == "CONC") return "Concrete";
         if ($surface == "ASPH") return "Asphalt";
         if ($surface == "GRAS") return "Gras";
@@ -141,9 +168,10 @@ class OpenAIPData extends CodonData {
         if ($surface == "GRVL") return "Gravel";
         if ($surface == "SNOW") return "Snow";
         if ($surface == "ICE") return "Ice";
+        return $surface;
     }
     
-    public function meter2feet($meter) {
+    public static function meter2feet($meter) {
         return round($meter * 3.2808399, 0);
     }
     
@@ -314,9 +342,10 @@ class OpenAIPData extends CodonData {
 
         foreach ($openaip_files as $remotefile) {
             $local_filename = SITE_ROOT.AIP_PATH."/".$remotefile;
-            if (!file_exists($local_filename)) {
+            file_put_contents($local_filename, fopen($aip_url . $remotefile, 'r'));
+            /*if (!file_exists($local_filename)) {
                 file_put_contents($local_filename, fopen($aip_url . $remotefile, 'r'));
-            }
+            }*/
 
         }
     }
