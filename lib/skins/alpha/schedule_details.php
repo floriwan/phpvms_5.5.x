@@ -1,4 +1,10 @@
 <h3>Schedule Details For Flight Number <?php echo $schedule->code.$schedule->flightnum ?></h3>
+
+<p>
+<a id="<?php echo $schedule->id; ?>" class="addbid" href="<?php echo actionurl('/schedules/addbid/?id='.$schedule->id);?>">
+<i class="fa fa-paper-plane" aria-hidden="true"></i> Add schedule to Bid</a>
+</p>
+
 <div class="indent">
 
 <?php
@@ -58,44 +64,7 @@
         </tbody>
     </table>
     </p>
-    
-    <p>
-    <h4>Runways</h4>
-    <table class="alt">
-        <thead>
-            <tr>
-                <td>RWY</td>
-                <td>Direction</td>
-                <td>Dimension</td>
-                <td>Surface</td>
-                <td>Operations</td>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach($depRwy as $rwy) { ?>
-        <tr>
-            <td><strong><?php echo $rwy->name ?></strong></td>
-            <td><?php echo $rwy->dir1 ?> <br> <?php echo $rwy->dir2 ?></td>
-            <td><?php echo OpenAIPData::meter2feet($rwy->length) ?> x <?php echo OpenAIPData::meter2feet($rwy->width) ?> feet<br> 
-                <font size="-1"><sup><?php echo $rwy->length ?> x <?php echo $rwy->width ?> meters</sup></font></td>
-            <td><?php echo OpenAIPData::toSurface($rwy->sfc) ?> (<?php echo $rwy->sfc ?>)</td>
-            <td><?php echo strtolower($rwy->operation) ?></td>
-        </tr>        
-        <?php } ?>
-        </tbody>
-    </table>
-    </p>
-    
-    <p>
-    <table class="alt">
-        <tbody>
-        <tr><td>Weather Information</td></tr>
-        <tr><td><?php MainController::Run('Weather', 'request_metar', $schedule->depicao); ?></td></tr>
-        </tbody>
-    </table>
-    </p>
-    
-    
+        
 </div>
 <div class="6u 12u(mobilep)">
     <h4>Arrival <?php echo $schedule->arrname ?> (<?php echo $schedule->arricao ?>) at <?php echo $schedule->arrtime ?></h4>
@@ -139,7 +108,13 @@
     </table>
     </p>
 
-    
+
+</div>
+</div>
+
+<!-- runway information -->
+<div class="row">
+<div class="6u 12u(mobilep)">
     <p>
     <h4>Runways</h4>
     <table class="alt">
@@ -166,16 +141,81 @@
         </tbody>
     </table>
     </p>
-    
+</div>
+
+<div class="6u 12u(mobilep)">
     <p>
+    <h4>Runways</h4>
+    <table class="alt">
+        <thead>
+            <tr>
+                <td>RWY</td>
+                <td>Direction</td>
+                <td>Dimension</td>
+                <td>Surface</td>
+                <td>Operations</td>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach($arrRunway as $rwy) { ?>
+        <tr>
+            <td><strong><?php echo $rwy->name ?></strong></td>
+            <td><?php echo $rwy->dir1 ?> <br> <?php echo $rwy->dir2 ?></td>
+            <td><?php echo OpenAIPData::meter2feet($rwy->length) ?> x <?php echo OpenAIPData::meter2feet($rwy->width) ?> feet<br> 
+                <font size="-1"><sup><?php echo $rwy->length ?> x <?php echo $rwy->width ?> meters</sup></font></td>
+            <td><?php echo OpenAIPData::toSurface($rwy->sfc) ?> (<?php echo $rwy->sfc ?>)</td>
+            <td><?php echo strtolower($rwy->operation) ?></td>
+        </tr>        
+        <?php } ?>
+        </tbody>
+    </table>
+    </p>
+</div>
+
+</div>
+
+<!-- weather information -->
+<div class="row">
+<div class="6u 12u(mobilep)">
+    <p><h4>Weather Information</h4>
     <table class="alt">
         <tbody>
-        <tr><td>Weather Information</td></tr>
+        <tr><td><?php MainController::Run('Weather', 'request_metar', $schedule->depicao); ?></td></tr>
+        </tbody>
+    </table>
+    </p>
+</div>
+    
+<div class="6u 12u(mobilep)">
+    <p><h4>Weather Information</h4>
+    <table class="alt">
+        <tbody>
         <tr><td><?php MainController::Run('Weather', 'request_metar', $schedule->arricao); ?></td></tr>
         </tbody>
     </table>
     </p>
+</div>
+</div>
 
+<!-- alternate schedules -->
+<div class="row">
+<div class="6u 12u(mobilep)">
+    <p>
+        <form method="post" action="<?php echo url('/schedules/findflight');?>">
+        <input type="hidden" name="depicao" value="<?php echo $schedule->arricao; ?>" />
+        <input type="submit" class="button fit" value="schedules with departure from <?php echo $schedule->depname;?> (<?php echo $schedule->depicao; ?>)" />
+        </form>
+    </p>
+
+</div>
+
+<div class="6u 12u(mobilep)">
+    <p>
+        <form method="post" action="<?php echo url('/schedules/findflight');?>">
+        <input type="hidden" name="depicao" value="<?php echo $schedule->arricao; ?>" />
+        <input type="submit" class="button fit" value="schedules with departure from <?php echo $schedule->arrname;?> (<?php echo $schedule->arricao; ?>)" />
+        </form>
+    </p>
 </div>
 </div>
 
