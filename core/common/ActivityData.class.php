@@ -142,6 +142,11 @@
             $airport = OperationsData::getAirportInfo($pirep->arricao);
             $lat = $airport->lat;
             $long = $airport->lng;
+            
+            $params = array_merge(array(
+                'lat'  => $lat,
+                'long' => $long,
+            ), $params);
 
         } elseif($params['type']== ACTIVITY_NEW_PILOT) {
 
@@ -151,6 +156,11 @@
             $lat = $airport->lat;
             $long = $airport->lng;
 
+            $params = array_merge(array(
+                'lat'  => $lat,
+                'long' => $long,
+            ), $params);
+            
         } elseif($params['type']== ACTIVITY_NEW_NEWS) {
 
             $message .= url('/news');

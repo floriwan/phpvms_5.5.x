@@ -44,7 +44,9 @@ if(Auth::LoggedIn() && (PilotGroups::group_has_perm(Auth::$usergroups, ACCESS_AD
       <li><a href="<?php echo url('/Pilots/getAllPilots');?>">Our Pilots</a></li>
       <li><a href="<?php echo url('/events');?>">Our Events</a></li>
       <li><a href="<?php echo url('/Ranks');?>">Pilot Ratings</a></li>
-      <li><a href="<?php echo url('/statistic');?>">Airline Statistics</a></li>
+      <?php if(Auth::LoggedIn()) { ?>
+        <li><a href="<?php echo url('/statistic');?>">Airline Statistics</a></li>
+      <?php } ?>
       <li><a href="<?php echo url('/ruleregs');?>">Rules & Regulations</a></li>
     </ul>
   </li>
@@ -86,6 +88,9 @@ if(Auth::LoggedIn())
     <li><a href="<?php echo url('/acars') ?>">Live Map</a></li>
     <li><a href="http://www.flycaribbeanva.com/smf/index.php?action=login">Forum</a></li>
     <li><a href="JavaScript:ts_popup('http://www.flycaribbeanva.com/teamspeak.html');">Teamspeak</a></li>
+    <?php if(Auth::LoggedIn()) { ?>
+    <li><a href="<?php echo url('/Screenhots') ?>">Screenhots</a></li>
+    <?php } ?>
   </ul>
 </li>
 
