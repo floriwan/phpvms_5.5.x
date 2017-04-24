@@ -1,6 +1,6 @@
 <?php if(!defined('IN_PHPVMS') && IN_PHPVMS !== true) { die(); } ?>
 
-<h3>FlyCaribbean Monthly Screenhots</h3>
+<h3>FlyCaribbean Monthly Screenshot</h3>
 
 <?php 
     if ($screenshots) { 
@@ -21,9 +21,10 @@
 
 <hr />
 
+<?php if (Auth::LoggedIn() == true) { ?>
+
 <p>Add new image for <?php echo $display_month ?><br>
 (Max. upload file size is <?php echo round((SCREENSHOT_MAX_FILESIZE/1024/1024),2) ?> MB)</p>
-
 
 <form method="post" enctype="multipart/form-data">
     <div class="row uniform 50%">
@@ -38,3 +39,4 @@
 
 </form>
 
+<?php } ?>
