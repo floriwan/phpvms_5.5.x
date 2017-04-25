@@ -136,7 +136,7 @@ class OpenAIPData extends CodonData {
                 }
             }
             
-            //if ($count > 2) return;
+            //if ($count > 100) return;
             
         }
 
@@ -191,23 +191,31 @@ class OpenAIPData extends CodonData {
     public static function getAirport($icao) {
         $sql = "SELECT * FROM " . AIP_TABLE_PREFIX . "airport WHERE `icao` = '" . $icao . "'";
         //echo "<p>" . $sql . "</p>";
-        return DB::get_results($sql);
+        $result = DB::get_results($sql);
+        if (!$result) return array();
+        return $result;
+        
         // SELECT a.*, r.* FROM `openaip_airport` as a LEFT JOIN `openaip_runway` as r ON (a.id = r.airportID)
         // SELECT a.*, r.* FROM `openaip_airport` as a LEFT JOIN `openaip_radio` as r ON (a.id = r.airportID) WHERE a.icao = 'EDDF'
     }
     
     public static function getRadio($airportID) {
         $sql = "SELECT * FROM " . AIP_TABLE_PREFIX . "radio WHERE `airportID` = '" . $airportID . "'";
-        return DB::get_results($sql);
+        $result = DB::get_results($sql);
+        if(!$result) return array();
+        return $result;
     }
     
     public static function getRunway($airportID) {
         $sql = "SELECT * FROM " . AIP_TABLE_PREFIX . "runway WHERE `airportID` = '" . $airportID . "'";
-        return DB::get_results($sql);
+        $result = DB::get_results($sql);
+        if (!$result) return array();
+        return $result;
         
     }
     
     public static function addRadio($airportID, $cat, $freq, $type, $desc) {
+        $freq = str_replace(",", ".", $freq);
         $sql = 'INSERT INTO ' . AIP_TABLE_PREFIX . "radio
             (`airportID`, `category`, `type`, `frequency`, `desc`)
             VALUES ('".$airportID."', '".$cat."', '".$type."', '".$freq."', '".$desc."');";
@@ -224,10 +232,13 @@ class OpenAIPData extends CodonData {
      * add runway to a specific airport
      */
     public static function addRunway($airportID, $op, $name, $sfc, $length, $width, $dir1, $dir2) {
+        if (strlen($sfc) === 0) $sfc = "NULL";
+        else $sfc = "'".$sfc."'";
+        
         $sql = 'INSERT INTO ' . AIP_TABLE_PREFIX . "runway
             (`airportID`, `operation`, `name`, `sfc`, `length`, `width`, `dir1`, `dir2`)
-            VALUES ('".$airportID."', '".$op."', '".$name."', 
-            '".$sfc."', '".$length."',
+            VALUES ('".$airportID."', '".$op."', '".$name."',
+            ".$sfc.", '".$length."',
             '".$width."', '".$dir1."',
             '".$dir2."');";
         $result = DB::query($sql);

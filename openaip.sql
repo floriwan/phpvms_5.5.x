@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS `openaip_runway` (
     `id` int NOT NULL AUTO_INCREMENT,
     `airportID` int NOT NULL,
     `operation` ENUM('ACTIVE', 'CLOSED', 'TEMPORARILY CLOSED') NOT NULL,
-    `name` char(8) NOT NULL,
-    `sfc` ENUM('ASPH', 'GRAS', 'UNKN', 'CONC', 'SAND', 'GRVL', 'SNOW', 'ICE') NOT NULL,
+    `name` char(20) NOT NULL,
+    `sfc` ENUM('ASPH', 'GRAS', 'UNKN', 'CONC', 'SAND', 'GRVL', 'SNOW', 'ICE') DEFAULT 'UNKN',
     `length` float NOT NULL,
     `width` float NOT NULL,
     `dir1` char(3) NOT NULL,
@@ -28,9 +28,8 @@ CREATE TABLE IF NOT EXISTS `openaip_radio` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `airportID` int(11) NOT NULL,
     `category` ENUM('NAVIGATION', 'INFORMATION', 'COMMUNICATION', 'OTHER') NOT NULL,
-    `type` ENUM('INFO', 'GROUND', 'APPROACH', 'TOWER', 'ILS', 'CTAF', 'OTHER', 'APRON', 'LIGHTS', 'ARRIVAL', 'ATIS', 'CENTER', 'DEPARTURE') NOT NULL,
+    `type` ENUM('DELIVERY', 'MULTICOM', 'AWOS', 'MULTICOM', 'DELIVERY', 'AWOS', 'GLIDING', 'RADAR', 'AIRMET', 'FIS', 'VOLMET', 'AWOS', 'UNICOM', 'INFO', 'GROUND', 'APPROACH', 'TOWER', 'ILS', 'CTAF', 'OTHER', 'APRON', 'LIGHTS', 'ARRIVAL', 'ATIS', 'CENTER', 'DEPARTURE') NOT NULL,
     `frequency` float NOT NULL,
     `desc` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`id`, `airportID`)
 ) ENGINE=InnoDB;
-

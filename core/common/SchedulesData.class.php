@@ -335,6 +335,14 @@ class SchedulesData extends CodonData {
         return DB::get_results($sql);
     }
 
+    public static function getSchedulesWithTour($onlyenabled = true, $limit = '', $start =
+        '') {
+        $params = array();
+        if ($onlyenabled) $params['s.enabled'] = '1';
+
+        return self::findAllSchedules($params, $limit, $start, true);
+    }
+    
     /**
      * Get all the schedules, $limit is the number to return
      */

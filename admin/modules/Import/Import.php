@@ -286,7 +286,7 @@ class Import extends CodonModule {
 
     public function processexport() {
         $export = '';
-        $all_schedules = SchedulesData::GetSchedules('', false);
+        $all_schedules = SchedulesData::getSchedulesWithTour('', false);
 
         if (!$all_schedules) {
             echo 'No schedules found!';
