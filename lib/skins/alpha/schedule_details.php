@@ -235,7 +235,7 @@
                 <td><a href="<?php echo $scenery->link; ?>"><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> <?php echo $scenery->sim; ?></a></td>
                 <td><?php if ($schedule->payware == 1) echo "Payware"; else echo "Freeware"; ?></td>
                 <td><?php echo $scenery->descr; ?></td>
-                <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
+                <!--<td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>-->
             </tr>
             <?php } ?>
         </tobdy>
@@ -298,7 +298,7 @@
                 <td><a href="<?php echo $scenery->link; ?>"><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> <?php echo $scenery->sim; ?></a></td>
                 <td><?php if ($schedule->payware == 1) echo "Payware"; else echo "Freeware"; ?></td>
                 <td><?php echo $scenery->descr; ?></td>
-                <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
+                <!--<td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>-->
             </tr>
             <?php } ?>
         </tobdy>
