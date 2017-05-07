@@ -1,3 +1,4 @@
 update_server.py
 *.aip
 lib/screenshtos/*
+aip_files/*
