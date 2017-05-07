@@ -42,6 +42,9 @@ class Operations extends CodonModule {
             case 'airports':
                 $this->set('sidebar', 'sidebar_airports.php');
                 break;
+            case 'scenery':
+                $this->set('sidebar', 'sidebar_scenery.php');
+                break;
             case '':
             case 'addschedule':
             case 'activeschedules':
@@ -63,7 +66,6 @@ class Operations extends CodonModule {
     public function index() {
         $this->schedules();
     }
-
 
     public function liveries() {
 
@@ -340,6 +342,164 @@ class Operations extends CodonModule {
         $this->render('ops_airportform.php');
     }
 
+    /**
+     *
+     */
+    public function scenery() {
+    
+        if (isset($this->post->action)) {
+        
+            switch ($this->post->action) {
+                case 'addscenery':
+                    $this->add_scenery_post();
+                    break;
+                case 'editscenery':
+                    $this->edit_scenery_post();
+                    break;
+            }
+            return;
+        }
+        $this->render('ops_scenery.php');
+    }
+
+    protected function add_scenery_post() {
+
+        // check all input fields
+        if ($this->post->icao == '' || $this->post->simulator == '' || 
+            $this->post->link == '') {
+                $this->set('message', 'Some fields were blank!');
+                $this->render('core_error.php');
+                return;
+        }
+
+        if ($this->post->hub == 'true') $this->post->hub = true;
+        else  $this->post->hub = false;
+
+        $data = array('icao' => $this->post->icao, 'simulator' => $this->post->simulator,
+            'description' => $this->post->description, 'link' => $this->post->link, 'payware' => $this->post->payware);
+
+        SceneryData::addScenery($data);
+            
+        if (DB::errno() != 0) {
+            $this->set('message', 'There was an error adding the scenery:' . DB::$error);
+            $this->render('core_error.php');
+            return;
+        }
+
+        LogData::addLog(Auth::$userinfo->pilotid, 'Added the scenery "' . $this->post->icao .
+            ' - ' . $this->post->name . '"');
+    }
+
+    
+    public function edit_scenery_post() {
+    
+        // check all input fields
+        if ($this->post->icao == '' || $this->post->simulator == '' || 
+            $this->post->link == '') {
+                $this->set('message', 'Some fields were blank!');
+                $this->render('core_error.php');
+                return;
+        }
+
+
+        $data = array('oldicao' => $this->post->oldicao, 'icao' => $this->post->icao, 'simulator' => $this->post->simulator,
+            'description' => $this->post->description, 'link' => $this->post->link, 'payware' => $this->post->payware);
+
+        SceneryData::editScenery($data);
+        
+        if (DB::errno() != 0) {
+            $this->set('message', 'There was an error adding the scenery: ' . DB::$error);
+            $this->render('core_error.php');
+            return;
+        }
+
+        $this->set('message', '"' . $this->post->icao . '" has been edited');
+        $this->render('core_success.php');
+
+        LogData::addLog(Auth::$userinfo->pilotid, 'Edited the scenery "' . $this->post->icao . '"');
+        
+    }
+    
+    public function addscenery() {
+        $this->checkPermission(EDIT_SCHEDULES);
+        $this->set('title', 'Add Scenery');
+        $this->set('action', 'addscenery');
+
+        $this->render('ops_sceneryform.php');
+    }
+
+    public function editscenery() {
+        $this->checkPermission(EDIT_SCHEDULES);
+        $this->set('title', 'Edit Scenery');
+        $this->set('action', 'editscenery');
+        $this->set('scenery', SceneryData::getSceneryData($this->get->icao));
+
+        $this->render('ops_sceneryform.php');
+    }
+    
+    public function scenerygrid() {
+        //echo "<p>scenerygrid</p>";
+        $page = $this->get->page; // get the requested page
+        $limit = $this->get->rows; // get how many rows we want to have into the grid
+        $sidx = $this->get->sidx; // get index row - i.e. user click to sort
+        $sord = $this->get->sord; // get the direction
+        if (!$sidx) $sidx = 1;
+        
+        // do a search without the limits so we can find how many records
+        $where = array();
+        $count = count(SceneryData::findScenery($where));
+        
+        if ($count > 0) {
+            $total_pages = ceil($count / $limit);
+        } else {
+            $total_pages = 0;
+        }
+
+        if ($page > $total_pages) {
+            $page = $total_pages;
+        }
+
+        $start = $limit * $page - $limit; // do not put $limit*($page - 1)
+        if ($start < 0) {
+            $start = 0;
+        }
+
+        // now do the final search with the limits
+        $sceneries = SceneryData::findScenery($where, $limit, $start, "{$sidx} {$sord}");
+        if (!$sceneries) {
+            $sceneries = array();
+        }
+
+        // json header
+        $json = array(
+            'page' => $page,
+            'total' => $total_pages,
+            'records' => $count,
+            'rows' => array()
+        );
+        
+        // add the data rows
+        foreach ($sceneries as $row) {
+
+            if ($row->payware == 1) {
+                $row->payware = 'Payware';
+            } else {
+                $row->payware = 'Freeware';
+            }
+
+            $edit = '<a href="#" onclick="editscenery(\'' . $row->icao . '\'); return false;">Edit</a>';
+
+            $tmp = array('id' => $row->id, 'cell' => array( # Each column, in order
+                $row->icao, $row->sim, $row->descr, $row->link, $row->payware, $edit, ), );
+
+            $json['rows'][] = $tmp;
+        }
+        
+        header("Content-type: text/x-json");
+        echo json_encode($json);
+        
+    }
+    
     /**
      * Operations::airports()
      *

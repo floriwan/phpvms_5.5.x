@@ -84,6 +84,9 @@ class Schedules extends CodonModule {
         }
 
         $schedule = SchedulesData::getScheduleDetailed($routeid);
+        
+        $this->set('depscenery', SceneryData::getSceneryData($schedule->depicao));
+        $this->set('arrscenery', SceneryData::getSceneryData($schedule->arricao));
         $this->set('schedule', $schedule);
         $this->render('schedule_details.tpl');
         $this->render('route_map.tpl');

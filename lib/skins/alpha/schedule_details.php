@@ -219,11 +219,105 @@
 </div>
 </div>
 
+<!-- scenery download -->
+<div class="row">
+<div class="6u 12u(mobilep)">
+    <p><h4>Scenery</h4>
+    
+    <?php if (!$depscenery) { ?>
+        <p>For now we have no scenery download links for <?php echo $schedule->depicao; ?> available.</p>
+    <?php } else { ?>
+    
+        <table class="alt">
+        <tbody>
+            <?php foreach ($depscenery as $scenery) { ?>
+            <tr>
+                <td><a href="<?php echo $scenery->link; ?>"><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> <?php echo $scenery->sim; ?></a></td>
+                <td><?php if ($schedule->payware == 1) echo "Payware"; else echo "Freeware"; ?></td>
+                <td><?php echo $scenery->descr; ?></td>
+                <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
+            </tr>
+            <?php } ?>
+        </tobdy>
+        </table>
+        
+    <?php } ?>
+    
+<!--    <table class="alt">
+        <tbody>
+        <tr>
+            <td><a href=""><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> FSX/P3D</a></td>
+            <td>Payware</i></td>
+            <td></td>
+            <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
+        </tr>
+
+        <tr>
+            <td><a href=""><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> X-Plane</a></td>
+            <td>Freeware</i></td>
+            <td>very nice looking scenery</td>
+            <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
+        </tr>
+        <tr><td></td>
+            <td colspan="3"><i class="fa fa-caret-right" aria-hidden="true"></i>
+                2017-04-14 / <a href="">FCB0004</a> / the runway layout is outdated</td>
+        </tr>
+        <tr><td></td>
+            <td colspan="3"><i class="fa fa-caret-right" aria-hidden="true"></i>
+                2017-04-03 / <a href="">FCB0030</a> / for me, everthing is looking ok</td>
+        </tr>
+        <tr><td></td>
+            <td colspan="3"><i class="fa fa-caret-right" aria-hidden="true"></i> 
+                2017-05-03 / <a href="">FCB0001</a> / I can only find a 2d scenery</td>
+        </tr>
+
+        <tr>
+            <td><a href=""><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> X-Plane</a></td>
+            <td>Payware</i></td>
+            <td></td>
+            <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
+        </tr>
+
+        
+        </tbody>
+    </table>-->
+    </p>
+
+</div>
+
+<div class="6u 12u(mobilep)">
+    <p><h4>Scenery</h4>
+    <?php if (!$arrscenery) { ?>
+        <p>For now we have no scenery download links for <?php echo $schedule->arricao; ?> available.</p>
+    <?php } else { ?>
+    
+        <table class="alt">
+        <tbody>
+            <?php foreach ($arrscenery as $scenery) { ?>
+            <tr>
+                <td><a href="<?php echo $scenery->link; ?>"><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> <?php echo $scenery->sim; ?></a></td>
+                <td><?php if ($schedule->payware == 1) echo "Payware"; else echo "Freeware"; ?></td>
+                <td><?php echo $scenery->descr; ?></td>
+                <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
+            </tr>
+            <?php } ?>
+        </tobdy>
+        </table>
+        
+    <?php } ?>
+    </p>
+</div>
+</div>
+
+<hr>
+
 <p>
 <center>Airport information is provided by<br>
 <a href="http://openaip.net/">openaip.net <img src="http://openaip.net/sites/default/themes/themeaip/logo.png"></a>
 </center>
 </p>
+
+<hr>
 
 <?php
 if($schedule->route!='')

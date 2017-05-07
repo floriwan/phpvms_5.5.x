@@ -50,6 +50,7 @@ class OperationsData extends CodonData {
 
         $ret = DB::get_results($sql);
         return $ret;
+        
     }
 
     /**

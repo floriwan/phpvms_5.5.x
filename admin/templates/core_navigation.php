@@ -81,6 +81,12 @@ if(PilotGroups::group_has_perm(Auth::$usergroups, EDIT_AIRLINES)
 		<li><a href="<?php echo adminurl('/operations/schedules');?>">Flight Schedules & Routes</a></li>
 		<?php
 		}
+		if(PilotGroups::group_has_perm(Auth::$usergroups, EDIT_SCHEDULES))
+		{
+		?>
+		<li><a href="<?php echo adminurl('/operations/scenery');?>">Add & Edit Sceneries</a></li>
+		<?php
+		}
 		if(PilotGroups::group_has_perm(Auth::$usergroups, IMPORT_SCHEDULES))
 		{
 		?>
