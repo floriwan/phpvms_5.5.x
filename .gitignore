@@ -1,3 +1,4 @@
+core/local.config.php
 update_server.py
 lib/screenshtos
 aip_files/*.aip
