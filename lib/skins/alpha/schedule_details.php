@@ -1,3 +1,6 @@
+
+<?php if(isset($errorMsg)) echo '<div id="error">'.$errorMsg.'</div>'; ?>
+
 <h3>Schedule Details For Flight Number <?php echo $schedule->code.$schedule->flightnum ?></h3>
 
 <p>
@@ -21,6 +24,7 @@
     $arrlondms = OpenAIPData::dec2dms($arrAirport[0]->lon);
     
 ?>
+    
 
 <div class="row">
 <div class="6u 12u(mobilep)">
@@ -40,9 +44,7 @@
         <td><?php echo OpenAIPData::meter2feet($depAirport[0]->elev) ?> feet MSL</td>
     </tbody>
     </table>
-    </p>
 
-    <p>
     <h4>Frequencies</h4>
     <table class="alt">
         <thead>
@@ -63,7 +65,6 @@
         <?php } ?>
         </tbody>
     </table>
-    </p>
         
 </div>
 <div class="6u 12u(mobilep)">
@@ -83,9 +84,7 @@
         <td><?php echo OpenAIPData::meter2feet($arrAirport[0]->elev) ?> feet MSL</td>
     </tbody>
     </table>
-    </p>
 
-    <p>
     <h4>Frequencies</h4>
     <table class="alt">
         <thead>
@@ -106,7 +105,6 @@
         <?php } ?>
         </tbody>
     </table>
-    </p>
 
 
 </div>
@@ -115,7 +113,7 @@
 <!-- runway information -->
 <div class="row">
 <div class="6u 12u(mobilep)">
-    <p>
+
     <h4>Runways</h4>
     <table class="alt">
         <thead>
@@ -140,11 +138,11 @@
         <?php } ?>
         </tbody>
     </table>
-    </p>
+    
 </div>
 
 <div class="6u 12u(mobilep)">
-    <p>
+    
     <h4>Runways</h4>
     <table class="alt">
         <thead>
@@ -169,7 +167,7 @@
         <?php } ?>
         </tbody>
     </table>
-    </p>
+    
 </div>
 
 </div>
@@ -177,52 +175,45 @@
 <!-- weather information -->
 <div class="row">
 <div class="6u 12u(mobilep)">
-    <p><h4>Weather Information</h4>
+    <h4>Weather Information</h4>
     <table class="alt">
         <tbody>
         <tr><td><?php MainController::Run('Weather', 'request_metar', $schedule->depicao); ?></td></tr>
         </tbody>
     </table>
-    </p>
 </div>
     
 <div class="6u 12u(mobilep)">
-    <p><h4>Weather Information</h4>
+    <h4>Weather Information</h4>
     <table class="alt">
         <tbody>
         <tr><td><?php MainController::Run('Weather', 'request_metar', $schedule->arricao); ?></td></tr>
         </tbody>
     </table>
-    </p>
 </div>
 </div>
 
 <!-- alternate schedules -->
 <div class="row">
 <div class="6u 12u(mobilep)">
-    <p>
         <form method="post" action="<?php echo url('/schedules/findflight');?>">
         <input type="hidden" name="depicao" value="<?php echo $schedule->arricao; ?>" />
         <input type="submit" class="button fit" value="schedules with departure from <?php echo $schedule->depname;?> (<?php echo $schedule->depicao; ?>)" />
         </form>
-    </p>
-
 </div>
 
 <div class="6u 12u(mobilep)">
-    <p>
         <form method="post" action="<?php echo url('/schedules/findflight');?>">
         <input type="hidden" name="depicao" value="<?php echo $schedule->arricao; ?>" />
         <input type="submit" class="button fit" value="schedules with departure from <?php echo $schedule->arrname;?> (<?php echo $schedule->arricao; ?>)" />
         </form>
-    </p>
 </div>
 </div>
 
 <!-- scenery download -->
 <div class="row">
 <div class="6u 12u(mobilep)">
-    <p><h4>Scenery</h4>
+    <h4>Scenery</h4>
     
     <?php if (!$depscenery) { ?>
         <p>For now we have no scenery download links for <?php echo $schedule->depicao; ?> available.</p>
@@ -233,7 +224,7 @@
             <?php foreach ($depscenery as $scenery) { ?>
             <tr>
                 <td><a href="<?php echo $scenery->link; ?>"><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> <?php echo $scenery->sim; ?></a></td>
-                <td><?php if ($schedule->payware == 1) echo "Payware"; else echo "Freeware"; ?></td>
+                <td><?php if ($scenery->payware == 1) echo "Payware"; else echo "Freeware"; ?></td>
                 <td><?php echo $scenery->descr; ?></td>
                 <!--<td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>-->
             </tr>
@@ -242,51 +233,65 @@
         </table>
         
     <?php } ?>
+
+    <!-- add new scenery -->
+
+    <a id="toggleAddScenery" href="javascript:;" class="button fit">add new scenery for <?php echo $schedule->depname;?> (<?php echo $schedule->depicao; ?>)</a>
+
+    <div id="addSceneryElemets">
     
-<!--    <table class="alt">
-        <tbody>
-        <tr>
-            <td><a href=""><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> FSX/P3D</a></td>
-            <td>Payware</i></td>
-            <td></td>
-            <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
-        </tr>
+    <form method="post" action="<?php echo url('/schedules/addScenery');?>">
+    
+    <div class="row uniform 50%">
+    <div class="12u">
+        <div class="select-wrapper">
+            <select name="simulator" id="simulator">
+                <option value="">- Simulator -</option>
+                <option value="1">FSX / P3D</option>
+                <option value="2">X-Plane</option>
+            </select>
+        </div>
+    </div>
+    </div>
 
-        <tr>
-            <td><a href=""><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> X-Plane</a></td>
-            <td>Freeware</i></td>
-            <td>very nice looking scenery</td>
-            <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
-        </tr>
-        <tr><td></td>
-            <td colspan="3"><i class="fa fa-caret-right" aria-hidden="true"></i>
-                2017-04-14 / <a href="">FCB0004</a> / the runway layout is outdated</td>
-        </tr>
-        <tr><td></td>
-            <td colspan="3"><i class="fa fa-caret-right" aria-hidden="true"></i>
-                2017-04-03 / <a href="">FCB0030</a> / for me, everthing is looking ok</td>
-        </tr>
-        <tr><td></td>
-            <td colspan="3"><i class="fa fa-caret-right" aria-hidden="true"></i> 
-                2017-05-03 / <a href="">FCB0001</a> / I can only find a 2d scenery</td>
-        </tr>
+    <div class="row uniform 50%">
+        <div class="4u 12u(narrower)">
+            <input type="checkbox" id="freeware" name="freeware">
+            <label for="freeware">Freeware</label>
+        </div>
+    </div>
 
-        <tr>
-            <td><a href=""><i class="fa fa-external-link fa-fw" aria-hidden="true"></i> X-Plane</a></td>
-            <td>Payware</i></td>
-            <td></td>
-            <td><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i></a></td>
-        </tr>
-
-        
-        </tbody>
-    </table>-->
-    </p>
-
+    <div class="row uniform 50%">
+        <div class="12u">
+            <textarea name="description" id="description" maxlength="200" placeholder="Scenery Description" rows="6"></textarea>
+        </div>
+    </div>
+    
+    <div class="row uniform 50%">
+        <div class="12u">
+            <input type="text" name="link" id="link" maxlength="200" value="" placeholder="Link/URL" />
+        </div>
+    </div>
+ 
+    <div class="row uniform 50%">
+        <div class="12u">
+            <input type="hidden" name="depicao" value="<?php echo $schedule->depicao; ?>" />
+            <input type="hidden" name="pilotid" value="<?php echo Auth::$userinfo->pilotid; ?>" />
+            <input type="hidden" name="scheduleid" value="<?php echo $schedule->id; ?>" />
+            <input type="submit" id="scenery" name="submit" value="Send" />
+            
+            
+        </div>
+    </div>
+ 
+    </form>
+     
+    </div>
+    
 </div>
 
 <div class="6u 12u(mobilep)">
-    <p><h4>Scenery</h4>
+    <h4>Scenery</h4>
     <?php if (!$arrscenery) { ?>
         <p>For now we have no scenery download links for <?php echo $schedule->arricao; ?> available.</p>
     <?php } else { ?>
@@ -305,7 +310,62 @@
         </table>
         
     <?php } ?>
-    </p>
+    
+        <!-- add new scenery -->
+
+    <a id="toggleAddArrScenery" href="javascript:;" class="button fit">add new scenery for <?php echo $schedule->arrname;?> (<?php echo $schedule->arricao; ?>)</a>
+
+    <div id="addSceneryArrElemets">
+    
+    <form method="post" action="<?php echo url('/schedules/addScenery');?>">
+    
+    <div class="row uniform 50%">
+    <div class="12u">
+        <div class="select-wrapper">
+            <select name="simulator" id="simulator">
+                <option value="">- Simulator -</option>
+                <option value="1">FSX / P3D</option>
+                <option value="2">X-Plane</option>
+            </select>
+        </div>
+    </div>
+    </div>
+
+    <div class="row uniform 50%">
+        <div class="4u 12u(narrower)">
+            <input type="checkbox" id="arrfreeware" name="freeware">
+            <label for="arrfreeware">Freeware</label>
+        </div>
+    </div>
+
+    <div class="row uniform 50%">
+        <div class="12u">
+            <textarea name="description" id="description" maxlength="200" placeholder="Scenery Description" rows="6"></textarea>
+        </div>
+    </div>
+    
+    <div class="row uniform 50%">
+        <div class="12u">
+            <input type="text" name="link" id="link" maxlength="200" value="" placeholder="Link/URL" />
+        </div>
+    </div>
+ 
+    <div class="row uniform 50%">
+        <div class="12u">
+            <input type="hidden" name="depicao" value="<?php echo $schedule->arricao; ?>" />
+            <input type="hidden" name="pilotid" value="<?php echo Auth::$userinfo->pilotid; ?>" />
+            <input type="hidden" name="scheduleid" value="<?php echo $schedule->id; ?>" />
+            <input type="submit" id="scenery" name="submit" value="Send" />
+            
+            
+        </div>
+    </div>
+ 
+    </form>
+     
+    </div>
+
+    
 </div>
 </div>
 

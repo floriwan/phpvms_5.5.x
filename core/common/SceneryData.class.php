@@ -49,14 +49,16 @@ class SceneryData extends CodonData {
     public static function addScenery($data) {
         $data['icao'] = strtoupper(DB::escape($data['icao']));
         
-        if ($data['payware'] == '')
-            $payware = 0;
-        else
-            $payware = 1;
-            
+        //if ($data['payware'] == '')
+        //    $payware = 0;
+        //else
+        //    $payware = 1;
+        
+        //print_r($data);
+        
         $sql = "INSERT INTO " . TABLE_PREFIX . "scenery
             (`icao`, `descr`, `link`, `sim`, `payware`)
-            VALUES('{$data['icao']}', '{$data['description']}', '{$data['link']}', '{$data['simulator']}', '{$payware}')";
+            VALUES('{$data['icao']}', '{$data['description']}', '{$data['link']}', '{$data['simulator']}', '{$data['payware']}')";
         //print "<p>" . $sql . "</p>";
         $res = DB::query($sql);
         if (DB::errno() != 0) return false;

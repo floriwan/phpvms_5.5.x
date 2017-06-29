@@ -1,3 +1,12 @@
+/* add scenery box */
+#addSceneryElemets {
+    display:none;
+}
+
+#addSceneryArrElemets {
+    display:none;
+}
+
 /* Login Box */
 #loginBox {
     position: absolute;

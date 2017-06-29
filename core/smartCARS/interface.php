@@ -45,7 +45,7 @@ require_once('../local.config.php');
 require_once("../common/NavData.class.php");
 require_once("../common/ACARSData.class.php");
 
-define('skip_retired_check', false); //should 'retired' (inactive) pilots be able to log in?
+define('skip_retired_check', true); //should 'retired' (inactive) pilots be able to log in?
 define('include_pending_flights_in_stats', false); //should flights that haven't been accepted/rejected yet be used to compute pilot stats in the smartCARS client?
 define('interface_version', 'phpvms-official-w3052-3/12/2016');
 

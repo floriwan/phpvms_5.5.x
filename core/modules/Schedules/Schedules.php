@@ -32,7 +32,7 @@ class Schedules extends CodonModule {
 
         $this->view();
     }
-
+    
     /**
      * Schedules::view()
      *
@@ -92,6 +92,62 @@ class Schedules extends CodonModule {
         $this->render('route_map.tpl');
     }
 
+    /**
+     *
+     */
+    public function addScenery() {
+        
+        if (Auth::LoggedIn() == false) {
+            $this->render('pages_nopermission.tpl');
+            return;
+        }
+        
+        //print_r($this);
+        
+        $link = $this->post->link;
+        
+        if ($this->post->description == "" || $this->post->link = "" &&
+            ($this->post->fsx != 'on' || $this->post->xplane != 'on') &&
+            ($this->post->freeware != 'on' || $this->post->payware != 'on') ) {
+            $this->set('errorMsg', "Can not add scenery to airport, not all fields filled correct!");
+        } else {
+        
+            $depicao = $this->post->depicao;
+            $pilotid = $this->post->pilotid;
+            $scheduleid = $this->post->scheduleid;
+            $description = $this->post->description;
+            
+            $simulator = "N/A";
+            if ($this->post->simulator == '2') {
+                $simulator = "X-Plane";
+            } elseif ($this->post->simulator == '1') {
+                $simulator = "FSX / P3D";
+            }
+            
+            $payware = "1";
+            if (isset($this->post->freeware) && $this->post->freeware == 'on') {
+                $payware = "0";
+            }
+            
+            //echo "<p>dep".$depicao." pilotid".$pilotid." scheduleid".$scheduleid."</p>";
+            //echo "<p>payware".$payware." description".$description." link".$link." simulator".$simulator."</p>";
+            
+            $data = array('icao' => $depicao, 'simulator' => $simulator,
+                'description' => $description, 'link' => $link, 'payware' => $payware);
+            //print_r($data);
+            SceneryData::addScenery($data);
+        }
+        
+        $schedule = SchedulesData::getScheduleDetailed($this->post->scheduleid);
+        $this->set('depscenery', SceneryData::getSceneryData($schedule->depicao));
+        $this->set('arrscenery', SceneryData::getSceneryData($schedule->arricao));
+        $this->set('schedule', $schedule);
+        $this->render('schedule_details.tpl');
+        $this->render('route_map.tpl');
+        
+    }
+    
+    
     /**
      * Schedules::brief()
      *
