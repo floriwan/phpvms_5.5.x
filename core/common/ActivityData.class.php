@@ -130,7 +130,7 @@
                     . ' ' .$pilot->firstname.' ';
         }
 
-        $message .= $params['message'].' ';
+        $message .= "#ivaoan " . $params['message'].' ';
 
         # Show a new PIREP, also get the airport information
         if($params['type'] == ACTIVITY_NEW_PIREP) {
