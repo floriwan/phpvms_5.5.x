@@ -91,6 +91,7 @@ if(Auth::LoggedIn())
     <?php if(Auth::LoggedIn()) { ?>
     <li><a href="<?php echo url('/Screenhots') ?>">Screenhots</a></li>
     <?php } ?>
+       <li><a href="<?php echo url('/Airline');?>">Airline Codes</a></li>
   </ul>
 </li>
 
