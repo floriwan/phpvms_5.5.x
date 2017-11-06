@@ -146,9 +146,11 @@
 
           <p>All pilots are welcome to use our Team Speak 3 server which
             runs 24 / 7.</p>
-
+            
+            
           <ul class="icons">
-            <li><a target="_blank" href="http://www.ivao.aero"><img src="<?php echo SITE_URL?>/lib/images/ivao_logo.png" alt="" /></a></li>
+            <!--<li><a target="_blank" href="http://www.ivao.aero"><img src="<?php echo SITE_URL?>/lib/images/ivao_logo.png" alt="" /></a></li>-->
+            <li><a target="_blank" href="http://www.ivao.aero"><img src="<?php echo SITE_URL?>/lib/images/ivao_certified_airline_logo.png" alt="" /></a></li>
             <li><a target="_blank" href="http://an.ivao.aero/"><img src="<?php echo SITE_URL?>/lib/images/ivao_an_logo.png" alt="" /></a></li>
             <li><a target="_blank" href="http://www.vatsim.net"><img src="<?php echo SITE_URL?>/lib/images/vatsim_logo.png" alt="" /></a></li>
             <li><a target="_blank"  href="http://www.simbrief.com/"><img src="<?php echo SITE_URL?>/lib/images/simbrief_logo.png" alt="" /></li>
@@ -244,6 +246,7 @@
     <!-- footer -->
     <footer id="footer">
       <ul class="icons">
+        <li><a target="_blank" href="http://www.ivao.aero"><img border="0" height="75" width="75" src="<?php echo SITE_URL?>/lib/images/ivao_certified_airline_logo.png" alt="" /></a></li>
         <li><a target="_blank" href="http://an.ivao.aero/"><img border="0" height="75" width="100" src="http://an.ivao.aero/public/images/an.svg"></a></li>
         <li><a target="_blank" href="https://www.ivao.aero//db/airline/airline.asp?Id=19790"><img border="0" height="75" width="300" src="http://status.ivao.aero/CVA/19790.png"></a></li>
         <li><a target="_blank" href="http://openaip.net/"><img src="<?php echo SITE_URL?>/lib/images/openAIP_logo.png" alt="openAIP"></a></li>
