@@ -40,6 +40,9 @@ var geourl = "<?php echo GEONAME_URL; ?>";
 <script type="text/javascript" src="<?php echo fileurl('lib/js/jquery.form.js');?>"></script>
 <script type="text/javascript" src="<?php echo fileurl('lib/js/phpvms.js');?>"></script>
 
+<script type="text/javascript" src="<?php echo fileurl('lib/skins/alpha/assets/js/jquery.waypoints.min.js');?>"></script>
+<script type="text/javascript" src="<?php echo fileurl('lib/skins/alpha/assets/js/jquery.counterup.min.js');?>"></script>
+
 <!-- flip terminal message -->
 <script type="text/javascript" src="<?php echo fileurl('lib/js/jquery.splitflap.js');?>"></script>
 

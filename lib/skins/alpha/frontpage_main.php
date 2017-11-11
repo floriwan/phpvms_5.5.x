@@ -1,4 +1,28 @@
 
+<div class="row">
+    <div class="12u">
+    
+    
+            <ul class="actions">
+                <li>
+                    <h3 class="c_h_counter"><span class="c_counter"><?php echo StatsData::PilotCount(); ?></span></h3><br>
+                    <h3><strong>pilots</strong></h3>
+                </li>
+                <li>
+                    <h3 class="c_h_counter"><span class="c_counter"><?php echo SchedulesData::countSchedules(""); ?></span></h3><br>
+                    <h3><strong>routes</strong></h3>
+                </li>
+                <li>
+                    <h3 class="c_h_counter"><span class="c_counter"><?php echo StatsData::TotalFlights(); ?></span></h3><br>
+                    <h3><strong>flights</strong></h3>
+                </li>
+            </ul>
+            
+  
+    </div>
+</div>
+
+  
 
   <div class="features-row">
     <section>
@@ -14,6 +38,7 @@
     </section>
   </div>
 
+<?php /*
   <div class="features-row">
     <section>
       <span class="icon major fa-info accent3"></span>
@@ -72,3 +97,4 @@
       </p>
     </section>
   </div>
+  */ ?>

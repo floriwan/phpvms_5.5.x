@@ -2655,6 +2655,25 @@ ul.dates li:first-child {
 		margin: 0 0 2em 0;
 	}
 
+	# counter circle
+h2.c_h_counter {
+    background-color: #000;
+    border: 2px solid;
+}
+
+h3.c_h_counter {
+    font-size: 40px;
+    font-weight: bold;
+    width: 200px;
+    height: 200px;
+    background-color: #fff;
+    border: 3px solid;
+    border-color: #e89980;
+    border-radius: 200px;
+    padding: 65px 0;
+    display: block;
+}
+
 /* Table */
 
 	.table-wrapper {
