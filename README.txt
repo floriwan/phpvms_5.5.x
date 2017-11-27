@@ -3,6 +3,7 @@ flycaribbeanva integration
 
 use the latest phpvms version and integrate every plugin and new feature we need for our airline.
 
++ scenery download links
 + upload screenshots, generate monthly big picture
 + openAIP airport information
 + tour system
