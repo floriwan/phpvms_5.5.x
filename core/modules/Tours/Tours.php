@@ -139,8 +139,12 @@ class Tours extends CodonModule {
 
   public function bookSchedule() {
     $scheduleid = $_GET[scheduleid];
-    echo "<p>book schedule " . $scheduleid . "</p>";
+    //echo "<p>book schedule " . $scheduleid . "</p>";
     TourData::bookSchedule($scheduleid, Auth::$userinfo->pilotid);
+    http://192.168.33.10/fcb/phpvms/index.php/schedules/bids
+    
+    $this->set('bids', SchedulesData::GetBids(Auth::$pilot->pilotid));
+    $this->render('schedule_bids.tpl');
   }
 
   function getNextTourLeg($pilotLegs, $schedules) {

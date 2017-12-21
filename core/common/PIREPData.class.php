@@ -75,6 +75,33 @@ class PIREPData extends CodonData {
         return DB::get_results($sql);
     }
 
+    public static function findPIREPSRegex($params, $flightnumRegexp)
+    {
+        $sql = 'SELECT p.*, UNIX_TIMESTAMP(p.submitdate) as submitdate,
+                    UNIX_TIMESTAMP(p.modifieddate) as modifieddate,
+					u.pilotid, u.firstname, u.lastname, u.email, u.rank, u.code AS pcode,
+					a.id AS aircraftid, a.name as aircraft, a.registration,
+					dep.name as depname, dep.lat AS deplat, dep.lng AS deplng,
+					arr.name as arrname, arr.lat AS arrlat, arr.lng AS arrlng
+				FROM ' . TABLE_PREFIX . 'pireps p
+				LEFT JOIN ' . TABLE_PREFIX . 'aircraft a ON a.id = p.aircraft
+				LEFT JOIN ' . TABLE_PREFIX . 'airports AS dep ON dep.icao = p.depicao
+				LEFT JOIN ' . TABLE_PREFIX . 'airports AS arr ON arr.icao = p.arricao
+				LEFT JOIN ' . TABLE_PREFIX . 'pilots u ON u.pilotid = p.pilotid ';
+
+        /* Build the select "WHERE" based on the columns passed */
+        $sql .= DB::build_where($params);
+        
+        /* the flightnumber regular expression */
+        $sql .= "AND p.flightnum REGEXP '" . $flightnumRegexp . "'";
+
+        //echo $sql;
+        //echo "<br>";
+        return DB::get_results($sql);
+
+    }
+    
+    
     /**
      * Get internal data for the past $interval months, including the
      * total number of PIREPS and revenue
@@ -254,10 +281,10 @@ class PIREPData extends CodonData {
      */
     public static function getAllPilotsReportForTour($pilotid, $flightnumRegex, $valid_from, $valid_to) {
       if ($valid_from == '2010-01-01' && $valid_to == '2999-01-01')
-        return self::findPIREPS(array('p.pilotid' => $pilotid, 'p.flightnum' => $flightnumRegex, 'p.accepted' => 1));
+        return self::findPIREPSRegex(array('p.pilotid' => $pilotid, 'p.accepted' => 1), $flightnumRegex);
       else
-        return self::findPIREPS(array('p.pilotid' => $pilotid, 'p.flightnum' => $flightnumRegex, 'p.accepted' => 1,
-            "'".$valid_from."'" => '<= p.submitdate', "'".$valid_to."'" => '>= p.submitdate'));
+        return self::findPIREPSRegex(array('p.pilotid' => $pilotid, 'p.accepted' => 1,
+            "'".$valid_from."'" => '<= p.submitdate', "'".$valid_to."'" => '>= p.submitdate'), $flightnumRegex);
 
       // submitdate
     }

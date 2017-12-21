@@ -166,10 +166,10 @@ echo "<br>";
     * book the next schedule from the tour
     */
    public static function bookSchedule($scheduleid, $pilotid) {
-    echo "<p>TourData::bookSchedule " . $pilotid. " " . $scheduleid . "</p>";
+    //echo "<p>TourData::bookSchedule " . $pilotid. " " . $scheduleid . "</p>";
     SchedulesData::addBid($pilotid, $scheduleid);
-    $latest_bid = SchedulesData::getLatestBid($pilotid);
-    print_r($latest_bid);
+    //$latest_bid = SchedulesData::getLatestBid($pilotid);
+    //print_r($latest_bid);
    }
 
    /**
