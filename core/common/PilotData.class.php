@@ -85,6 +85,17 @@ class PilotData extends CodonData {
         return self::findPilots($params);
     }
 
+    public static function getAllActivePilots($letter = '') {
+        $params = array();
+
+        if (!empty($letter)) {
+            $params['lastname'] = $letter . '%';
+        }
+        
+        $params['retired'] = '0';
+        return self::findPilots($params);
+    }
+    
     /**
      * Get all the detailed pilot's information
      */

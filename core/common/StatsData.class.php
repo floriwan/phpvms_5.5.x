@@ -536,6 +536,22 @@ class StatsData extends CodonData {
     */
 
     /**
+     * Get the total number of active pilots
+     */
+    public static function ActivePilotCount($airline_code = '') {
+
+        return self::getTotalForCol(array(
+            'table' => 'pilots',
+            'column' => '*',
+            'airline_code' => $airline_code,
+            'retired' => '0'
+            )
+        );
+
+    }
+
+    
+    /**
      * Get the total number of pilots
      */
     public static function PilotCount($airline_code = '') {
