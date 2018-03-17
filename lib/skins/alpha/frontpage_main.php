@@ -2,7 +2,6 @@
 <div class="row">
     <div class="12u">
     
-    
             <ul class="actions">
                 <li>
                     <h3 class="c_h_counter"><span class="c_counter"><?php echo StatsData::ActivePilotCount(); ?></span></h3><br>

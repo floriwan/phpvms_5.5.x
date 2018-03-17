@@ -70,6 +70,7 @@ class StatsData extends CodonData {
                 ."FROM ".TABLE_PREFIX.$params['table'];
 
             $sql .= DB::build_where($params['where']);
+            
             $total = DB::get_row($sql);
 
             if(!$total) {
@@ -544,7 +545,8 @@ class StatsData extends CodonData {
             'table' => 'pilots',
             'column' => '*',
             'airline_code' => $airline_code,
-            'retired' => '0'
+            'where' => array('retired' => '0',
+                'totalhours' => '>0'),
             )
         );
 

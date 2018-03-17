@@ -93,6 +93,7 @@ class PilotData extends CodonData {
         }
         
         $params['retired'] = '0';
+        $params['totalhours'] = '> 0';
         return self::findPilots($params);
     }
     
