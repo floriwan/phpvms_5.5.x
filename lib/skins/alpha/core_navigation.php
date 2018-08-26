@@ -88,6 +88,7 @@ if(Auth::LoggedIn())
     <li><a href="<?php echo url('/acars') ?>">Live Map</a></li>
     <li><a href="http://www.flycaribbeanva.com/smf/index.php?action=login">Forum</a></li>
     <li><a href="JavaScript:ts_popup('http://www.flycaribbeanva.com/teamspeak.html');">Teamspeak</a></li>
+    <li><a href="https://discord.gg/5AYrDUG">discord channel</a></li>
     <?php if(Auth::LoggedIn()) { ?>
     <li><a href="<?php echo url('/Screenhots') ?>">Screenhots</a></li>
     <?php } ?>
