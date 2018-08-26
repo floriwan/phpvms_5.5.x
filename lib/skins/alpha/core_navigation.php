@@ -119,8 +119,8 @@ Login</span><em></em></a>
                value="password"  onClick="this.value=''"/> </label> </fieldset>
 
                <input type="hidden" name="remember" value="on" />
-							 <input type="hidden" name="redir" value="index.php/profile" />
-							 <input type="hidden" name="action" value="login" />
+               <input type="hidden" name="redir" value="index.php/profile" />
+               <input type="hidden" name="action" value="login" />
                <input type="submit" id="login" type="submit" name="submit" value="login" />
                </fieldset>
 
