@@ -6,3 +6,4 @@ aip_files/*.aip
 lib/signatures/*
 lib/avatars/*
 lib/screenhots/*
+core/modules/SimBrief/simbrief.apiv1.php
