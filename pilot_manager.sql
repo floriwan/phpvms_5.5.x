@@ -1,5 +1,5 @@
 
-CREATE TABLE IF NOT EXISTS `phpvms_pilot_manager` (
+CREATE TABLE IF NOT EXISTS `pilot_manager` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(12) NOT NULL,
   `pfname` varchar(50) NOT NULL DEFAULT '',

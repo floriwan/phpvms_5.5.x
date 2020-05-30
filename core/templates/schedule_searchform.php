@@ -20,7 +20,6 @@
     $pilotid = PilotData::getProperPilotID($pilotcode);
     $reports = PIREPDATA::getLastReports($pilotid, 1);
 
-    echo "<p>last airport :" . $reports->arricao . "</p>";
 		if(!$depairports) $depairports = array();
 
 		foreach($depairports as $airport) {

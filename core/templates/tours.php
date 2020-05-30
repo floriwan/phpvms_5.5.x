@@ -44,7 +44,7 @@
         <?php } ?>
       </td>
       <td><a href="<?php echo url('/Tours/toursDetail/'.$tour->id);?>">
-      <i class="fa fa-info-circle" aria-hidden="true"></i></a></td>
+      <i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a></td>
     </tr>
   </tbody>
 

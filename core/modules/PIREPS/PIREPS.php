@@ -420,21 +420,41 @@ class PIREPS extends CodonModule {
             return false;
         }
 
-        if ($this->post->code == '' || $this->post->flightnum == '' || $this->post-> depicao == ''
+        if ($this->post->code == '' || $this->post->flightnum == '' || $this->post->depicao == ''
                 || $this->post->arricao == '' || $this->post->aircraft == '' || $this->post->flighttime == '')
         {
-            $this->set('message', 'You must fill out all of the required fields!');
+            if ($this->post->code == '')
+                $this->set('message', 'You must fill out all of the required fields! code');
+                
+                        if ($this->post->flightnum == '')
+                $this->set('message', 'You must fill out all of the required fields! flightnum');
+
+                            if ($this->post->depicao == '')
+                $this->set('message', 'You must fill out all of the required fields! depicao');
+
+                            if ($this->post->arricao == '')
+                $this->set('message', 'You must fill out all of the required fields! arricao');
+
+                            if ($this->post->aircraft == '')
+                $this->set('message', 'You must fill out all of the required fields! aircraft');
+
+                            if ($this->post->flighttime == '')
+                $this->set('message', 'You must fill out all of the required fields! flighttime');
+
             return false;
         }
 
+        # disable the schedule check, wa also want to file private flights
         # Only allow for valid routes to be filed
-        $sched_data = SchedulesData::getScheduleByFlight($this->post->code, $this->post->flightnum);
+        /*
+        $sched_data = SchedulesData::getScheduleByFlight($this->post->code, $this->post>flightnum);
         if (!$sched_data) {
             $this->set('message',
                 'The flight code and number you entered is not a valid route!');
             return false;
         }
-
+        */
+        
         # See if they entered more than 59 in the minutes part of the flight time
         $this->post->flighttime = str_replace(':', '.', $this->post->flighttime);
         $parts = explode('.', $this->post->flighttime);

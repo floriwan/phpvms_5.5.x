@@ -75,7 +75,7 @@ class ACARSData extends CodonData {
             $tmp->deplat = $dep_apt->lat;
             $tmp->deplng = $dep_apt->lng;
             $tmp->route = $data['route'];
-
+            
             $data['route_details'] = NavData::parseRoute($tmp);
             $data['route_details'] = serialize($data['route_details']);
             unset($tmp);*/
@@ -131,7 +131,7 @@ class ACARSData extends CodonData {
 
         // first see if we exist:
         $sql = 'SELECT `id`
-				FROM ' . TABLE_PREFIX . "acarsdata
+				FROM ' . TABLE_PREFIX . "acarsdata 
 				WHERE `pilotid`={$pilotid}";
 
         $exist = DB::get_row($sql);
@@ -166,8 +166,8 @@ class ACARSData extends CodonData {
             }
 
             $upd = implode(',', $upd);
-            $query = 'UPDATE ' . TABLE_PREFIX . "acarsdata
-					SET {$upd}
+            $query = 'UPDATE ' . TABLE_PREFIX . "acarsdata 
+					SET {$upd} 
 					WHERE `id`='{$flight_id}'";
 
             DB::query($query);
@@ -194,7 +194,7 @@ class ACARSData extends CodonData {
             $ins = implode(',', $ins);
             $vals = implode(',', $vals);
 
-            $query = 'INSERT INTO ' . TABLE_PREFIX . "acarsdata ({$ins})
+            $query = 'INSERT INTO ' . TABLE_PREFIX . "acarsdata ({$ins}) 
 						VALUES ({$vals})";
 
             DB::query($query);
@@ -239,7 +239,7 @@ class ACARSData extends CodonData {
 
     public static function get_flight_by_pilot($pilotid) {
         $pilotid = intval($pilotid);
-        $sql = 'SELECT * FROM ' . TABLE_PREFIX . "acarsdata
+        $sql = 'SELECT * FROM ' . TABLE_PREFIX . "acarsdata 
 					WHERE `pilotid`='{$pilotid}'";
 
         return DB::get_row($sql);
@@ -249,7 +249,7 @@ class ACARSData extends CodonData {
         $code = DB::escape($code);
         $flight_num = DB::escape($flight_num);
 
-        $sql = 'SELECT * FROM ' . TABLE_PREFIX . "acarsdata
+        $sql = 'SELECT * FROM ' . TABLE_PREFIX . "acarsdata 
 					WHERE flightnum='{$code}{$flight_num}'";
 
         return DB::get_row($sql);

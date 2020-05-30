@@ -606,7 +606,6 @@ class PIREPData extends CodonData {
         return true;
     }
 
-
     /**
      * PIREPData::fileReport()
      *
@@ -629,8 +628,11 @@ class PIREPData extends CodonData {
             'log'=>''
             );*/
 
-        if (!is_array($pirepdata)) return false;
-
+        if (!is_array($pirepdata)) {
+            self::$lasterror = 'Internal error, pirep is no array';
+            return false;
+        }
+        
         $pirepdata['code'] = strtoupper($pirepdata['code']);
         $pirepdata['flightnum'] = strtoupper($pirepdata['flightnum']);
         $pirepdata['depicao'] = strtoupper($pirepdata['depicao']);
@@ -692,8 +694,8 @@ class PIREPData extends CodonData {
         }
 
         # Look up the schedule
-        $sched = SchedulesData::getScheduleByFlight($pirepdata['code'], $pirepdata['flightnum']);
-
+        /*$sched = SchedulesData::getScheduleByFlight($pirepdata['code'], $pirepdata['flightnum']);
+        */
         /*	Get route information, and also the detailed layout of the route
         Store it cached, in case the schedule changes later, then the route
         information remains intact. Also, if the nav data changes, then
@@ -792,6 +794,8 @@ class PIREPData extends CodonData {
         foreach ($pirepdata as $key => $value) {
             if($key == 'submitdate') {
                 $value = 'NOW()';
+            } elseif ($key == 'modifieddate') {
+                $value = 'NOW()';
             } elseif ($key == 'comment') {
                 continue;
             } else {
@@ -805,7 +809,7 @@ class PIREPData extends CodonData {
         $cols = implode(', ', $cols);
         $col_values = implode(', ', $col_values);
         $sql = 'INSERT INTO ' . TABLE_PREFIX . "pireps ({$cols}) VALUES ({$col_values});";
-
+        #echo "<p>pirep sql " . $sql . "</p>";
         DB::query($sql);
         $pirepid = DB::$insert_id;
 
@@ -814,8 +818,9 @@ class PIREPData extends CodonData {
             self::addComment($pirepid, $pirepdata['pilotid'], $comment);
         }
 
+        # schedule check is done here, we want to file every flight
         # Update the financial information for the PIREP, true to refresh fuel
-        self::PopulatePIREPFinance($pirepid, true);
+        #self::PopulatePIREPFinance($pirepid, true);
 
         # Do other assorted tasks that are along with a PIREP filing
         # Update the flown count for that route
@@ -873,6 +878,7 @@ class PIREPData extends CodonData {
         // Reset this ID back
         DB::$insert_id = $pirepid;
         self::$pirepid = $pirepid;
+        self::$lasterror = 'Return pirep id ' . $pirepid;
         return $pirepid;
     }
 
@@ -1019,11 +1025,11 @@ class PIREPData extends CodonData {
 
         # Set the PIREP ID
         $pirepid = $pirep->pirepid;
-        $sched = SchedulesData::getScheduleByFlight($pirep->code, $pirep->flightnum, '');
-        if (!$sched) {
-            self::$lasterror = 'Schedule does not exist. Please update this manually.';
-            return false;
-        }
+        #$sched = SchedulesData::getScheduleByFlight($pirep->code, $pirep->flightnum, '');
+        #if (!$sched) {
+        #    self::$lasterror = 'Schedule does not exist. Please update this manually.';
+        #    return false;
+        #}
 
         $pilot = PilotData::getPilotData($pirep->pilotid);
 
@@ -1199,7 +1205,7 @@ class PIREPData extends CodonData {
     public static function updatePIREPFeed() {
 
         # Load PIREP into RSS feed
-        $reports = PIREPData::findPIREPS(array(), 10);
+        $reports = PIREPData::findPIREPS(array(), 1);
 
         # Empty the rss file if there are no pireps
         if (!$reports) {

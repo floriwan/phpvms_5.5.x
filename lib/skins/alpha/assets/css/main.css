@@ -2664,12 +2664,12 @@ h2.c_h_counter {
 h3.c_h_counter {
     font-size: 40px;
     font-weight: bold;
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     background-color: #fff;
     border: 3px solid;
     border-color: #e89980;
-    border-radius: 100px;
+    border-radius: 200px;
     padding: 65px 0;
     display: block;
 }

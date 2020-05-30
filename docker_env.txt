@@ -1,0 +1,9 @@
+docker network create fcb-net
+
+docker run --network fcb-net --name fcb-mysql -e MYSQL_ROOT_PASSWORD=mypass123 -d mysql:5.7.30
+docker run --network fcb-net --name fcb-phpmyadmin -d --link fcb-mysql:db -p 8081:80 phpmyadmin/phpmyadmin
+docker run --network fcb-net --name fcb-web --link fcb-mysql:db -p 80:80 -v $HOME/work/fcb/webroot:/var/www/html webgriffe/php-apache-base
+
+# import database
+# docker exec -i fcb-mysql mysql -uroot -pmypass123 phpvms < /home/florian/Downloads/2020-05-29_db_backup_cronjob.sql
+

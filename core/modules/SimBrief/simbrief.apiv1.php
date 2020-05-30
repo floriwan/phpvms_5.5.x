@@ -22,7 +22,7 @@
 
 /**********************************************************************/
 
-$simbrief_api_key = 'XXXXXXX; //Paste your API key here
+$simbrief_api_key = 'XXXXX'; //Paste your API key here
 
 /**********************************************************************/
 

@@ -594,6 +594,9 @@ class smartCARS {
 	static function createflight($dbid, $flightcode, $flightnumber, $ticketprice, $depicao, $arricao, $aircraft, $flighttype, $deptime, $arrtime, $flighttime, $route, $cruisealtitude, $distance) {
 		global $dbConnection;
 
+		if ($flighttime == '')
+            $flighttime = 1;
+            
 		$type = "P";
 		if($flighttype == "1")
 			$type = "C";
@@ -616,8 +619,10 @@ class smartCARS {
 			$stmt->closeCursor();
 		}
 
+		try {
 		$stmt = $dbConnection->prepare("INSERT INTO " . TABLE_PREFIX . "schedules (id, code, flightnum, depicao, arricao, route, aircraft, flightlevel, distance, deptime, arrtime, flighttime, price, flighttype, enabled) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)");
-		$stmt->execute(array(
+
+				$stmt->execute(array(
 			$flightcode,
 			$flightnumber,
 			$depicao,
@@ -632,9 +637,41 @@ class smartCARS {
 			$ticketprice,
 			$type
 		));
-		$routeid = $dbConnection->lastInsertID();
-		$stmt->closeCursor();
 
+		} catch (Exception $e) {
+            echo "Exception -> ";
+            echo $e->getMessage();
+            var_dump($e->getMessage());
+        }
+        
+		$routeid = $dbConnection->lastInsertID();
+		$testID = $stmt->insert_id;
+		
+		$stmt->closeCursor();
+		
+		if($routeid == 0) {
+				echo "routeid $routeid \n";
+                echo "teest $testID \n";
+                
+				echo "\n$flightcode,
+			$flightnumber,
+			$depicao,
+			$arricao,
+			$route,
+			$aircraft,
+			$cruisealtitude,
+			$distance,
+			$deptime,
+			$arrtime,
+			$flighttime,
+			$ticketprice,
+			$type \n";
+
+		
+		
+            return false;
+		}
+		
 		$stmt = $dbConnection->prepare("INSERT INTO " . TABLE_PREFIX . "bids (bidid, pilotid, routeid, dateadded) VALUES (NULL, ?, ?, NOW())");
 		$stmt->execute(array(
 			$dbid,

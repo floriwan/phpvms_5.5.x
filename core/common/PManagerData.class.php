@@ -25,7 +25,7 @@ class PManagerData extends CodonData
 	public static function createpilot($pid, $pfname, $plname)
 	{
 		$sql = "INSERT INTO " . TABLE_PREFIX . "pilot_manager (pid, pfname, plname, blank, warning, welcome, message, datesent)
-								  VALUES ('$pid', '$pfname', '$plname', '0', '0', '0', 'welcome', '')";
+								  VALUES ('$pid', '$pfname', '$plname', '0', '0', '0', 'welcome', '0000-00-00 00:00:00')";
 			DB::query($sql);
 	}
 

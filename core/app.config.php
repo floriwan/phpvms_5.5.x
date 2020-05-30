@@ -225,8 +225,9 @@ Config::Set('EMAIL_SMTP_USER', '');
 Config::Set('EMAIL_SMTP_PASS', '');
 
 # Set specific email addresses to send notifications to
-Config::Set('EMAIL_NEW_REGISTRATION', '');
-Config::Set('EMAIL_NEW_PIREP', '');
+Config::Set('EMAIL_NEW_REGISTRATION', 'flycaribbeanva@gmail.com');
+Config::Set('EMAIL_NEW_PIREP', 'flycaribbeanva@gmail.com');
+Config::Set('EMAIL_REJECTED_PIREP', 'flycaribbeanva@gmail.com');
 
 # Whether to send an email or not
 Config::Set('EMAIL_SEND_PIREP', true);

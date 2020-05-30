@@ -1,4 +1,8 @@
 core/local.config.php
+core/logs/*
 update_server.py
 lib/screenshtos
 aip_files/*.aip
+lib/signatures/*
+lib/avatars/*
+lib/screenhots/*
