@@ -110,6 +110,24 @@
 
         require_once CORE_LIB_PATH.'/twitteroauth/twitteroauth.php';
 */
+
+        // send message to discord channel
+        $pilot = PilotData::getPilotData($params['pilotid']);
+        $message = $pilot->firstname . " (" . PilotData::getPilotCode($pilot->code, $pilot->pilotid) . ") ";
+        $message .= ' ' . $params['message'];
+        $data = ['content' => $message];
+        $options = [
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-Type: application/json',
+                'content' => json_encode($data)
+            ]
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents(Config::get('DISCORD_WEBHOOK'), false, $context);
+
+
         $params = array_merge(array(
             'pilotid' => '',
             'type' => '',
@@ -178,12 +196,8 @@
         );
 
         //print_r($params);
-
-        $reply = $cb->statuses_update($params);
-
-        //print_r($reply);
-
-/*
+        //$reply = $cb->statuses_update($params);
+        /*
         $tweet = new TwitterOAuth(
             Config::get('TWITTER_CONSUMER_KEY'),
             Config::get('TWITTER_CONSUMER_SECRET'),

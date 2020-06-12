@@ -665,6 +665,10 @@ class PIREPData extends CodonData {
             return false;
         }
 
+        if ($pirepdata['log'] == '' ) {
+            $pirepdata['log'] = 'unknown';
+        }
+
         # Check the aircraft
         if (!is_numeric($pirepdata['aircraft'])) {
             // Check by registration
@@ -809,9 +813,10 @@ class PIREPData extends CodonData {
         $cols = implode(', ', $cols);
         $col_values = implode(', ', $col_values);
         $sql = 'INSERT INTO ' . TABLE_PREFIX . "pireps ({$cols}) VALUES ({$col_values});";
-        #echo "<p>pirep sql " . $sql . "</p>";
+        //echo "<p>pirep sql " . $sql . "</p>";
         DB::query($sql);
         $pirepid = DB::$insert_id;
+        //echo "<p>pirep id " . $pirepid . "</p>";
 
         // Add the comment if its not blank
         if ($comment != '') {

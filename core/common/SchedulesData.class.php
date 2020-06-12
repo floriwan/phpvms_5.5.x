@@ -751,6 +751,9 @@ class SchedulesData extends CodonData {
      * @return unknown
      */
     public static function getBid($bidid) {
+
+        if ($bidid == '') return;
+
         $bidid = DB::escape($bidid);
 
         $sql = 'SELECT s.*, b.bidid, b.pilotid, b.routeid,
